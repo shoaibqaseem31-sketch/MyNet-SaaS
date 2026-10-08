@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Card Status — MyNet SaaS</title>
+  <meta name="description" content="View and manage your MyNet SaaS service card status, activation state, and expiry." />
+  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
+  <style>
+    /* Service Card Visual */
+    .service-card {
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 1.586;  /* Standard card ratio */
+      border-radius: var(--radius-2xl);
+      padding: var(--space-6);
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e3a8a 100%);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 32px rgba(79,70,229,0.2);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      transition: transform var(--transition-slow);
+    }
+
+    .service-card:hover {
+      transform: perspective(800px) rotateY(-4deg) rotateX(2deg);
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .service-card.inactive {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+      border-color: rgba(239, 68, 68, 0.3);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 32px rgba(239,68,68,0.15);
+      filter: grayscale(0.4);
+    }
+
+    .service-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .service-card-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: white;
+      opacity: 0.9;
+    }
+
+    .service-card-chip {
+      width: 42px;
+      height: 32px;
+      background: linear-gradient(135deg, #d4a017, #f5c842);
+      border-radius: 6px;
+      opacity: 0.9;
+    }
+
+    .service-card-number {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.9);
+      font-family: 'Courier New', monospace;
+    }
+
+    .service-card-bottom {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .service-card-label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 2px;
+    }
+
+    .service-card-value {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.9);
+    }
+
+    .service-card-status-badge {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+    }
+
+    /* Details below the card */
+    .card-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--space-5);
+      margin-top: var(--space-8);
+    }
+
+    .card-detail-item {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      padding: var(--space-5);
+    }
+
+    .card-detail-label {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-2);
+    }
+
+    .card-detail-value {
+      font-size: var(--font-size-xl);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Customer navigation">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon" aria-hidden="true">🌐</div>
+      <span class="sidebar-logo-text">MyNet SaaS</span>
+    </div>
+    <nav class="sidebar-nav" aria-label="Dashboard navigation">
+      <span class="sidebar-section-label">Account</span>
+      <a href="./index.html" class="nav-link" id="nav-overview">
+        <span class="nav-link-icon" aria-hidden="true">🏠</span>Overview
+      </a>
+      <a href="./package-status.html" class="nav-link" id="nav-packages">
+        <span class="nav-link-icon" aria-hidden="true">📦</span>Package Status
+      </a>
+      <a href="./payment-history.html" class="nav-link" id="nav-payments">
+        <span class="nav-link-icon" aria-hidden="true">💳</span>Payment History
+      </a>
+      <a href="./card-status.html" class="nav-link nav-link--active" id="nav-card">
+        <span class="nav-link-icon" aria-hidden="true">🪪</span>Card Status
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar">—</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-name">Loading…</div>
+          <div class="sidebar-user-role">Customer</div>
+        </div>
+        <button class="sidebar-signout-btn" id="signout-btn" title="Sign out" aria-label="Sign out">⏏</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Top Bar ──────────────────────────────────────────── -->
+  <header class="topbar" role="banner">
+    <div class="flex items-center gap-4">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <h1 class="topbar-title">Card Status</h1>
+    </div>
+    <div class="topbar-actions">
+      <span class="badge badge-active" id="card-top-badge">● Active</span>
+    </div>
+  </header>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <main class="dashboard-main" id="main-content">
+
+    <!-- Visual Card -->
+    <div style="display:flex; justify-content:center; margin-bottom:var(--space-4);">
+      <div class="service-card" id="service-card" role="img" aria-label="Service card">
+        <div class="service-card-top">
+          <div class="service-card-logo">MyNet</div>
+          <div class="service-card-chip" aria-hidden="true"></div>
+        </div>
+        <div class="service-card-number" id="card-number" aria-label="Card number">
+          •••• •••• •••• ——
+        </div>
+        <div class="service-card-bottom">
+          <div>
+            <div class="service-card-label">Card Holder</div>
+            <div class="service-card-value" id="card-holder">—</div>
+          </div>
+          <div>
+            <div class="service-card-label">Expires</div>
+            <div class="service-card-value" id="card-expiry">——/——</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail Items -->
+    <div class="card-detail-grid">
+      <div class="card-detail-item">
+        <div class="card-detail-label">Status</div>
+        <div class="card-detail-value" id="detail-status">—</div>
+      </div>
+      <div class="card-detail-item">
+        <div class="card-detail-label">Card Type</div>
+        <div class="card-detail-value" id="detail-type">—</div>
+      </div>
+      <div class="card-detail-item">
+        <div class="card-detail-label">Issued On</div>
+        <div class="card-detail-value" id="detail-issued">—</div>
+      </div>
+      <div class="card-detail-item">
+        <div class="card-detail-label">Expiry Date</div>
+        <div class="card-detail-value" id="detail-expiry">—</div>
+      </div>
+      <div class="card-detail-item">
+        <div class="card-detail-label">Days Until Expiry</div>
+        <div class="card-detail-value" id="detail-days">—</div>
+      </div>
+    </div>
+
+    <!-- Placeholder notice -->
+    <div class="alert alert-warning" role="note" id="placeholder-notice" style="margin-top:var(--space-6);">
+      <span>⚠️</span>
+      <span>
+        <strong>Demo Mode:</strong> Card information will appear here once Supabase is connected and a card is assigned to your account.
+      </span>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────── -->
+<script type="module">
+  import { requireAuth, getCurrentUser, signOut } from '../../assets/js/auth.js';
+  import { showToast, formatDate, daysUntil, isExpired, qs } from '../../assets/js/utils.js';
+  import '../../assets/js/app.js';
+
+  requireAuth('../../pages/login.html');
+
+  const sidebar       = qs('#sidebar');
+  const sidebarToggle = qs('#sidebar-toggle');
+  sidebarToggle?.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('open');
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  const user = getCurrentUser();
+  if (user) {
+    const name     = user.user_metadata?.full_name || user.email || 'User';
+    const initials = name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    qs('#user-name').textContent   = name;
+    qs('#user-avatar').textContent = initials;
+    qs('#card-holder').textContent = name;
+  }
+
+  qs('#signout-btn')?.addEventListener('click', async () => {
+    const { success } = await signOut();
+    if (success) {
+      showToast('Signed out.', 'info');
+      setTimeout(() => { window.location.href = '../../pages/login.html'; }, 800);
+    }
+  });
+
+  // TODO: Fetch card data from Supabase:
+  // const { data: card } = await supabase
+  //   .from('cards')
+  //   .select('*')
+  //   .eq('user_id', user.id)
+  //   .single();
+  // if (card) renderCard(card);
+
+  /**
+   * Render card details.
+   * Call this with real Supabase data.
+   * @param {Object} card
+   */
+  function renderCard(card) {
+    qs('#placeholder-notice')?.remove();
+
+    const expired = isExpired(card.expiry_date);
+    const days    = daysUntil(card.expiry_date);
+    const active  = card.status === 'active' && !expired;
+
+    // Visual card
+    const cardEl = qs('#service-card');
+    if (!active) cardEl.classList.add('inactive');
+
+    // Masked card number: show last 4 digits only
+    const last4 = (card.card_number || '').slice(-4) || '——';
+    qs('#card-number').textContent = `•••• •••• •••• ${last4}`;
+
+    // Format expiry as MM/YY
+    if (card.expiry_date) {
+      const d = new Date(card.expiry_date);
+      qs('#card-expiry').textContent =
+        `${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getFullYear()).slice(-2)}`;
+    }
+
+    // Details
+    qs('#detail-status').textContent  = active ? 'Active' : (expired ? 'Expired' : 'Inactive');
+    qs('#detail-type').textContent    = card.type || 'Standard';
+    qs('#detail-issued').textContent  = formatDate(card.issued_date);
+    qs('#detail-expiry').textContent  = formatDate(card.expiry_date);
+    qs('#detail-days').textContent    = expired ? 'Expired' : `${days} days`;
+
+    // Top badge
+    const topBadge = qs('#card-top-badge');
+    if (active) {
+      topBadge.className   = 'badge badge-active';
+      topBadge.textContent = '● Active';
+    } else {
+      topBadge.className   = 'badge badge-inactive';
+      topBadge.textContent = expired ? '● Expired' : '● Inactive';
+    }
+  }
+</script>
+
+</body>
+</html>

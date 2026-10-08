@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customers — MyNet SaaS Admin</title>
+  <meta name="description" content="Manage all customer accounts on MyNet SaaS — view, edit, and control card status." />
+  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ── Admin Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Admin navigation">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon" aria-hidden="true">🌐</div>
+      <span class="sidebar-logo-text">MyNet SaaS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="sidebar-section-label">Admin</span>
+      <a href="./index.html" class="nav-link" id="nav-admin-overview">
+        <span class="nav-link-icon" aria-hidden="true">📊</span>Overview
+      </a>
+      <a href="./customers.html" class="nav-link nav-link--active" id="nav-admin-customers">
+        <span class="nav-link-icon" aria-hidden="true">👥</span>Customers
+      </a>
+      <a href="./packages.html" class="nav-link" id="nav-admin-packages">
+        <span class="nav-link-icon" aria-hidden="true">📦</span>Packages
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar" style="background:linear-gradient(135deg,#dc2626,#ef4444);">A</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-name">Admin</div>
+          <div class="sidebar-user-role" style="color:var(--color-danger);">Administrator</div>
+        </div>
+        <button class="sidebar-signout-btn" id="signout-btn" title="Sign out" aria-label="Sign out">⏏</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Top Bar ──────────────────────────────────────────── -->
+  <header class="topbar" role="banner">
+    <div class="flex items-center gap-4">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <h1 class="topbar-title">Customers</h1>
+    </div>
+    <div class="topbar-actions">
+      <!-- Future: Add customer button -->
+      <button class="btn btn-primary btn-sm" id="add-customer-btn" disabled title="Available once Supabase is connected">
+        + Add Customer
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <main class="dashboard-main" id="main-content">
+
+    <!-- Customers Table -->
+    <div class="table-container">
+      <div class="table-header">
+        <span class="table-title">All Customers</span>
+        <!-- Future: search / filter controls -->
+      </div>
+
+      <div id="customers-content">
+        <div class="empty-state">
+          <div class="empty-state-icon" aria-hidden="true">👥</div>
+          <h2 class="empty-state-title">No customers found</h2>
+          <p class="empty-state-text">
+            Customer accounts will appear here once Supabase is connected.<br />
+            <strong>Supabase integration is pending.</strong>
+          </p>
+        </div>
+      </div>
+
+      <table class="data-table hidden" id="customers-table" aria-label="All customers table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Package</th>
+            <th scope="col">Card Status</th>
+            <th scope="col">Expiry</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="customers-tbody">
+          <!-- Injected by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Placeholder notice -->
+    <div class="alert alert-warning" role="note" id="placeholder-notice" style="margin-top:var(--space-6);">
+      <span>⚠️</span>
+      <span>
+        <strong>Demo Mode:</strong> Customer management features will be enabled once Supabase authentication and database are connected.
+      </span>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────── -->
+<script type="module">
+  import { requireAdmin, getCurrentUser, signOut } from '../../assets/js/auth.js';
+  import { showToast, formatDate, qs } from '../../assets/js/utils.js';
+  import '../../assets/js/app.js';
+
+  requireAdmin('../../pages/dashboard/index.html');
+
+  const sidebar       = qs('#sidebar');
+  const sidebarToggle = qs('#sidebar-toggle');
+  sidebarToggle?.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('open');
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  const user = getCurrentUser();
+  if (user) {
+    const name = user.user_metadata?.full_name || user.email || 'Admin';
+    qs('#user-name').textContent   = name;
+    qs('#user-avatar').textContent = name[0]?.toUpperCase() || 'A';
+  }
+
+  qs('#signout-btn')?.addEventListener('click', async () => {
+    const { success } = await signOut();
+    if (success) {
+      showToast('Signed out.', 'info');
+      setTimeout(() => { window.location.href = '../../pages/login.html'; }, 800);
+    }
+  });
+
+  // TODO: Fetch all customers from Supabase:
+  // const { data: customers } = await supabase
+  //   .from('profiles')
+  //   .select('*, packages(*), cards(*)')
+  //   .order('created_at', { ascending: false });
+  // if (customers) renderCustomers(customers);
+
+  /**
+   * Toggle a customer's card active/inactive.
+   * TODO: Wire up with Supabase update call.
+   * @param {string} customerId
+   * @param {boolean} makeActive
+   */
+  async function toggleCardStatus(customerId, makeActive) {
+    // TODO:
+    // const { error } = await supabase
+    //   .from('cards')
+    //   .update({ status: makeActive ? 'active' : 'inactive' })
+    //   .eq('user_id', customerId);
+    showToast('Card status update will work once Supabase is connected.', 'info');
+  }
+
+  /**
+   * Render the customers table.
+   * @param {Array} customers
+   */
+  function renderCustomers(customers) {
+    if (!customers || customers.length === 0) return;
+
+    qs('#customers-content').classList.add('hidden');
+    qs('#customers-table').classList.remove('hidden');
+
+    const tbody = qs('#customers-tbody');
+    tbody.innerHTML = '';
+
+    customers.forEach((c, index) => {
+      const cardStatusClass = c.card_status === 'active' ? 'badge-active' : 'badge-inactive';
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td data-label="#">${index + 1}</td>
+        <td data-label="Name">${c.full_name || '—'}</td>
+        <td data-label="Email">${c.email || '—'}</td>
+        <td data-label="Phone">${c.phone || '—'}</td>
+        <td data-label="Package">${c.packages?.name || '—'}</td>
+        <td data-label="Card Status">
+          <span class="badge ${cardStatusClass}">${c.card_status || '—'}</span>
+        </td>
+        <td data-label="Expiry">${formatDate(c.packages?.expiry_date)}</td>
+        <td data-label="Actions">
+          <button
+            class="btn btn-${c.card_status === 'active' ? 'danger' : 'secondary'} btn-sm"
+            data-customer-id="${c.id}"
+            data-current-status="${c.card_status}"
+            onclick="toggleCardStatus('${c.id}', ${c.card_status !== 'active'})"
+          >
+            ${c.card_status === 'active' ? 'Deactivate' : 'Activate'}
+          </button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+</script>
+
+</body>
+</html>

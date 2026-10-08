@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — MyNet SaaS</title>
+  <meta name="description" content="Your MyNet SaaS customer dashboard — package status, billing summary, and quick actions." />
+  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Customer navigation">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon" aria-hidden="true">🌐</div>
+      <span class="sidebar-logo-text">MyNet SaaS</span>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Dashboard navigation">
+      <span class="sidebar-section-label">Account</span>
+
+      <a href="./index.html" class="nav-link nav-link--active" id="nav-overview">
+        <span class="nav-link-icon" aria-hidden="true">🏠</span>
+        Overview
+      </a>
+      <a href="./package-status.html" class="nav-link" id="nav-packages">
+        <span class="nav-link-icon" aria-hidden="true">📦</span>
+        Package Status
+      </a>
+      <a href="./payment-history.html" class="nav-link" id="nav-payments">
+        <span class="nav-link-icon" aria-hidden="true">💳</span>
+        Payment History
+      </a>
+      <a href="./card-status.html" class="nav-link" id="nav-card">
+        <span class="nav-link-icon" aria-hidden="true">🪪</span>
+        Card Status
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar" aria-label="User avatar">—</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-name">Loading…</div>
+          <div class="sidebar-user-role">Customer</div>
+        </div>
+        <button class="sidebar-signout-btn" id="signout-btn" title="Sign out" aria-label="Sign out">⏏</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Top Bar ──────────────────────────────────────────── -->
+  <header class="topbar" role="banner">
+    <div class="flex items-center gap-4">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <h1 class="topbar-title">Overview</h1>
+    </div>
+    <div class="topbar-actions">
+      <span class="badge badge-active" id="account-status-badge">● Active</span>
+    </div>
+  </header>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <main class="dashboard-main" id="main-content">
+
+    <!-- Stats Cards -->
+    <div class="stats-grid" role="list" aria-label="Account summary">
+
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Package Status</span>
+          <div class="stat-card-icon" style="background:rgba(16,185,129,0.1);color:var(--color-success);" aria-hidden="true">📦</div>
+        </div>
+        <div class="stat-card-value" id="stat-package-status">—</div>
+        <div class="stat-card-meta" id="stat-package-name">No package loaded</div>
+      </div>
+
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Days Remaining</span>
+          <div class="stat-card-icon" style="background:rgba(79,70,229,0.1);color:var(--color-primary-light);" aria-hidden="true">📅</div>
+        </div>
+        <div class="stat-card-value" id="stat-days-remaining">—</div>
+        <div class="stat-card-meta" id="stat-expiry-date">Expiry date: —</div>
+      </div>
+
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Card Status</span>
+          <div class="stat-card-icon" style="background:rgba(245,158,11,0.1);color:var(--color-warning);" aria-hidden="true">🪪</div>
+        </div>
+        <div class="stat-card-value" id="stat-card-status">—</div>
+        <div class="stat-card-meta" id="stat-card-number">Card No: —</div>
+      </div>
+
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Last Payment</span>
+          <div class="stat-card-icon" style="background:rgba(6,182,212,0.1);color:var(--color-accent);" aria-hidden="true">💰</div>
+        </div>
+        <div class="stat-card-value" id="stat-last-payment">—</div>
+        <div class="stat-card-meta" id="stat-payment-date">Date: —</div>
+      </div>
+
+    </div>
+
+    <!-- Quick Links -->
+    <div class="grid grid-3" style="margin-bottom: var(--space-8);">
+
+      <a href="./package-status.html" class="card" style="text-decoration:none; cursor:pointer;" id="quick-packages-link">
+        <div class="card-header">
+          <span class="card-title">📦 Package Status</span>
+          <span style="color:var(--color-primary-light); font-size:1.2rem;">→</span>
+        </div>
+        <p class="text-sm text-secondary">View your active internet package, speed, and renewal details.</p>
+      </a>
+
+      <a href="./payment-history.html" class="card" style="text-decoration:none; cursor:pointer;" id="quick-payments-link">
+        <div class="card-header">
+          <span class="card-title">💳 Payment History</span>
+          <span style="color:var(--color-primary-light); font-size:1.2rem;">→</span>
+        </div>
+        <p class="text-sm text-secondary">Review all past payments, amounts, and transaction dates.</p>
+      </a>
+
+      <a href="./card-status.html" class="card" style="text-decoration:none; cursor:pointer;" id="quick-card-link">
+        <div class="card-header">
+          <span class="card-title">🪪 Card Status</span>
+          <span style="color:var(--color-primary-light); font-size:1.2rem;">→</span>
+        </div>
+        <p class="text-sm text-secondary">Check if your service card is active, inactive, or expired.</p>
+      </a>
+
+    </div>
+
+    <!-- Placeholder Notice (remove once Supabase is connected) -->
+    <div class="alert alert-warning" role="note" id="placeholder-notice">
+      <span>⚠️</span>
+      <span>
+        <strong>Demo Mode:</strong> Live data will appear here once Supabase authentication is connected.
+        This page structure is fully ready for real data.
+      </span>
+    </div>
+
+  </main>
+
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────── -->
+<script type="module">
+  import { requireAuth, getCurrentUser, signOut } from '../../assets/js/auth.js';
+  import { showToast, qs } from '../../assets/js/utils.js';
+  import '../../assets/js/app.js';
+
+  // Guard: redirect to login if not authenticated
+  requireAuth('../../pages/login.html');
+
+  /* ── Sidebar toggle (mobile) ─── */
+  const sidebar       = qs('#sidebar');
+  const sidebarToggle = qs('#sidebar-toggle');
+
+  sidebarToggle?.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('open');
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Close sidebar when clicking outside on mobile
+  document.addEventListener('click', (e) => {
+    if (sidebar.classList.contains('open') &&
+        !sidebar.contains(e.target) &&
+        !sidebarToggle.contains(e.target)) {
+      sidebar.classList.remove('open');
+      sidebarToggle.setAttribute('aria-expanded', false);
+    }
+  });
+
+  /* ── Populate user info ─── */
+  const user = getCurrentUser();
+  if (user) {
+    const name     = user.user_metadata?.full_name || user.email || 'User';
+    const initials = name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    qs('#user-name').textContent   = name;
+    qs('#user-avatar').textContent = initials;
+  }
+
+  /* ── Sign out ─── */
+  qs('#signout-btn')?.addEventListener('click', async () => {
+    const { success } = await signOut();
+    if (success) {
+      showToast('Signed out successfully.', 'info');
+      setTimeout(() => { window.location.href = '../../pages/login.html'; }, 800);
+    }
+  });
+
+  // TODO: Once Supabase is connected, fetch real data here:
+  // - Current package (name, status, expiry)
+  // - Card info (number, active/inactive)
+  // - Last payment (amount, date)
+</script>
+
+</body>
+</html>

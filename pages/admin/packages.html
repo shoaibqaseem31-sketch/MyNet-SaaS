@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Packages — MyNet SaaS Admin</title>
+  <meta name="description" content="Manage internet packages on MyNet SaaS — create, edit, and assign packages to customers." />
+  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ── Admin Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Admin navigation">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon" aria-hidden="true">🌐</div>
+      <span class="sidebar-logo-text">MyNet SaaS</span>
+    </div>
+    <nav class="sidebar-nav">
+      <span class="sidebar-section-label">Admin</span>
+      <a href="./index.html" class="nav-link" id="nav-admin-overview">
+        <span class="nav-link-icon" aria-hidden="true">📊</span>Overview
+      </a>
+      <a href="./customers.html" class="nav-link" id="nav-admin-customers">
+        <span class="nav-link-icon" aria-hidden="true">👥</span>Customers
+      </a>
+      <a href="./packages.html" class="nav-link nav-link--active" id="nav-admin-packages">
+        <span class="nav-link-icon" aria-hidden="true">📦</span>Packages
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar" style="background:linear-gradient(135deg,#dc2626,#ef4444);">A</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-name">Admin</div>
+          <div class="sidebar-user-role" style="color:var(--color-danger);">Administrator</div>
+        </div>
+        <button class="sidebar-signout-btn" id="signout-btn" title="Sign out" aria-label="Sign out">⏏</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Top Bar ──────────────────────────────────────────── -->
+  <header class="topbar" role="banner">
+    <div class="flex items-center gap-4">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <h1 class="topbar-title">Packages</h1>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn btn-primary btn-sm" id="add-package-btn" disabled title="Available once Supabase is connected">
+        + Add Package
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <main class="dashboard-main" id="main-content">
+
+    <!-- Packages Table -->
+    <div class="table-container">
+      <div class="table-header">
+        <span class="table-title">All Internet Packages</span>
+      </div>
+
+      <div id="packages-content">
+        <div class="empty-state">
+          <div class="empty-state-icon" aria-hidden="true">📦</div>
+          <h2 class="empty-state-title">No packages defined</h2>
+          <p class="empty-state-text">
+            Internet packages will appear here once Supabase is connected
+            and package records are created in the database.
+          </p>
+        </div>
+      </div>
+
+      <table class="data-table hidden" id="packages-table" aria-label="Internet packages table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Speed</th>
+            <th scope="col">Monthly Cost</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Active Users</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="packages-tbody">
+          <!-- Injected by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Placeholder notice -->
+    <div class="alert alert-warning" role="note" id="placeholder-notice" style="margin-top:var(--space-6);">
+      <span>⚠️</span>
+      <span>
+        <strong>Demo Mode:</strong> Package management features will be enabled once Supabase is connected.
+        The database table will be: <code style="color:var(--color-accent-light);">packages</code>.
+      </span>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────── -->
+<script type="module">
+  import { requireAdmin, getCurrentUser, signOut } from '../../assets/js/auth.js';
+  import { showToast, formatCurrency, qs } from '../../assets/js/utils.js';
+  import '../../assets/js/app.js';
+
+  requireAdmin('../../pages/dashboard/index.html');
+
+  const sidebar       = qs('#sidebar');
+  const sidebarToggle = qs('#sidebar-toggle');
+  sidebarToggle?.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('open');
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  const user = getCurrentUser();
+  if (user) {
+    const name = user.user_metadata?.full_name || user.email || 'Admin';
+    qs('#user-name').textContent   = name;
+    qs('#user-avatar').textContent = name[0]?.toUpperCase() || 'A';
+  }
+
+  qs('#signout-btn')?.addEventListener('click', async () => {
+    const { success } = await signOut();
+    if (success) {
+      showToast('Signed out.', 'info');
+      setTimeout(() => { window.location.href = '../../pages/login.html'; }, 800);
+    }
+  });
+
+  // TODO: Fetch packages from Supabase:
+  // const { data: packages } = await supabase
+  //   .from('packages')
+  //   .select('*, (select count(*) from user_packages where package_id = packages.id) as active_users')
+  //   .order('created_at', { ascending: false });
+  // if (packages) renderPackages(packages);
+
+  /**
+   * Render the packages table.
+   * @param {Array} packages
+   */
+  function renderPackages(packages) {
+    if (!packages || packages.length === 0) return;
+
+    qs('#packages-content').classList.add('hidden');
+    qs('#packages-table').classList.remove('hidden');
+
+    const tbody = qs('#packages-tbody');
+    tbody.innerHTML = '';
+
+    packages.forEach((p, index) => {
+      const statusClass = p.status === 'active' ? 'badge-active' : 'badge-inactive';
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td data-label="#">${index + 1}</td>
+        <td data-label="Name"><strong>${p.name || '—'}</strong></td>
+        <td data-label="Speed">${p.speed ? `${p.speed} Mbps` : '—'}</td>
+        <td data-label="Monthly Cost">${formatCurrency(p.monthly_cost || 0)}</td>
+        <td data-label="Duration">${p.duration_days ? `${p.duration_days} days` : '—'}</td>
+        <td data-label="Active Users">${p.active_users ?? '—'}</td>
+        <td data-label="Status">
+          <span class="badge ${statusClass}">${p.status || '—'}</span>
+        </td>
+        <td data-label="Actions">
+          <button class="btn btn-secondary btn-sm" onclick="editPackage('${p.id}')">Edit</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  /**
+   * Open edit modal/form for a package.
+   * TODO: Implement edit UI and Supabase update.
+   * @param {string} packageId
+   */
+  function editPackage(packageId) {
+    showToast('Package editing will be available once Supabase is connected.', 'info');
+  }
+</script>
+
+</body>
+</html>

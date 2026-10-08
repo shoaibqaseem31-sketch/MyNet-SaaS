@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In — MyNet SaaS</title>
+  <meta name="description" content="Sign in to your MyNet SaaS account to manage your internet packages and billing." />
+  <link rel="stylesheet" href="../assets/css/auth.css" />
+</head>
+<body class="auth-page">
+
+  <!-- ── Branding Panel ───────────────────────────────────── -->
+  <aside class="auth-brand" aria-label="MyNet SaaS branding">
+
+    <div class="auth-brand-logo">
+      <div class="auth-brand-logo-icon" aria-hidden="true">🌐</div>
+      <span class="auth-brand-logo-text">MyNet SaaS</span>
+    </div>
+
+    <h2 class="auth-brand-headline">
+      Your network,<br />
+      <span>under control.</span>
+    </h2>
+
+    <p class="auth-brand-subtext">
+      Sign in to view your package status, payment history,
+      card details, and expiry information — all in one place.
+    </p>
+
+    <div class="auth-features" role="list">
+      <div class="auth-feature-item" role="listitem">
+        <div class="auth-feature-icon" aria-hidden="true">📦</div>
+        <span>Track your internet packages in real-time</span>
+      </div>
+      <div class="auth-feature-item" role="listitem">
+        <div class="auth-feature-icon" aria-hidden="true">💳</div>
+        <span>Monitor card status and expiry dates</span>
+      </div>
+      <div class="auth-feature-item" role="listitem">
+        <div class="auth-feature-icon" aria-hidden="true">📋</div>
+        <span>View full payment history and invoices</span>
+      </div>
+      <div class="auth-feature-item" role="listitem">
+        <div class="auth-feature-icon" aria-hidden="true">🔔</div>
+        <span>Get expiry alerts and renewal reminders</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── Login Form Panel ──────────────────────────────────── -->
+  <main class="auth-form-panel">
+    <div class="auth-form-container">
+
+      <header class="auth-form-header">
+        <h1 class="auth-form-title">Welcome back</h1>
+        <p class="auth-form-subtitle">Enter your credentials to access your account</p>
+      </header>
+
+      <!-- Alert: shown on error -->
+      <div id="login-alert" class="alert alert-error hidden" role="alert" aria-live="polite"></div>
+
+      <form class="auth-form" id="login-form" novalidate aria-label="Login form">
+
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email address</label>
+          <input
+            class="form-input"
+            type="email"
+            id="login-email"
+            name="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          />
+          <span class="form-error hidden" id="email-error" role="alert"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="login-password">
+            Password
+            <a href="./forgot-password.html" style="float:right; font-weight:400; font-size:0.8rem; color:var(--color-primary-light);">
+              Forgot password?
+            </a>
+          </label>
+          <div class="input-wrapper">
+            <input
+              class="form-input"
+              type="password"
+              id="login-password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+            <button
+              type="button"
+              class="input-toggle-btn"
+              id="toggle-password-btn"
+              aria-label="Toggle password visibility"
+            >👁</button>
+          </div>
+          <span class="form-error hidden" id="password-error" role="alert"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="login-submit-btn">
+          <span id="login-btn-text">Sign In</span>
+          <span id="login-btn-spinner" class="spinner hidden" aria-hidden="true"></span>
+        </button>
+
+      </form>
+
+      <div class="auth-form-footer">
+        Don't have an account?
+        <a href="./register.html" id="login-register-link">Create one</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ── Scripts ──────────────────────────────────────────── -->
+  <script type="module">
+    import { signIn, redirectIfAuthenticated } from '../assets/js/auth.js';
+    import { isValidEmail, showToast, qs } from '../assets/js/utils.js';
+    import '../assets/js/app.js';
+
+    // Redirect already-authenticated users
+    redirectIfAuthenticated();
+
+    const form           = qs('#login-form');
+    const emailInput     = qs('#login-email');
+    const passwordInput  = qs('#login-password');
+    const emailError     = qs('#email-error');
+    const passwordError  = qs('#password-error');
+    const alert          = qs('#login-alert');
+    const submitBtn      = qs('#login-submit-btn');
+    const btnText        = qs('#login-btn-text');
+    const btnSpinner     = qs('#login-btn-spinner');
+    const togglePwdBtn   = qs('#toggle-password-btn');
+
+    /* ── Password toggle ─── */
+    togglePwdBtn.addEventListener('click', () => {
+      const isHidden = passwordInput.type === 'password';
+      passwordInput.type = isHidden ? 'text' : 'password';
+      togglePwdBtn.textContent = isHidden ? '🙈' : '👁';
+    });
+
+    /* ── Inline validation ─── */
+    function validateEmail() {
+      const val = emailInput.value.trim();
+      if (!val) {
+        showFieldError(emailInput, emailError, 'Email is required.');
+        return false;
+      }
+      if (!isValidEmail(val)) {
+        showFieldError(emailInput, emailError, 'Enter a valid email address.');
+        return false;
+      }
+      clearFieldError(emailInput, emailError);
+      return true;
+    }
+
+    function validatePassword() {
+      if (!passwordInput.value) {
+        showFieldError(passwordInput, passwordError, 'Password is required.');
+        return false;
+      }
+      clearFieldError(passwordInput, passwordError);
+      return true;
+    }
+
+    emailInput.addEventListener('blur', validateEmail);
+    passwordInput.addEventListener('blur', validatePassword);
+
+    /* ── Form submit ─── */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAlert();
+
+      const emailOk    = validateEmail();
+      const passwordOk = validatePassword();
+      if (!emailOk || !passwordOk) return;
+
+      setLoading(true);
+
+      const { success, user, error } = await signIn(
+        emailInput.value.trim(),
+        passwordInput.value
+      );
+
+      setLoading(false);
+
+      if (success) {
+        showToast('Signed in successfully!', 'success');
+        window.location.href = '../pages/dashboard/index.html';
+      } else {
+        showAlert(error || 'Sign in failed. Please try again.');
+      }
+    });
+
+    /* ── Helpers ─── */
+    function setLoading(loading) {
+      submitBtn.disabled = loading;
+      btnText.classList.toggle('hidden', loading);
+      btnSpinner.classList.toggle('hidden', !loading);
+    }
+
+    function showAlert(msg) {
+      alert.textContent = msg;
+      alert.classList.remove('hidden');
+    }
+
+    function hideAlert() {
+      alert.classList.add('hidden');
+      alert.textContent = '';
+    }
+
+    function showFieldError(input, errorEl, msg) {
+      input.classList.add('error');
+      errorEl.textContent = msg;
+      errorEl.classList.remove('hidden');
+    }
+
+    function clearFieldError(input, errorEl) {
+      input.classList.remove('error');
+      errorEl.textContent = '';
+      errorEl.classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>

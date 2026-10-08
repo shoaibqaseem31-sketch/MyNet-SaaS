@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard — MyNet SaaS</title>
+  <meta name="description" content="MyNet SaaS admin dashboard — manage customers, packages, and service cards." />
+  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ── Admin Sidebar ─────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Admin navigation">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon" aria-hidden="true">🌐</div>
+      <span class="sidebar-logo-text">MyNet SaaS</span>
+    </div>
+
+    <nav class="sidebar-nav" aria-label="Admin navigation">
+      <span class="sidebar-section-label">Admin</span>
+
+      <a href="./index.html" class="nav-link nav-link--active" id="nav-admin-overview">
+        <span class="nav-link-icon" aria-hidden="true">📊</span>
+        Overview
+      </a>
+      <a href="./customers.html" class="nav-link" id="nav-admin-customers">
+        <span class="nav-link-icon" aria-hidden="true">👥</span>
+        Customers
+      </a>
+      <a href="./packages.html" class="nav-link" id="nav-admin-packages">
+        <span class="nav-link-icon" aria-hidden="true">📦</span>
+        Packages
+      </a>
+
+      <span class="sidebar-section-label" style="margin-top:var(--space-4);">Quick Links</span>
+      <a href="../../pages/dashboard/index.html" class="nav-link" id="nav-customer-view">
+        <span class="nav-link-icon" aria-hidden="true">👤</span>
+        Customer View
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar" style="background:linear-gradient(135deg,#dc2626,#ef4444);">A</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-name">Admin</div>
+          <div class="sidebar-user-role" style="color:var(--color-danger);">Administrator</div>
+        </div>
+        <button class="sidebar-signout-btn" id="signout-btn" title="Sign out" aria-label="Sign out">⏏</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Top Bar ──────────────────────────────────────────── -->
+  <header class="topbar" role="banner">
+    <div class="flex items-center gap-4">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <h1 class="topbar-title">Admin Overview</h1>
+    </div>
+    <div class="topbar-actions">
+      <span class="badge badge-info">🔑 Admin</span>
+    </div>
+  </header>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <main class="dashboard-main" id="main-content">
+
+    <!-- Admin Stats -->
+    <div class="stats-grid" role="list" aria-label="Admin summary statistics">
+
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Total Customers</span>
+          <div class="stat-card-icon" style="background:rgba(79,70,229,0.1);color:var(--color-primary-light);" aria-hidden="true">👥</div>
+        </div>
+        <div class="stat-card-value" id="stat-customers">—</div>
+        <div class="stat-card-meta">Registered accounts</div>
+      </div>
+
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Active Packages</span>
+          <div class="stat-card-icon" style="background:rgba(16,185,129,0.1);color:var(--color-success);" aria-hidden="true">📦</div>
+        </div>
+        <div class="stat-card-value" id="stat-active-pkgs">—</div>
+        <div class="stat-card-meta">Currently active</div>
+      </div>
+
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Expiring Soon</span>
+          <div class="stat-card-icon" style="background:rgba(245,158,11,0.1);color:var(--color-warning);" aria-hidden="true">⏰</div>
+        </div>
+        <div class="stat-card-value" id="stat-expiring">—</div>
+        <div class="stat-card-meta">Within 7 days</div>
+      </div>
+
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Inactive Cards</span>
+          <div class="stat-card-icon" style="background:rgba(239,68,68,0.1);color:var(--color-danger);" aria-hidden="true">🪪</div>
+        </div>
+        <div class="stat-card-value" id="stat-inactive-cards">—</div>
+        <div class="stat-card-meta">Require attention</div>
+      </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-2" style="margin-bottom:var(--space-8);">
+      <a href="./customers.html" class="card" style="text-decoration:none;" id="quick-customers">
+        <div class="card-header">
+          <span class="card-title">👥 Manage Customers</span>
+          <span style="color:var(--color-primary-light); font-size:1.2rem;">→</span>
+        </div>
+        <p class="text-sm text-secondary">View, edit, activate, or deactivate customer accounts and cards.</p>
+      </a>
+      <a href="./packages.html" class="card" style="text-decoration:none;" id="quick-packages">
+        <div class="card-header">
+          <span class="card-title">📦 Manage Packages</span>
+          <span style="color:var(--color-primary-light); font-size:1.2rem;">→</span>
+        </div>
+        <p class="text-sm text-secondary">Create, update, and assign internet packages to customers.</p>
+      </a>
+    </div>
+
+    <!-- Recent Customers Preview Table -->
+    <div class="table-container">
+      <div class="table-header">
+        <span class="table-title">Recent Customers</span>
+        <a href="./customers.html" class="btn btn-secondary btn-sm" id="view-all-customers-btn">View All</a>
+      </div>
+
+      <div id="recent-customers-content">
+        <div class="empty-state">
+          <div class="empty-state-icon" aria-hidden="true">👥</div>
+          <h2 class="empty-state-title">No customers yet</h2>
+          <p class="empty-state-text">Customer records will appear here once Supabase is connected.</p>
+        </div>
+      </div>
+
+      <table class="data-table hidden" id="recent-customers-table" aria-label="Recent customers">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Package</th>
+            <th scope="col">Card Status</th>
+            <th scope="col">Expiry</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="recent-customers-tbody">
+          <!-- Injected by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Placeholder notice -->
+    <div class="alert alert-warning" role="note" id="placeholder-notice" style="margin-top:var(--space-6);">
+      <span>⚠️</span>
+      <span>
+        <strong>Demo Mode:</strong> Admin data will populate once Supabase is connected with the admin role assigned.
+      </span>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────── -->
+<script type="module">
+  import { requireAdmin, getCurrentUser, signOut } from '../../assets/js/auth.js';
+  import { showToast, formatDate, qs } from '../../assets/js/utils.js';
+  import '../../assets/js/app.js';
+
+  // Guard: must be admin
+  requireAdmin('../../pages/dashboard/index.html');
+
+  const sidebar       = qs('#sidebar');
+  const sidebarToggle = qs('#sidebar-toggle');
+  sidebarToggle?.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('open');
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  const user = getCurrentUser();
+  if (user) {
+    const name = user.user_metadata?.full_name || user.email || 'Admin';
+    qs('#user-name').textContent   = name;
+    qs('#user-avatar').textContent = name[0]?.toUpperCase() || 'A';
+  }
+
+  qs('#signout-btn')?.addEventListener('click', async () => {
+    const { success } = await signOut();
+    if (success) {
+      showToast('Signed out.', 'info');
+      setTimeout(() => { window.location.href = '../../pages/login.html'; }, 800);
+    }
+  });
+
+  // TODO: Fetch admin stats from Supabase:
+  // const [customers, packages, cards] = await Promise.all([
+  //   supabase.from('users').select('id', { count: 'exact' }),
+  //   supabase.from('packages').select('id', { count: 'exact' }).eq('status', 'active'),
+  //   supabase.from('cards').select('id', { count: 'exact' }).eq('status', 'inactive'),
+  // ]);
+
+  /**
+   * Render admin stats.
+   * Call this with real Supabase aggregate data.
+   * @param {Object} stats
+   */
+  function renderStats(stats) {
+    qs('#stat-customers').textContent     = stats.totalCustomers  ?? '—';
+    qs('#stat-active-pkgs').textContent   = stats.activePackages  ?? '—';
+    qs('#stat-expiring').textContent      = stats.expiringSoon    ?? '—';
+    qs('#stat-inactive-cards').textContent = stats.inactiveCards  ?? '—';
+  }
+
+  /**
+   * Render recent customers table.
+   * @param {Array} customers
+   */
+  function renderRecentCustomers(customers) {
+    if (!customers || customers.length === 0) return;
+
+    qs('#recent-customers-content').classList.add('hidden');
+    qs('#recent-customers-table').classList.remove('hidden');
+
+    const tbody = qs('#recent-customers-tbody');
+    tbody.innerHTML = '';
+
+    customers.forEach(c => {
+      const row = document.createElement('tr');
+      const cardClass = c.card_status === 'active' ? 'badge-active' : 'badge-inactive';
+      row.innerHTML = `
+        <td data-label="Name">${c.full_name || '—'}</td>
+        <td data-label="Email">${c.email || '—'}</td>
+        <td data-label="Package">${c.package_name || '—'}</td>
+        <td data-label="Card Status"><span class="badge ${cardClass}">${c.card_status || '—'}</span></td>
+        <td data-label="Expiry">${formatDate(c.expiry_date)}</td>
+        <td data-label="Actions">
+          <a href="./customers.html?id=${c.id}" class="btn btn-secondary btn-sm">View</a>
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+</script>
+
+</body>
+</html>

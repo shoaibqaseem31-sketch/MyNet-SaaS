@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MyNet SaaS — Manage Your Network Services</title>
+  <meta name="description" content="MyNet SaaS — A powerful platform to manage your internet packages, track payments, and monitor your account status." />
+  <link rel="stylesheet" href="./assets/css/main.css" />
+  <style>
+    /* ── Landing Page Specific ─────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-12) var(--space-6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Ambient glow blobs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(ellipse at center,
+        rgba(79, 70, 229, 0.15) 0%,
+        rgba(6, 182, 212, 0.07) 40%,
+        transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      background: rgba(79, 70, 229, 0.1);
+      border: 1px solid rgba(79, 70, 229, 0.25);
+      border-radius: var(--radius-full);
+      padding: var(--space-2) var(--space-4);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      color: var(--color-primary-light);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-6);
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: var(--space-5);
+      animation: fadeInUp 0.6s 0.1s ease both;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, var(--color-primary-light), var(--color-accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-subtitle {
+      font-size: var(--font-size-lg);
+      color: var(--color-text-secondary);
+      max-width: 520px;
+      margin: 0 auto var(--space-8);
+      line-height: 1.6;
+      animation: fadeInUp 0.6s 0.2s ease both;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 0.6s 0.3s ease both;
+    }
+
+    .hero-features {
+      display: flex;
+      align-items: center;
+      gap: var(--space-8);
+      margin-top: var(--space-16);
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--color-border);
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 0.6s 0.4s ease both;
+    }
+
+    .hero-feature {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    .hero-feature-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-success);
+      box-shadow: 0 0 8px var(--color-success);
+    }
+
+    /* Navbar */
+    .landing-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4) var(--space-8);
+      background: rgba(15, 15, 19, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      z-index: var(--z-dropdown);
+    }
+
+    .landing-nav-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--font-size-base);
+      font-weight: 700;
+      color: var(--color-text-primary);
+      text-decoration: none;
+    }
+
+    .landing-nav-logo-icon {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .landing-nav-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Navigation ──────────────────────────────────────── -->
+  <nav class="landing-nav" id="landing-nav" role="navigation" aria-label="Main navigation">
+    <a href="./index.html" class="landing-nav-logo">
+      <div class="landing-nav-logo-icon" aria-hidden="true">🌐</div>
+      <span>MyNet SaaS</span>
+    </a>
+    <div class="landing-nav-actions">
+      <a href="./pages/login.html" class="btn btn-secondary btn-sm" id="nav-login-btn">Sign In</a>
+      <a href="./pages/register.html" class="btn btn-primary btn-sm" id="nav-register-btn">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- ── Hero Section ─────────────────────────────────────── -->
+  <main>
+    <section class="hero" aria-labelledby="hero-heading">
+
+      <div class="hero-badge" role="note">
+        <span>🚀</span>
+        <span>ISP Management Platform</span>
+      </div>
+
+      <h1 class="hero-title" id="hero-heading">
+        Manage Your Network<br />
+        <span class="gradient-text">Smarter & Faster</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        A modern SaaS platform for internet service providers and customers.
+        Track packages, monitor payments, and control card status — all in one place.
+      </p>
+
+      <div class="hero-cta">
+        <a href="./pages/register.html" class="btn btn-primary btn-lg" id="hero-cta-register">
+          Create Your Account
+        </a>
+        <a href="./pages/login.html" class="btn btn-secondary btn-lg" id="hero-cta-login">
+          Sign In
+        </a>
+      </div>
+
+      <div class="hero-features" role="list">
+        <div class="hero-feature" role="listitem">
+          <div class="hero-feature-dot" aria-hidden="true"></div>
+          <span>Package Status Tracking</span>
+        </div>
+        <div class="hero-feature" role="listitem">
+          <div class="hero-feature-dot" aria-hidden="true"></div>
+          <span>Payment History</span>
+        </div>
+        <div class="hero-feature" role="listitem">
+          <div class="hero-feature-dot" aria-hidden="true"></div>
+          <span>Card Active / Inactive Control</span>
+        </div>
+        <div class="hero-feature" role="listitem">
+          <div class="hero-feature-dot" aria-hidden="true"></div>
+          <span>Expiry Notifications</span>
+        </div>
+        <div class="hero-feature" role="listitem">
+          <div class="hero-feature-dot" aria-hidden="true"></div>
+          <span>Admin Dashboard</span>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ── Footer ───────────────────────────────────────────── -->
+  <footer style="text-align:center; padding: var(--space-6); border-top: 1px solid var(--color-border); color: var(--color-text-muted); font-size: var(--font-size-xs);">
+    &copy; <span data-year></span> MyNet SaaS. All rights reserved.
+  </footer>
+
+  <!-- ── Scripts ──────────────────────────────────────────── -->
+  <script type="module" src="./assets/js/app.js"></script>
+
+</body>
+</html>

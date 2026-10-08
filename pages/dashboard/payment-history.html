@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Payment History — MyNet SaaS</title>
+  <meta name="description" content="View your complete payment history, amounts, and transaction dates on MyNet SaaS." />
+  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Customer navigation">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon" aria-hidden="true">🌐</div>
+      <span class="sidebar-logo-text">MyNet SaaS</span>
+    </div>
+    <nav class="sidebar-nav" aria-label="Dashboard navigation">
+      <span class="sidebar-section-label">Account</span>
+      <a href="./index.html" class="nav-link" id="nav-overview">
+        <span class="nav-link-icon" aria-hidden="true">🏠</span>Overview
+      </a>
+      <a href="./package-status.html" class="nav-link" id="nav-packages">
+        <span class="nav-link-icon" aria-hidden="true">📦</span>Package Status
+      </a>
+      <a href="./payment-history.html" class="nav-link nav-link--active" id="nav-payments">
+        <span class="nav-link-icon" aria-hidden="true">💳</span>Payment History
+      </a>
+      <a href="./card-status.html" class="nav-link" id="nav-card">
+        <span class="nav-link-icon" aria-hidden="true">🪪</span>Card Status
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar">—</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-name">Loading…</div>
+          <div class="sidebar-user-role">Customer</div>
+        </div>
+        <button class="sidebar-signout-btn" id="signout-btn" title="Sign out" aria-label="Sign out">⏏</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Top Bar ──────────────────────────────────────────── -->
+  <header class="topbar" role="banner">
+    <div class="flex items-center gap-4">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <h1 class="topbar-title">Payment History</h1>
+    </div>
+    <div class="topbar-actions">
+      <!-- Future: export button -->
+    </div>
+  </header>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <main class="dashboard-main" id="main-content">
+
+    <!-- Summary cards -->
+    <div class="stats-grid" role="list" aria-label="Payment summary" style="grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Total Paid</span>
+          <div class="stat-card-icon" style="background:rgba(16,185,129,0.1);color:var(--color-success);" aria-hidden="true">✅</div>
+        </div>
+        <div class="stat-card-value" id="stat-total-paid">—</div>
+        <div class="stat-card-meta">All time</div>
+      </div>
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Total Transactions</span>
+          <div class="stat-card-icon" style="background:rgba(79,70,229,0.1);color:var(--color-primary-light);" aria-hidden="true">🔢</div>
+        </div>
+        <div class="stat-card-value" id="stat-total-tx">—</div>
+        <div class="stat-card-meta">Records found</div>
+      </div>
+      <div class="stat-card" role="listitem">
+        <div class="stat-card-header">
+          <span class="stat-card-label">Last Payment</span>
+          <div class="stat-card-icon" style="background:rgba(6,182,212,0.1);color:var(--color-accent);" aria-hidden="true">📅</div>
+        </div>
+        <div class="stat-card-value" id="stat-last-date">—</div>
+        <div class="stat-card-meta" id="stat-last-amount">Amount: —</div>
+      </div>
+    </div>
+
+    <!-- Payments Table -->
+    <div class="table-container">
+      <div class="table-header">
+        <span class="table-title">All Transactions</span>
+      </div>
+
+      <div id="payments-content">
+        <!-- Populated by JS once Supabase data is available -->
+        <div class="empty-state">
+          <div class="empty-state-icon" aria-hidden="true">💳</div>
+          <h2 class="empty-state-title">No payments yet</h2>
+          <p class="empty-state-text">
+            Your payment records will appear here once data is connected.<br />
+            <strong>Supabase integration is pending.</strong>
+          </p>
+        </div>
+      </div>
+
+      <!-- Table structure (hidden until data loads) -->
+      <table class="data-table hidden" id="payments-table" aria-label="Payment history table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date</th>
+            <th scope="col">Description</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Method</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody id="payments-tbody">
+          <!-- Rows injected by JS -->
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────── -->
+<script type="module">
+  import { requireAuth, getCurrentUser, signOut } from '../../assets/js/auth.js';
+  import { showToast, formatDate, formatCurrency, qs } from '../../assets/js/utils.js';
+  import '../../assets/js/app.js';
+
+  requireAuth('../../pages/login.html');
+
+  /* ── Sidebar toggle ─── */
+  const sidebar       = qs('#sidebar');
+  const sidebarToggle = qs('#sidebar-toggle');
+  sidebarToggle?.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('open');
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
+  });
+  document.addEventListener('click', (e) => {
+    if (sidebar.classList.contains('open') &&
+        !sidebar.contains(e.target) &&
+        !sidebarToggle.contains(e.target)) {
+      sidebar.classList.remove('open');
+      sidebarToggle.setAttribute('aria-expanded', false);
+    }
+  });
+
+  /* ── User info ─── */
+  const user = getCurrentUser();
+  if (user) {
+    const name     = user.user_metadata?.full_name || user.email || 'User';
+    const initials = name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    qs('#user-name').textContent   = name;
+    qs('#user-avatar').textContent = initials;
+  }
+
+  /* ── Sign out ─── */
+  qs('#signout-btn')?.addEventListener('click', async () => {
+    const { success } = await signOut();
+    if (success) {
+      showToast('Signed out.', 'info');
+      setTimeout(() => { window.location.href = '../../pages/login.html'; }, 800);
+    }
+  });
+
+  // TODO: When Supabase is connected, fetch payments like:
+  // const { data: payments, error } = await supabase
+  //   .from('payments')
+  //   .select('*')
+  //   .eq('user_id', user.id)
+  //   .order('created_at', { ascending: false });
+  //
+  // Then call renderPayments(payments) to populate the table.
+
+  /**
+   * Render payment rows in the table.
+   * Call this function once you have real data from Supabase.
+   * @param {Array} payments
+   */
+  function renderPayments(payments) {
+    if (!payments || payments.length === 0) return;
+
+    qs('#payments-content').classList.add('hidden');
+    qs('#payments-table').classList.remove('hidden');
+
+    const tbody  = qs('#payments-tbody');
+    tbody.innerHTML = '';
+
+    let totalPaid = 0;
+
+    payments.forEach((p, index) => {
+      totalPaid += p.amount || 0;
+
+      const statusClass = p.status === 'paid' ? 'badge-active' :
+                          p.status === 'pending' ? 'badge-pending' : 'badge-inactive';
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td data-label="#">${index + 1}</td>
+        <td data-label="Date">${formatDate(p.created_at)}</td>
+        <td data-label="Description">${p.description || '—'}</td>
+        <td data-label="Amount"><strong>${formatCurrency(p.amount)}</strong></td>
+        <td data-label="Method">${p.method || '—'}</td>
+        <td data-label="Status"><span class="badge ${statusClass}">${p.status || '—'}</span></td>
+      `;
+      tbody.appendChild(row);
+    });
+
+    qs('#stat-total-paid').textContent  = formatCurrency(totalPaid);
+    qs('#stat-total-tx').textContent    = payments.length;
+    qs('#stat-last-date').textContent   = formatDate(payments[0]?.created_at);
+    qs('#stat-last-amount').textContent = `Amount: ${formatCurrency(payments[0]?.amount || 0)}`;
+  }
+</script>
+
+</body>
+</html>

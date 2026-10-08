@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — MyNet SaaS</title>
+  <meta name="description" content="Create your MyNet SaaS account to start managing your internet packages and billing." />
+  <link rel="stylesheet" href="../assets/css/auth.css" />
+</head>
+<body class="auth-page">
+
+  <!-- ── Branding Panel ───────────────────────────────────── -->
+  <aside class="auth-brand" aria-label="MyNet SaaS branding">
+
+    <div class="auth-brand-logo">
+      <div class="auth-brand-logo-icon" aria-hidden="true">🌐</div>
+      <span class="auth-brand-logo-text">MyNet SaaS</span>
+    </div>
+
+    <h2 class="auth-brand-headline">
+      Get started<br />
+      <span>in minutes.</span>
+    </h2>
+
+    <p class="auth-brand-subtext">
+      Create your account and gain instant access to your internet
+      package dashboard, billing records, and card status manager.
+    </p>
+
+    <div class="auth-features" role="list">
+      <div class="auth-feature-item" role="listitem">
+        <div class="auth-feature-icon" aria-hidden="true">⚡</div>
+        <span>Instant account setup</span>
+      </div>
+      <div class="auth-feature-item" role="listitem">
+        <div class="auth-feature-icon" aria-hidden="true">🔒</div>
+        <span>Secure & encrypted connection</span>
+      </div>
+      <div class="auth-feature-item" role="listitem">
+        <div class="auth-feature-icon" aria-hidden="true">📊</div>
+        <span>Real-time usage & billing data</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── Register Form Panel ──────────────────────────────── -->
+  <main class="auth-form-panel">
+    <div class="auth-form-container">
+
+      <header class="auth-form-header">
+        <h1 class="auth-form-title">Create account</h1>
+        <p class="auth-form-subtitle">Fill in your details to get started</p>
+      </header>
+
+      <!-- Alert: shown on error -->
+      <div id="register-alert" class="alert alert-error hidden" role="alert" aria-live="polite"></div>
+
+      <form class="auth-form" id="register-form" novalidate aria-label="Registration form">
+
+        <div class="form-group">
+          <label class="form-label" for="reg-fullname">Full Name</label>
+          <input
+            class="form-input"
+            type="text"
+            id="reg-fullname"
+            name="fullname"
+            placeholder="Ahmad Ali"
+            autocomplete="name"
+            required
+          />
+          <span class="form-error hidden" id="fullname-error" role="alert"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Email Address</label>
+          <input
+            class="form-input"
+            type="email"
+            id="reg-email"
+            name="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+            required
+          />
+          <span class="form-error hidden" id="reg-email-error" role="alert"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-phone">Phone Number</label>
+          <input
+            class="form-input"
+            type="tel"
+            id="reg-phone"
+            name="phone"
+            placeholder="+92 300 1234567"
+            autocomplete="tel"
+          />
+          <span class="form-error hidden" id="phone-error" role="alert"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password">Password</label>
+          <div class="input-wrapper">
+            <input
+              class="form-input"
+              type="password"
+              id="reg-password"
+              name="password"
+              placeholder="Min. 8 characters"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              type="button"
+              class="input-toggle-btn"
+              id="toggle-reg-password-btn"
+              aria-label="Toggle password visibility"
+            >👁</button>
+          </div>
+          <span class="form-hint">Minimum 8 characters with at least one number</span>
+          <span class="form-error hidden" id="reg-password-error" role="alert"></span>
+        </div>
+
+        <div class="auth-terms">
+          <input type="checkbox" id="reg-terms" name="terms" required />
+          <label for="reg-terms">
+            I agree to the
+            <a href="#" id="terms-link">Terms of Service</a>
+            and
+            <a href="#" id="privacy-link">Privacy Policy</a>
+          </label>
+        </div>
+        <span class="form-error hidden" id="terms-error" role="alert"></span>
+
+        <button type="submit" class="btn btn-primary btn-full btn-lg" id="register-submit-btn">
+          <span id="register-btn-text">Create Account</span>
+          <span id="register-btn-spinner" class="spinner hidden" aria-hidden="true"></span>
+        </button>
+
+      </form>
+
+      <div class="auth-form-footer">
+        Already have an account?
+        <a href="./login.html" id="register-login-link">Sign in</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ── Scripts ──────────────────────────────────────────── -->
+  <script type="module">
+    import { signUp, redirectIfAuthenticated } from '../assets/js/auth.js';
+    import { isValidEmail, isValidPassword, isValidPhone, showToast, qs } from '../assets/js/utils.js';
+    import '../assets/js/app.js';
+
+    redirectIfAuthenticated();
+
+    const form           = qs('#register-form');
+    const fullnameInput  = qs('#reg-fullname');
+    const emailInput     = qs('#reg-email');
+    const phoneInput     = qs('#reg-phone');
+    const passwordInput  = qs('#reg-password');
+    const termsCheckbox  = qs('#reg-terms');
+    const alertEl        = qs('#register-alert');
+    const submitBtn      = qs('#register-submit-btn');
+    const btnText        = qs('#register-btn-text');
+    const btnSpinner     = qs('#register-btn-spinner');
+    const togglePwdBtn   = qs('#toggle-reg-password-btn');
+
+    /* ── Password toggle ─── */
+    togglePwdBtn.addEventListener('click', () => {
+      const isHidden = passwordInput.type === 'password';
+      passwordInput.type = isHidden ? 'text' : 'password';
+      togglePwdBtn.textContent = isHidden ? '🙈' : '👁';
+    });
+
+    /* ── Validation helpers ─── */
+    const validators = {
+      fullname: () => {
+        const val = fullnameInput.value.trim();
+        if (!val || val.length < 2) return 'Full name must be at least 2 characters.';
+        return null;
+      },
+      email: () => {
+        const val = emailInput.value.trim();
+        if (!val) return 'Email is required.';
+        if (!isValidEmail(val)) return 'Enter a valid email address.';
+        return null;
+      },
+      phone: () => {
+        const val = phoneInput.value.trim();
+        if (val && !isValidPhone(val)) return 'Enter a valid phone number.';
+        return null;
+      },
+      password: () => {
+        if (!passwordInput.value) return 'Password is required.';
+        if (!isValidPassword(passwordInput.value)) return 'Password must be at least 8 characters with a number.';
+        return null;
+      },
+      terms: () => {
+        if (!termsCheckbox.checked) return 'You must accept the terms to continue.';
+        return null;
+      },
+    };
+
+    function validate(field) {
+      const errorMsg = validators[field]();
+      const inputEl  = { fullname: fullnameInput, email: emailInput, phone: phoneInput, password: passwordInput }[field];
+      const errorEl  = qs(`#${field === 'email' ? 'reg-email' : field === 'password' ? 'reg-password' : field}-error`);
+      if (!errorEl) return errorMsg === null;
+
+      if (errorMsg) {
+        if (inputEl) inputEl.classList.add('error');
+        errorEl.textContent = errorMsg;
+        errorEl.classList.remove('hidden');
+        return false;
+      }
+      if (inputEl) inputEl.classList.remove('error');
+      errorEl.textContent = '';
+      errorEl.classList.add('hidden');
+      return true;
+    }
+
+    fullnameInput.addEventListener('blur', () => validate('fullname'));
+    emailInput.addEventListener('blur',    () => validate('email'));
+    phoneInput.addEventListener('blur',    () => validate('phone'));
+    passwordInput.addEventListener('blur', () => validate('password'));
+
+    /* ── Form submit ─── */
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideAlert();
+
+      const allValid = ['fullname', 'email', 'phone', 'password', 'terms']
+        .map(f => validate(f))
+        .every(Boolean);
+
+      if (!allValid) return;
+
+      setLoading(true);
+
+      const { success, user, error } = await signUp(
+        emailInput.value.trim(),
+        passwordInput.value,
+        {
+          full_name: fullnameInput.value.trim(),
+          phone:     phoneInput.value.trim(),
+        }
+      );
+
+      setLoading(false);
+
+      if (success) {
+        showToast('Account created! Check your email to verify.', 'success', 5000);
+        setTimeout(() => { window.location.href = './login.html'; }, 2000);
+      } else {
+        showAlert(error || 'Registration failed. Please try again.');
+      }
+    });
+
+    /* ── Helpers ─── */
+    function setLoading(loading) {
+      submitBtn.disabled = loading;
+      btnText.classList.toggle('hidden', loading);
+      btnSpinner.classList.toggle('hidden', !loading);
+    }
+
+    function showAlert(msg) {
+      alertEl.textContent = msg;
+      alertEl.classList.remove('hidden');
+    }
+
+    function hideAlert() {
+      alertEl.classList.add('hidden');
+      alertEl.textContent = '';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Package Status — MyNet SaaS</title>
+  <meta name="description" content="View your current internet package status, speed, and renewal details on MyNet SaaS." />
+  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
+  <style>
+    .package-card {
+      background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-2) 100%);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-2xl);
+      padding: var(--space-8);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: var(--space-8);
+    }
+    .package-card::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(79,70,229,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .package-name {
+      font-size: var(--font-size-3xl);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-2);
+    }
+    .package-speed {
+      font-size: var(--font-size-lg);
+      color: var(--color-accent-light);
+      font-weight: 600;
+      margin-bottom: var(--space-6);
+    }
+    .package-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--space-4);
+    }
+    .package-meta-item {
+      background: var(--color-surface-2);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+    }
+    .package-meta-label {
+      font-size: var(--font-size-xs);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-1);
+    }
+    .package-meta-value {
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ── Sidebar ──────────────────────────────────────────── -->
+  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Customer navigation">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon" aria-hidden="true">🌐</div>
+      <span class="sidebar-logo-text">MyNet SaaS</span>
+    </div>
+    <nav class="sidebar-nav" aria-label="Dashboard navigation">
+      <span class="sidebar-section-label">Account</span>
+      <a href="./index.html" class="nav-link" id="nav-overview">
+        <span class="nav-link-icon" aria-hidden="true">🏠</span>Overview
+      </a>
+      <a href="./package-status.html" class="nav-link nav-link--active" id="nav-packages">
+        <span class="nav-link-icon" aria-hidden="true">📦</span>Package Status
+      </a>
+      <a href="./payment-history.html" class="nav-link" id="nav-payments">
+        <span class="nav-link-icon" aria-hidden="true">💳</span>Payment History
+      </a>
+      <a href="./card-status.html" class="nav-link" id="nav-card">
+        <span class="nav-link-icon" aria-hidden="true">🪪</span>Card Status
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="user-avatar">—</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="user-name">Loading…</div>
+          <div class="sidebar-user-role">Customer</div>
+        </div>
+        <button class="sidebar-signout-btn" id="signout-btn" title="Sign out" aria-label="Sign out">⏏</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Top Bar ──────────────────────────────────────────── -->
+  <header class="topbar" role="banner">
+    <div class="flex items-center gap-4">
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <h1 class="topbar-title">Package Status</h1>
+    </div>
+    <div class="topbar-actions">
+      <span class="badge badge-active" id="package-badge">● Active</span>
+    </div>
+  </header>
+
+  <!-- ── Main Content ─────────────────────────────────────── -->
+  <main class="dashboard-main" id="main-content">
+
+    <!-- Package Detail Card -->
+    <div class="package-card" id="package-card" aria-label="Current package details">
+      <div class="flex items-center gap-4" style="margin-bottom:var(--space-4);">
+        <span class="badge badge-active" id="package-status-badge">Active</span>
+      </div>
+      <div class="package-name" id="package-name">— Package</div>
+      <div class="package-speed" id="package-speed">— Mbps</div>
+
+      <div class="package-meta-grid">
+        <div class="package-meta-item">
+          <div class="package-meta-label">Start Date</div>
+          <div class="package-meta-value" id="package-start">—</div>
+        </div>
+        <div class="package-meta-item">
+          <div class="package-meta-label">Expiry Date</div>
+          <div class="package-meta-value" id="package-expiry">—</div>
+        </div>
+        <div class="package-meta-item">
+          <div class="package-meta-label">Days Left</div>
+          <div class="package-meta-value" id="package-days-left">—</div>
+        </div>
+        <div class="package-meta-item">
+          <div class="package-meta-label">Monthly Cost</div>
+          <div class="package-meta-value" id="package-cost">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Placeholder when no data -->
+    <div class="alert alert-warning" role="note" id="placeholder-notice">
+      <span>⚠️</span>
+      <span>
+        <strong>Demo Mode:</strong> Package data will display here once Supabase is connected and a package is assigned to your account.
+      </span>
+    </div>
+
+  </main>
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────── -->
+<script type="module">
+  import { requireAuth, getCurrentUser, signOut } from '../../assets/js/auth.js';
+  import { showToast, formatDate, formatCurrency, daysUntil, isExpired, qs } from '../../assets/js/utils.js';
+  import '../../assets/js/app.js';
+
+  requireAuth('../../pages/login.html');
+
+  const sidebar       = qs('#sidebar');
+  const sidebarToggle = qs('#sidebar-toggle');
+  sidebarToggle?.addEventListener('click', () => {
+    const isOpen = sidebar.classList.toggle('open');
+    sidebarToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  const user = getCurrentUser();
+  if (user) {
+    const name     = user.user_metadata?.full_name || user.email || 'User';
+    const initials = name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    qs('#user-name').textContent   = name;
+    qs('#user-avatar').textContent = initials;
+  }
+
+  qs('#signout-btn')?.addEventListener('click', async () => {
+    const { success } = await signOut();
+    if (success) {
+      showToast('Signed out.', 'info');
+      setTimeout(() => { window.location.href = '../../pages/login.html'; }, 800);
+    }
+  });
+
+  // TODO: Fetch package data from Supabase:
+  // const { data: pkg } = await supabase
+  //   .from('packages')
+  //   .select('*')
+  //   .eq('user_id', user.id)
+  //   .single();
+  // if (pkg) renderPackage(pkg);
+
+  /**
+   * Render package details.
+   * Call this with real Supabase data.
+   * @param {Object} pkg
+   */
+  function renderPackage(pkg) {
+    qs('#placeholder-notice')?.remove();
+
+    const days   = daysUntil(pkg.expiry_date);
+    const expired = isExpired(pkg.expiry_date);
+
+    qs('#package-name').textContent  = pkg.name || '—';
+    qs('#package-speed').textContent = pkg.speed ? `${pkg.speed} Mbps` : '—';
+    qs('#package-start').textContent  = formatDate(pkg.start_date);
+    qs('#package-expiry').textContent = formatDate(pkg.expiry_date);
+    qs('#package-days-left').textContent = expired ? 'Expired' : `${days} days`;
+    qs('#package-cost').textContent  = formatCurrency(pkg.monthly_cost || 0);
+
+    const badgeEl = qs('#package-status-badge');
+    const topBadge = qs('#package-badge');
+    if (expired) {
+      badgeEl.className  = 'badge badge-inactive';
+      badgeEl.textContent = 'Expired';
+      topBadge.className  = 'badge badge-inactive';
+      topBadge.textContent = '● Expired';
+    } else if (pkg.status === 'inactive') {
+      badgeEl.className  = 'badge badge-inactive';
+      badgeEl.textContent = 'Inactive';
+      topBadge.className  = 'badge badge-inactive';
+      topBadge.textContent = '● Inactive';
+    } else {
+      badgeEl.className  = 'badge badge-active';
+      badgeEl.textContent = 'Active';
+      topBadge.className  = 'badge badge-active';
+      topBadge.textContent = '● Active';
+    }
+  }
+</script>
+
+</body>
+</html>
