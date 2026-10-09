@@ -1,203 +1,520 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dashboard — MyNet SaaS</title>
-  <meta name="description" content="Your MyNet SaaS customer dashboard — package status, billing summary, and quick actions." />
-  <link rel="stylesheet" href="../../assets/css/dashboard.css" />
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MyNet - Subscriber Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-on-surface": "#eef0ff",
+            "on-surface": "#131b2e",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface": "#faf8ff",
+            "surface-bright": "#faf8ff",
+            "surface-tint": "#0053db",
+            "error-container": "#ffdad6",
+            "secondary-fixed": "#e2dfff",
+            "on-primary-fixed-variant": "#003ea8",
+            "secondary": "#4b41e1",
+            "on-primary-container": "#eeefff",
+            "primary-container": "#2563eb",
+            "on-secondary-fixed": "#0f0069",
+            "on-tertiary-fixed-variant": "#004e5c",
+            "on-error": "#ffffff",
+            "inverse-surface": "#283044",
+            "on-secondary-fixed-variant": "#3323cc",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-fixed": "#001f26",
+            "background": "#faf8ff",
+            "surface-dim": "#d2d9f4",
+            "on-tertiary-container": "#d7f6ff",
+            "on-primary-fixed": "#00174b",
+            "surface-variant": "#dae2fd",
+            "primary-fixed": "#dbe1ff",
+            "surface-container-highest": "#dae2fd",
+            "secondary-fixed-dim": "#c3c0ff",
+            "tertiary": "#005e6e",
+            "tertiary-fixed": "#acedff",
+            "inverse-primary": "#b4c5ff",
+            "surface-container-high": "#e2e7ff",
+            "on-background": "#131b2e",
+            "primary": "#004ac6",
+            "outline-variant": "#c3c6d7",
+            "on-surface-variant": "#434655",
+            "surface-container-low": "#f2f3ff",
+            "secondary-container": "#645efb",
+            "tertiary-container": "#00788c",
+            "on-secondary-container": "#fffbff",
+            "surface-container": "#eaedff",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#b4c5ff",
+            "outline": "#737686",
+            "on-secondary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "gutter-lg": "2rem",
+            "margin-lg": "3rem",
+            "gutter": "1.5rem",
+            "space-lg": "1.5rem",
+            "margin-sm": "1rem",
+            "margin": "1.5rem",
+            "gutter-sm": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+            "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
+            "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "700"}],
+            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
+            "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+            "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+            "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
+            "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
+            "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+            "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
 </head>
-<body>
-<div class="dashboard-layout">
-
-  <!-- ── Sidebar ──────────────────────────────────────────── -->
-  <aside class="sidebar" id="sidebar" role="navigation" aria-label="Customer navigation">
-    <div class="sidebar-logo">
-      <div class="sidebar-logo-icon" aria-hidden="true">🌐</div>
-      <span class="sidebar-logo-text">MyNet SaaS</span>
-    </div>
-
-    <nav class="sidebar-nav" aria-label="Dashboard navigation">
-      <span class="sidebar-section-label">Account</span>
-
-      <a href="./index.html" class="nav-link nav-link--active" id="nav-overview">
-        <span class="nav-link-icon" aria-hidden="true">🏠</span>
-        Overview
-      </a>
-      <a href="./package-status.html" class="nav-link" id="nav-packages">
-        <span class="nav-link-icon" aria-hidden="true">📦</span>
-        Package Status
-      </a>
-      <a href="./payment-history.html" class="nav-link" id="nav-payments">
-        <span class="nav-link-icon" aria-hidden="true">💳</span>
-        Payment History
-      </a>
-      <a href="./card-status.html" class="nav-link" id="nav-card">
-        <span class="nav-link-icon" aria-hidden="true">🪪</span>
-        Card Status
-      </a>
-    </nav>
-
-    <div class="sidebar-footer">
-      <div class="sidebar-user">
-        <div class="sidebar-avatar" id="user-avatar" aria-label="User avatar">—</div>
-        <div class="sidebar-user-info">
-          <div class="sidebar-user-name" id="user-name">Loading…</div>
-          <div class="sidebar-user-role">Customer</div>
-        </div>
-        <button class="sidebar-signout-btn" id="signout-btn" title="Sign out" aria-label="Sign out">⏏</button>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ── Top Bar ──────────────────────────────────────────── -->
-  <header class="topbar" role="banner">
-    <div class="flex items-center gap-4">
-      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
-      <h1 class="topbar-title">Overview</h1>
-    </div>
-    <div class="topbar-actions">
-      <span class="badge badge-active" id="account-status-badge">● Active</span>
-    </div>
-  </header>
-
-  <!-- ── Main Content ─────────────────────────────────────── -->
-  <main class="dashboard-main" id="main-content">
-
-    <!-- Stats Cards -->
-    <div class="stats-grid" role="list" aria-label="Account summary">
-
-      <div class="stat-card" role="listitem">
-        <div class="stat-card-header">
-          <span class="stat-card-label">Package Status</span>
-          <div class="stat-card-icon" style="background:rgba(16,185,129,0.1);color:var(--color-success);" aria-hidden="true">📦</div>
-        </div>
-        <div class="stat-card-value" id="stat-package-status">—</div>
-        <div class="stat-card-meta" id="stat-package-name">No package loaded</div>
-      </div>
-
-      <div class="stat-card" role="listitem">
-        <div class="stat-card-header">
-          <span class="stat-card-label">Days Remaining</span>
-          <div class="stat-card-icon" style="background:rgba(79,70,229,0.1);color:var(--color-primary-light);" aria-hidden="true">📅</div>
-        </div>
-        <div class="stat-card-value" id="stat-days-remaining">—</div>
-        <div class="stat-card-meta" id="stat-expiry-date">Expiry date: —</div>
-      </div>
-
-      <div class="stat-card" role="listitem">
-        <div class="stat-card-header">
-          <span class="stat-card-label">Card Status</span>
-          <div class="stat-card-icon" style="background:rgba(245,158,11,0.1);color:var(--color-warning);" aria-hidden="true">🪪</div>
-        </div>
-        <div class="stat-card-value" id="stat-card-status">—</div>
-        <div class="stat-card-meta" id="stat-card-number">Card No: —</div>
-      </div>
-
-      <div class="stat-card" role="listitem">
-        <div class="stat-card-header">
-          <span class="stat-card-label">Last Payment</span>
-          <div class="stat-card-icon" style="background:rgba(6,182,212,0.1);color:var(--color-accent);" aria-hidden="true">💰</div>
-        </div>
-        <div class="stat-card-value" id="stat-last-payment">—</div>
-        <div class="stat-card-meta" id="stat-payment-date">Date: —</div>
-      </div>
-
-    </div>
-
-    <!-- Quick Links -->
-    <div class="grid grid-3" style="margin-bottom: var(--space-8);">
-
-      <a href="./package-status.html" class="card" style="text-decoration:none; cursor:pointer;" id="quick-packages-link">
-        <div class="card-header">
-          <span class="card-title">📦 Package Status</span>
-          <span style="color:var(--color-primary-light); font-size:1.2rem;">→</span>
-        </div>
-        <p class="text-sm text-secondary">View your active internet package, speed, and renewal details.</p>
-      </a>
-
-      <a href="./payment-history.html" class="card" style="text-decoration:none; cursor:pointer;" id="quick-payments-link">
-        <div class="card-header">
-          <span class="card-title">💳 Payment History</span>
-          <span style="color:var(--color-primary-light); font-size:1.2rem;">→</span>
-        </div>
-        <p class="text-sm text-secondary">Review all past payments, amounts, and transaction dates.</p>
-      </a>
-
-      <a href="./card-status.html" class="card" style="text-decoration:none; cursor:pointer;" id="quick-card-link">
-        <div class="card-header">
-          <span class="card-title">🪪 Card Status</span>
-          <span style="color:var(--color-primary-light); font-size:1.2rem;">→</span>
-        </div>
-        <p class="text-sm text-secondary">Check if your service card is active, inactive, or expired.</p>
-      </a>
-
-    </div>
-
-    <!-- Placeholder Notice (remove once Supabase is connected) -->
-    <div class="alert alert-warning" role="note" id="placeholder-notice">
-      <span>⚠️</span>
-      <span>
-        <strong>Demo Mode:</strong> Live data will appear here once Supabase authentication is connected.
-        This page structure is fully ready for real data.
-      </span>
-    </div>
-
-  </main>
-
+<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md selection:bg-primary-fixed selection:text-primary">
+<!-- TOP APP BAR -->
+<header class="docked full-width top-0 sticky z-50 bg-surface-container-lowest border-b border-outline-variant shadow-sm">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+<!-- Left Anchor: Brand -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-2xl" data-icon="wifi">wifi</span>
 </div>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm text-primary font-bold tracking-tight">MyNet</span>
+<span class="text-[10px] font-medium tracking-wide text-outline -mt-1">internet service provider</span>
+</div>
+</div>
+<!-- Right Anchor: Profile Action with Dropdown -->
+<div class="flex items-center gap-3 relative">
+<button aria-expanded="false" aria-haspopup="true" class="flex items-center gap-2.5 p-1.5 pl-3 pr-2 rounded-full border border-outline-variant hover:border-primary/50 bg-surface-container-lowest transition-all duration-150 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20" id="profileBtn" type="button">
+<div class="flex flex-col text-right">
+<span class="font-title-md text-body-md text-on-surface leading-tight font-semibold">Alex Morgan</span>
+<span class="font-label-sm text-label-sm text-outline">MN-84920</span>
+</div>
+<div class="w-9 h-9 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-sm group-hover:bg-primary group-hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="account_circle">account_circle</span>
+</div>
+<span class="material-symbols-outlined text-outline text-lg group-hover:text-primary transition-transform duration-200" data-icon="expand_more" id="profileChevron">expand_more</span>
+</button>
+<!-- Sign Out Primary Button -->
+<button class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-body-md font-label-md font-semibold text-error bg-error-container/40 hover:bg-error-container text-on-error-container border border-error/20 transition-colors" type="button">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span class="">Sign Out</span>
+</button>
+<!-- INTERACTIVE PROFILE POPOVER / MODAL -->
+<div class="hidden absolute right-0 top-14 w-80 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-xl shadow-on-surface/5 z-50 p-5 transition-all" id="profileDropdown">
+<div class="flex items-start justify-between pb-4 border-b border-outline-variant/60">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-lg">
+                AM
+              </div>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface font-bold">Alex Morgan</h4>
+<span class="inline-block px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-primary">MN-84920</span>
+</div>
+</div>
+<button class="text-outline hover:text-on-surface p-1 rounded-md" id="closeProfileBtn">
+<span class="material-symbols-outlined text-lg" data-icon="close">close</span>
+</button>
+</div>
+<div class="py-4 space-y-3">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5" data-icon="call">call</span>
+<div>
+<p class="font-label-sm text-[11px] text-outline uppercase font-semibold">Phone Number</p>
+<p class="font-body-md text-body-md text-on-surface font-medium">+1 (555) 382-9014</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5" data-icon="home_pin">home_pin</span>
+<div>
+<p class="font-label-sm text-[11px] text-outline uppercase font-semibold">Service Address</p>
+<p class="font-body-md text-body-md text-on-surface leading-snug">742 Evergreen Terrace, Springfield</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-xl mt-0.5" data-icon="router">router</span>
+<div>
+<p class="font-label-sm text-[11px] text-outline uppercase font-semibold">Hardware MAC</p>
+<p class="font-body-md text-body-md font-mono text-on-surface-variant">E4:5F:01:99:BC:12</p>
+</div>
+</div>
+</div>
+<div class="pt-3 border-t border-outline-variant/60 flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 text-xs text-tertiary font-semibold">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+              Optical Link Active
+            </span>
+<button class="sm:hidden inline-flex items-center gap-1 text-xs font-semibold text-error hover:underline" type="button">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+              Sign Out
+            </button>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN CANVAS -->
+<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
+<!-- 1. DASHBOARD HEADING & GREETING -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<div class="flex items-center gap-3">
+<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Dashboard</h1>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm bg-cyan-50 text-tertiary-container border border-cyan-200">
+<span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+            Fiber Online
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Welcome back, <span class="font-semibold text-on-surface">Alex Morgan</span>. Here is the operational summary of your broadband connection.</p>
+</div>
+<div class="flex items-center gap-2 self-start md:self-auto">
+<span class="text-label-sm font-label-sm text-outline px-3 py-1.5 bg-surface-container rounded-lg border border-outline-variant/40 flex items-center gap-1.5">
+<span class="material-symbols-outlined text-base text-primary" data-icon="sync">sync</span>
+          Auto-synchronized with Gateway
+        </span>
+</div>
+</div>
+<!-- 2. INTERNET STATUS SECTION (PRIMARY BENTO CARDS) -->
+<section class="mb-10"><div class="bg-surface-container-lowest rounded-xl border border-outline-variant/80 p-6 md:p-8 shadow-sm relative overflow-hidden flex flex-col justify-between">
+  <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary-container to-tertiary-fixed-dim"></div>
+  <div>
+    <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-outline-variant/40">
+      <div class="flex items-center gap-3.5">
+        <div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+          <span class="material-symbols-outlined text-2xl" data-icon="speed">speed</span>
+        </div>
+        <div>
+          <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Current Subscription</span>
+          <h2 class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight mt-0.5">50 Mbps Fiber Ultra</h2>
+        </div>
+      </div>
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-label-md font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm">
+          <span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span>
+          Active
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-semibold bg-amber-50 text-amber-700 border border-amber-200 opacity-90" title="Triggers within 14 days">
+          <span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span>
+          Expiring Soon (12d)
+        </span>
+        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-medium bg-surface-container text-outline opacity-60 cursor-not-allowed" title="System Status State">
+          <span class="material-symbols-outlined text-base" data-icon="cancel">cancel</span>
+          Expired
+        </span>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 pb-2">
+      <div class="p-5 rounded-xl bg-surface-container-low border border-outline-variant/40">
+        <div class="flex items-center gap-2 text-outline mb-2">
+          <span class="material-symbols-outlined text-lg" data-icon="calendar_month">calendar_month</span>
+          <span class="font-label-sm text-label-sm uppercase font-semibold">Activation Date</span>
+        </div>
+        <p class="font-headline-sm text-headline-sm font-bold text-on-surface">January 15, 2024</p>
+        <p class="font-body-md text-sm text-on-surface-variant mt-1">Cycle started on schedule</p>
+      </div>
+      <div class="p-5 rounded-xl bg-surface-container-low border border-outline-variant/40">
+        <div class="flex items-center gap-2 text-outline mb-2">
+          <span class="material-symbols-outlined text-lg" data-icon="event_busy">event_busy</span>
+          <span class="font-label-sm text-label-sm uppercase font-semibold">Expiry Date</span>
+        </div>
+        <p class="font-headline-sm text-headline-sm font-bold text-on-surface">November 14, 2024</p>
+        <p class="font-body-md text-sm text-on-surface-variant mt-1">End of current billing cycle</p>
+      </div>
+      <div class="p-5 rounded-xl bg-cyan-50/70 border border-cyan-200">
+        <div class="flex items-center gap-2 text-tertiary mb-2">
+          <span class="material-symbols-outlined text-lg" data-icon="hourglass_top">hourglass_top</span>
+          <span class="font-label-sm text-label-sm uppercase font-bold text-tertiary">Validity Status</span>
+        </div>
+        <p class="font-headline-md text-headline-md font-extrabold text-tertiary">12 Days Remaining</p>
+        <p class="font-body-md text-sm text-tertiary/80 mt-1 font-medium">Auto-renew invoice queued</p>
+      </div>
+    </div>
+  </div>
+  <div class="mt-8 pt-5 border-t border-outline-variant/30">
+    <div class="flex justify-between items-center text-sm font-semibold text-on-surface-variant mb-2.5">
+      <span class="">Billing Cycle Progress (Day 18 of 30)</span>
+      <span class="text-primary font-bold">60% Elapsed</span>
+    </div>
+    <div class="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden">
+      <div class="bg-primary h-2.5 rounded-full transition-all duration-500" style="width: 60%"></div>
+    </div>
+  </div>
+</div></section>
+<!-- 3. PAYMENT SECTION (CHECKBOX-BASED MONTHLY BILLING LEDGER) -->
+<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/80 p-6 md:p-8 shadow-sm">
+<!-- Section Header & Info Note -->
+<div class="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-6 border-b border-outline-variant/40">
+<div>
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-lg" data-icon="receipt_long">receipt_long</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Payment History &amp; Monthly Status</h3>
+</div>
+<div class="mt-2.5 flex items-start gap-2 bg-surface-container-low px-3.5 py-2.5 rounded-lg border border-outline-variant/40 max-w-2xl">
+<span class="material-symbols-outlined text-primary text-base mt-0.5" data-icon="info">info</span>
+<p class="font-body-md text-xs sm:text-body-md text-on-surface-variant leading-relaxed">
+<strong class="text-on-surface">Admin verification note:</strong> Admin verifies and marks monthly payments upon receipt. <span class="font-semibold text-emerald-700">Checked = Paid</span>, <span class="font-semibold text-amber-700">Unchecked = Unpaid</span>.
+            </p>
+</div>
+</div>
+<!-- Summary Pills Counter -->
+<div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-title-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+<span class="material-symbols-outlined text-base" data-icon="task_alt">task_alt</span>
+            4 Paid Months
+          </span>
+<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-title-md text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+<span class="material-symbols-outlined text-base" data-icon="pending">pending</span>
+            1 Unpaid Month ($45.00 pending)
+          </span>
+</div>
+</div>
+<!-- Ledger Months Container -->
+<div class="mt-6 space-y-3">
+<!-- Month 1: June (Checked - Paid) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/20 hover:bg-emerald-50/40 transition-colors gap-3">
+<div class="flex items-center gap-3.5">
+<div class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white shadow-xs">
+<span class="material-symbols-outlined text-base font-bold" data-icon="check">check</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">June 2024</h4>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Checked - Paid</span>
+</div>
+<p class="font-body-md text-xs text-on-surface-variant">Verified by Accounts Admin • Paid on Jun 02</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 sm:pl-0 pl-9">
+<span class="font-headline-sm text-body-lg font-bold text-on-surface">$45.00</span>
+<span class="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="download">download</span>
+              Receipt
+            </span>
+</div>
+</div>
+<!-- Month 2: July (Checked - Paid) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/20 hover:bg-emerald-50/40 transition-colors gap-3">
+<div class="flex items-center gap-3.5">
+<div class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white shadow-xs">
+<span class="material-symbols-outlined text-base font-bold" data-icon="check">check</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">July 2024</h4>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Checked - Paid</span>
+</div>
+<p class="font-body-md text-xs text-on-surface-variant">Verified by Accounts Admin • Paid on Jul 01</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 sm:pl-0 pl-9">
+<span class="font-headline-sm text-body-lg font-bold text-on-surface">$45.00</span>
+<span class="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="download">download</span>
+              Receipt
+            </span>
+</div>
+</div>
+<!-- Month 3: August (Checked - Paid) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/20 hover:bg-emerald-50/40 transition-colors gap-3">
+<div class="flex items-center gap-3.5">
+<div class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white shadow-xs">
+<span class="material-symbols-outlined text-base font-bold" data-icon="check">check</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">August 2024</h4>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Checked - Paid</span>
+</div>
+<p class="font-body-md text-xs text-on-surface-variant">Verified by Accounts Admin • Paid on Aug 03</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 sm:pl-0 pl-9">
+<span class="font-headline-sm text-body-lg font-bold text-on-surface">$45.00</span>
+<span class="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="download">download</span>
+              Receipt
+            </span>
+</div>
+</div>
+<!-- Month 4: September (UNCHECKED - UNPAID) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border-2 border-amber-300 bg-amber-50/40 hover:bg-amber-50/60 transition-colors gap-3 shadow-xs">
+<div class="flex items-center gap-3.5">
+<!-- Unchecked Box Indicator -->
+<div class="w-6 h-6 rounded-md border-2 border-amber-400 bg-surface-container-lowest flex items-center justify-center shadow-xs">
+<!-- Empty center representing unchecked state -->
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-md text-title-md font-bold text-amber-950">September 2024</h4>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-200 text-amber-900 border border-amber-300">Unchecked - Unpaid</span>
+</div>
+<p class="font-body-md text-xs text-amber-800/90 font-medium">Due / Pending Admin check • Bank Reference #TRX-9482</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-4 sm:pl-0 pl-9">
+<span class="font-headline-sm text-body-lg font-bold text-amber-950">$45.00</span>
+<button class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-primary hover:bg-primary-container transition-colors shadow-xs" type="button">
+              Submit Slip
+            </button>
+</div>
+</div>
+<!-- Month 5: October (Checked - Paid) -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/20 hover:bg-emerald-50/40 transition-colors gap-3">
+<div class="flex items-center gap-3.5">
+<div class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white shadow-xs">
+<span class="material-symbols-outlined text-base font-bold" data-icon="check">check</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<h4 class="font-title-md text-title-md font-bold text-on-surface">October 2024</h4>
+<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Checked - Paid</span>
+</div>
+<p class="font-body-md text-xs text-on-surface-variant">Verified by Accounts Admin • Paid on Oct 01</p>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-6 sm:pl-0 pl-9">
+<span class="font-headline-sm text-body-lg font-bold text-on-surface">$45.00</span>
+<span class="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1">
+<span class="material-symbols-outlined text-base" data-icon="download">download</span>
+              Receipt
+            </span>
+</div>
+</div>
+</div>
+<!-- Quick Billing Support Link -->
+<div class="mt-6 pt-4 border-t border-outline-variant/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-on-surface-variant">
+<span class="">Payment verification usually updates within 1-2 hours after bank settlement.</span>
+<a class="text-primary font-semibold hover:underline flex items-center gap-1" href="#support">
+<span class="material-symbols-outlined text-base" data-icon="contact_support">contact_support</span>
+          Billing Query Support
+        </a>
+</div>
+</section>
+</main>
+<!-- SUBTLE FLOATING WHATSAPP SUPPORT ACTION BADGE -->
+<aside class="fixed bottom-6 right-6 z-40">
+<a class="flex items-center gap-2.5 px-4 py-3 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-lg shadow-emerald-950/20 hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-emerald-400/40" href="https://wa.me/15553829014" rel="noopener noreferrer" target="_blank">
+<!-- WhatsApp Icon -->
+<svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
+</svg>
+<div class="flex flex-col text-left">
+<span class="text-xs font-extrabold leading-tight">WhatsApp Support</span>
+<span class="text-[10px] text-white/90 font-medium">Online • Instant Help</span>
+</div>
+</a>
+</aside>
+<!-- WEB FOOTER (Shared Component) -->
+<footer class="docked full-width bottom bg-surface border-t border-outline-variant mt-auto">
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 w-full px-6 py-8 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="text-title-md font-title-md text-primary font-bold">MyNet</span>
+<span class="text-xs text-outline">|</span>
+<p class="text-body-md font-body-md text-on-surface-variant text-xs sm:text-sm">© 2024 MyNet Broadband. All rights reserved.</p>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-150" href="#chat">Support Chat</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-150" href="#privacy">Privacy Policy</a>
+<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-150" href="#terms">Terms of Service</a>
+</div>
+</div>
+</footer>
+<!-- SCRIPT FOR PROFILE INTERACTION -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const profileBtn = document.getElementById('profileBtn');
+      const profileDropdown = document.getElementById('profileDropdown');
+      const profileChevron = document.getElementById('profileChevron');
+      const closeProfileBtn = document.getElementById('closeProfileBtn');
 
-<!-- ── Scripts ────────────────────────────────────────────── -->
-<script type="module">
-  import { requireAuth, getCurrentUser, signOut } from '../../assets/js/auth.js';
-  import { showToast, qs } from '../../assets/js/utils.js';
-  import '../../assets/js/app.js';
+      function toggleProfile(show) {
+        const isHidden = profileDropdown.classList.contains('hidden');
+        const shouldOpen = typeof show === 'boolean' ? show : isHidden;
 
-  // Guard: redirect to login if not authenticated
-  requireAuth('../../pages/login.html');
+        if (shouldOpen) {
+          profileDropdown.classList.remove('hidden');
+          profileChevron.classList.add('rotate-180');
+          profileBtn.setAttribute('aria-expanded', 'true');
+        } else {
+          profileDropdown.classList.add('hidden');
+          profileChevron.classList.remove('rotate-180');
+          profileBtn.setAttribute('aria-expanded', 'false');
+        }
+      }
 
-  /* ── Sidebar toggle (mobile) ─── */
-  const sidebar       = qs('#sidebar');
-  const sidebarToggle = qs('#sidebar-toggle');
+      profileBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleProfile();
+      });
 
-  sidebarToggle?.addEventListener('click', () => {
-    const isOpen = sidebar.classList.toggle('open');
-    sidebarToggle.setAttribute('aria-expanded', isOpen);
-  });
+      if (closeProfileBtn) {
+        closeProfileBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleProfile(false);
+        });
+      }
 
-  // Close sidebar when clicking outside on mobile
-  document.addEventListener('click', (e) => {
-    if (sidebar.classList.contains('open') &&
-        !sidebar.contains(e.target) &&
-        !sidebarToggle.contains(e.target)) {
-      sidebar.classList.remove('open');
-      sidebarToggle.setAttribute('aria-expanded', false);
-    }
-  });
+      // Close dropdown if clicked outside
+      document.addEventListener('click', (e) => {
+        if (!profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
+          toggleProfile(false);
+        }
+      });
+    });
+  </script>
 
-  /* ── Populate user info ─── */
-  const user = getCurrentUser();
-  if (user) {
-    const name     = user.user_metadata?.full_name || user.email || 'User';
-    const initials = name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
-    qs('#user-name').textContent   = name;
-    qs('#user-avatar').textContent = initials;
-  }
 
-  /* ── Sign out ─── */
-  qs('#signout-btn')?.addEventListener('click', async () => {
-    const { success } = await signOut();
-    if (success) {
-      showToast('Signed out successfully.', 'info');
-      setTimeout(() => { window.location.href = '../../pages/login.html'; }, 800);
-    }
-  });
-
-  // TODO: Once Supabase is connected, fetch real data here:
-  // - Current package (name, status, expiry)
-  // - Card info (number, active/inactive)
-  // - Last payment (amount, date)
-</script>
-
-</body>
-</html>
+</body></html>

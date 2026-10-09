@@ -1,232 +1,286 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In — MyNet SaaS</title>
-  <meta name="description" content="Sign in to your MyNet SaaS account to manage your internet packages and billing." />
-  <link rel="stylesheet" href="../assets/css/auth.css" />
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>MyNet - Subscriber Portal</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "inverse-on-surface": "#eef0ff",
+            "on-surface": "#131b2e",
+            "error": "#ba1a1a",
+            "tertiary-fixed-dim": "#4cd7f6",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "surface": "#faf8ff",
+            "surface-bright": "#faf8ff",
+            "surface-tint": "#0053db",
+            "error-container": "#ffdad6",
+            "secondary-fixed": "#e2dfff",
+            "on-primary-fixed-variant": "#003ea8",
+            "secondary": "#4b41e1",
+            "on-primary-container": "#eeefff",
+            "primary-container": "#2563eb",
+            "on-secondary-fixed": "#0f0069",
+            "on-tertiary-fixed-variant": "#004e5c",
+            "on-error": "#ffffff",
+            "inverse-surface": "#283044",
+            "on-secondary-fixed-variant": "#3323cc",
+            "surface-container-lowest": "#ffffff",
+            "on-tertiary-fixed": "#001f26",
+            "background": "#faf8ff",
+            "surface-dim": "#d2d9f4",
+            "on-tertiary-container": "#d7f6ff",
+            "on-primary-fixed": "#00174b",
+            "surface-variant": "#dae2fd",
+            "primary-fixed": "#dbe1ff",
+            "surface-container-highest": "#dae2fd",
+            "secondary-fixed-dim": "#c3c0ff",
+            "tertiary": "#005e6e",
+            "tertiary-fixed": "#acedff",
+            "inverse-primary": "#b4c5ff",
+            "surface-container-high": "#e2e7ff",
+            "on-background": "#131b2e",
+            "primary": "#004ac6",
+            "outline-variant": "#c3c6d7",
+            "on-surface-variant": "#434655",
+            "surface-container-low": "#f2f3ff",
+            "secondary-container": "#645efb",
+            "tertiary-container": "#00788c",
+            "on-secondary-container": "#fffbff",
+            "surface-container": "#eaedff",
+            "on-primary": "#ffffff",
+            "primary-fixed-dim": "#b4c5ff",
+            "outline": "#737686",
+            "on-secondary": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-md": "1rem",
+            "gutter-lg": "2rem",
+            "margin-lg": "3rem",
+            "gutter": "1.5rem",
+            "space-lg": "1.5rem",
+            "margin-sm": "1rem",
+            "margin": "1.5rem",
+            "gutter-sm": "1rem",
+            "space-xs": "0.25rem",
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem"
+          },
+          "fontFamily": {
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "body-lg": ["Plus Jakarta Sans"],
+            "label-sm": ["Plus Jakarta Sans"],
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "display-lg": ["Plus Jakarta Sans"],
+            "label-md": ["Plus Jakarta Sans"],
+            "title-md": ["Plus Jakarta Sans"],
+            "body-md": ["Plus Jakarta Sans"],
+            "display-lg-mobile": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"]
+          },
+          "fontSize": {
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+  </style>
 </head>
-<body class="auth-page">
+<body class="bg-background text-on-surface min-h-screen flex flex-col justify-between selection:bg-primary-fixed selection:text-on-primary-fixed antialiased">
+<!-- Top Navigation (Shared Component Identity) -->
+<header class="bg-surface-container-lowest docked full-width top-0 sticky z-50 shadow-sm border-b border-outline-variant">
+<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+<!-- Left: Brand Identity -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-primary" data-icon="hub">hub</span>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm text-primary font-bold tracking-tight">MyNet</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant leading-none">internet service provider</span>
+</div>
+</div>
+<!-- Center: Strictly Clean / Empty -->
+<div></div>
+<!-- Right: Support Text Link and Help Action -->
+<div class="flex items-center gap-6">
+<a class="hidden sm:inline-flex items-center gap-1.5 text-body-md font-body-md text-on-surface-variant hover:text-primary transition-colors duration-150" href="#support">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span class="">Support Chat</span>
+</a>
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-lowest text-on-surface border border-outline-variant hover:bg-surface-container-low active:opacity-80 transition-all text-label-md font-label-md shadow-sm" type="button">
+<span class="material-symbols-outlined text-primary" data-icon="help">help</span>
+<span class="">Help</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+<div class="w-full max-w-md">
+<!-- Central Form Card Tier with top gradient accent -->
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant relative overflow-hidden">
+<!-- Brand indicator top accent line -->
+<div class="h-1 w-full bg-gradient-to-r from-primary via-primary-container to-tertiary-fixed-dim"></div>
+<div class="p-6 sm:p-8">
+<!-- Card Header & Badge -->
 
-  <!-- ── Branding Panel ───────────────────────────────────── -->
-  <aside class="auth-brand" aria-label="MyNet SaaS branding">
+<!-- Two-Tab Switcher -->
+<div class="grid grid-cols-2 p-1 bg-surface-container-low rounded-lg mb-6 border border-outline-variant">
+<button class="py-2.5 text-center text-label-md font-label-md rounded-md bg-surface-container-lowest text-primary shadow-sm transition-all duration-150 flex items-center justify-center gap-2" id="tab-btn-signin" onclick="switchTab('signin')" type="button">
+<span class="material-symbols-outlined" data-icon="login">login</span>
+              Sign In
+            </button>
+<button class="py-2.5 text-center text-label-md font-label-md rounded-md text-on-surface-variant hover:text-primary transition-all duration-150 flex items-center justify-center gap-2" id="tab-btn-register" onclick="switchTab('register')" type="button">
+<span class="material-symbols-outlined" data-icon="person_add">person_add</span>
+              New Account
+            </button>
+</div>
+<!-- Form Tab 1: Sign In -->
+<div class="space-y-5 block" id="panel-signin">
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<div>
+<label class="block text-label-md font-label-md text-on-surface mb-1.5" for="signin-userid">User ID</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="badge">badge</span>
+</div>
+<input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="signin-userid" placeholder="e.g. MN-84920" type="text">
+</div>
+</div>
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<label class="block text-label-md font-label-md text-on-surface" for="signin-password">Password</label>
+<a class="text-label-sm font-label-sm text-primary hover:underline" href="#forgot">Forgot?</a>
+</div>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="lock">lock</span>
+</div>
+<input class="w-full pl-11 pr-11 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="signin-password" placeholder="••••••••••••" type="password">
+<button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="togglePasswordVisibility('signin-password', this)" type="button">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<label class="flex items-center gap-2 cursor-pointer">
+<input checked="" class="w-4 h-4 rounded text-primary focus:ring-primary border-outline-variant bg-surface-container-lowest" type="checkbox">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Remember device</span>
+</label>
+<div class="flex items-center gap-1 text-label-sm font-label-sm text-tertiary">
+<span class="material-symbols-outlined text-sm" data-icon="verified_user">verified_user</span>
+<span class="">TLS 1.3 256-bit</span>
+</div>
+</div>
+<div class="pt-2">
+<button class="w-full py-3 px-4 rounded-lg bg-primary-container text-on-primary-container font-headline-sm text-title-md font-semibold hover:bg-primary transition-all duration-150 active:opacity-90 shadow-sm flex items-center justify-center gap-2" type="submit"><span class="">Sign In</span><span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span></button>
+</div>
+</form>
 
-    <div class="auth-brand-logo">
-      <div class="auth-brand-logo-icon" aria-hidden="true">🌐</div>
-      <span class="auth-brand-logo-text">MyNet SaaS</span>
-    </div>
+</div>
+<!-- Form Tab 2: New Account (Registration) -->
+<div class="space-y-4 hidden" id="panel-register"><form class="space-y-3.5" onsubmit="event.preventDefault();"><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-fullname">Name</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="person">person</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-fullname" placeholder="Full Name" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-userid">User ID</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="alternate_email">alternate_email</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-userid" placeholder="Create or enter User ID" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-address">Address</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="home_pin">home_pin</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-address" placeholder="Installation Address" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-phone">Phone Number</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="call">call</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-phone" placeholder="+1 (555) 000-0000" type="tel"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-password">Password</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="lock">lock</span></div><input class="w-full pl-11 pr-11 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-password" placeholder="Create Password" type="password"><button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="togglePasswordVisibility('reg-password', this)" type="button"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button></div></div><div class="pt-2"><button class="w-full py-3 px-4 rounded-lg bg-primary-container text-on-primary-container font-headline-sm text-title-md font-semibold hover:bg-primary transition-all duration-150 active:opacity-90 shadow-sm flex items-center justify-center gap-2" type="submit"><span class="">Create Account</span><span class="material-symbols-outlined" data-icon="person_add">person_add</span></button></div><div class="text-center pt-1"><span class="text-body-md font-body-md text-on-surface-variant">Already have an account?</span><button class="font-semibold text-primary hover:underline ml-1 cursor-pointer bg-surface-container-lowest border-0" onclick="switchTab('signin')" type="button">Sign In</button></div></form></div>
+</div>
+</div>
+<!-- Quick Assistance Callout -->
 
-    <h2 class="auth-brand-headline">
-      Your network,<br />
-      <span>under control.</span>
-    </h2>
+</div>
+</main>
+<!-- Bottom Footer with Shared Component Identity & WhatsApp Float/Action -->
+<footer class="bg-surface border-t border-outline-variant docked full-width bottom">
+<div class="flex flex-col sm:flex-row justify-between items-center gap-4 w-full px-6 py-6 max-w-7xl mx-auto">
+<!-- Brand & Minimal Copyright -->
+<div class="flex items-center gap-3">
+<span class="text-title-md font-title-md text-primary font-bold">MyNet</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">© 2024 MyNet Broadband. All rights reserved.</span>
+</div>
+<!-- Footer Quick Links -->
+<div class="flex items-center gap-6 text-body-md font-body-md text-on-surface-variant">
+<a class="hover:text-primary transition-colors duration-150" href="#chat">Support Chat</a>
+<a class="hover:text-primary transition-colors duration-150" href="#privacy">Privacy Policy</a>
+<a class="hover:text-primary transition-colors duration-150" href="#terms">Terms of Service</a>
+</div>
+<!-- WhatsApp Help Action -->
+<div>
+<a class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#128C7E] text-white hover:bg-[#075E54] active:opacity-90 shadow-sm transition-all duration-150 text-label-md font-label-md" href="https://wa.me/" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-lg" data-icon="chat">chat</span>
+<span class="">WhatsApp Help</span>
+</a>
+</div>
+</div>
+</footer>
+<!-- Script for Tab Switching & Visibility Micro-interactions -->
+<script>
+    function switchTab(tab) {
+      const signinBtn = document.getElementById('tab-btn-signin');
+      const registerBtn = document.getElementById('tab-btn-register');
+      const signinPanel = document.getElementById('panel-signin');
+      const registerPanel = document.getElementById('panel-register');
 
-    <p class="auth-brand-subtext">
-      Sign in to view your package status, payment history,
-      card details, and expiry information — all in one place.
-    </p>
-
-    <div class="auth-features" role="list">
-      <div class="auth-feature-item" role="listitem">
-        <div class="auth-feature-icon" aria-hidden="true">📦</div>
-        <span>Track your internet packages in real-time</span>
-      </div>
-      <div class="auth-feature-item" role="listitem">
-        <div class="auth-feature-icon" aria-hidden="true">💳</div>
-        <span>Monitor card status and expiry dates</span>
-      </div>
-      <div class="auth-feature-item" role="listitem">
-        <div class="auth-feature-icon" aria-hidden="true">📋</div>
-        <span>View full payment history and invoices</span>
-      </div>
-      <div class="auth-feature-item" role="listitem">
-        <div class="auth-feature-icon" aria-hidden="true">🔔</div>
-        <span>Get expiry alerts and renewal reminders</span>
-      </div>
-    </div>
-
-  </aside>
-
-  <!-- ── Login Form Panel ──────────────────────────────────── -->
-  <main class="auth-form-panel">
-    <div class="auth-form-container">
-
-      <header class="auth-form-header">
-        <h1 class="auth-form-title">Welcome back</h1>
-        <p class="auth-form-subtitle">Enter your credentials to access your account</p>
-      </header>
-
-      <!-- Alert: shown on error -->
-      <div id="login-alert" class="alert alert-error hidden" role="alert" aria-live="polite"></div>
-
-      <form class="auth-form" id="login-form" novalidate aria-label="Login form">
-
-        <div class="form-group">
-          <label class="form-label" for="login-email">Email address</label>
-          <input
-            class="form-input"
-            type="email"
-            id="login-email"
-            name="email"
-            placeholder="you@example.com"
-            autocomplete="email"
-            required
-          />
-          <span class="form-error hidden" id="email-error" role="alert"></span>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label" for="login-password">
-            Password
-            <a href="./forgot-password.html" style="float:right; font-weight:400; font-size:0.8rem; color:var(--color-primary-light);">
-              Forgot password?
-            </a>
-          </label>
-          <div class="input-wrapper">
-            <input
-              class="form-input"
-              type="password"
-              id="login-password"
-              name="password"
-              placeholder="Enter your password"
-              autocomplete="current-password"
-              required
-            />
-            <button
-              type="button"
-              class="input-toggle-btn"
-              id="toggle-password-btn"
-              aria-label="Toggle password visibility"
-            >👁</button>
-          </div>
-          <span class="form-error hidden" id="password-error" role="alert"></span>
-        </div>
-
-        <button type="submit" class="btn btn-primary btn-full btn-lg" id="login-submit-btn">
-          <span id="login-btn-text">Sign In</span>
-          <span id="login-btn-spinner" class="spinner hidden" aria-hidden="true"></span>
-        </button>
-
-      </form>
-
-      <div class="auth-form-footer">
-        Don't have an account?
-        <a href="./register.html" id="login-register-link">Create one</a>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- ── Scripts ──────────────────────────────────────────── -->
-  <script type="module">
-    import { signIn, redirectIfAuthenticated } from '../assets/js/auth.js';
-    import { isValidEmail, showToast, qs } from '../assets/js/utils.js';
-    import '../assets/js/app.js';
-
-    // Redirect already-authenticated users
-    redirectIfAuthenticated();
-
-    const form           = qs('#login-form');
-    const emailInput     = qs('#login-email');
-    const passwordInput  = qs('#login-password');
-    const emailError     = qs('#email-error');
-    const passwordError  = qs('#password-error');
-    const alert          = qs('#login-alert');
-    const submitBtn      = qs('#login-submit-btn');
-    const btnText        = qs('#login-btn-text');
-    const btnSpinner     = qs('#login-btn-spinner');
-    const togglePwdBtn   = qs('#toggle-password-btn');
-
-    /* ── Password toggle ─── */
-    togglePwdBtn.addEventListener('click', () => {
-      const isHidden = passwordInput.type === 'password';
-      passwordInput.type = isHidden ? 'text' : 'password';
-      togglePwdBtn.textContent = isHidden ? '🙈' : '👁';
-    });
-
-    /* ── Inline validation ─── */
-    function validateEmail() {
-      const val = emailInput.value.trim();
-      if (!val) {
-        showFieldError(emailInput, emailError, 'Email is required.');
-        return false;
-      }
-      if (!isValidEmail(val)) {
-        showFieldError(emailInput, emailError, 'Enter a valid email address.');
-        return false;
-      }
-      clearFieldError(emailInput, emailError);
-      return true;
-    }
-
-    function validatePassword() {
-      if (!passwordInput.value) {
-        showFieldError(passwordInput, passwordError, 'Password is required.');
-        return false;
-      }
-      clearFieldError(passwordInput, passwordError);
-      return true;
-    }
-
-    emailInput.addEventListener('blur', validateEmail);
-    passwordInput.addEventListener('blur', validatePassword);
-
-    /* ── Form submit ─── */
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      hideAlert();
-
-      const emailOk    = validateEmail();
-      const passwordOk = validatePassword();
-      if (!emailOk || !passwordOk) return;
-
-      setLoading(true);
-
-      const { success, user, error } = await signIn(
-        emailInput.value.trim(),
-        passwordInput.value
-      );
-
-      setLoading(false);
-
-      if (success) {
-        showToast('Signed in successfully!', 'success');
-        window.location.href = '../pages/dashboard/index.html';
+      if (tab === 'signin') {
+        signinBtn.className = "py-2.5 text-center text-label-md font-label-md rounded-md bg-surface-container-lowest text-primary shadow-sm transition-all duration-150 flex items-center justify-center gap-2";
+        registerBtn.className = "py-2.5 text-center text-label-md font-label-md rounded-md text-on-surface-variant hover:text-primary transition-all duration-150 flex items-center justify-center gap-2";
+        signinPanel.classList.remove('hidden');
+        signinPanel.classList.add('block');
+        registerPanel.classList.remove('block');
+        registerPanel.classList.add('hidden');
       } else {
-        showAlert(error || 'Sign in failed. Please try again.');
+        registerBtn.className = "py-2.5 text-center text-label-md font-label-md rounded-md bg-surface-container-lowest text-primary shadow-sm transition-all duration-150 flex items-center justify-center gap-2";
+        signinBtn.className = "py-2.5 text-center text-label-md font-label-md rounded-md text-on-surface-variant hover:text-primary transition-all duration-150 flex items-center justify-center gap-2";
+        registerPanel.classList.remove('hidden');
+        registerPanel.classList.add('block');
+        signinPanel.classList.remove('block');
+        signinPanel.classList.add('hidden');
       }
-    });
-
-    /* ── Helpers ─── */
-    function setLoading(loading) {
-      submitBtn.disabled = loading;
-      btnText.classList.toggle('hidden', loading);
-      btnSpinner.classList.toggle('hidden', !loading);
     }
 
-    function showAlert(msg) {
-      alert.textContent = msg;
-      alert.classList.remove('hidden');
-    }
-
-    function hideAlert() {
-      alert.classList.add('hidden');
-      alert.textContent = '';
-    }
-
-    function showFieldError(input, errorEl, msg) {
-      input.classList.add('error');
-      errorEl.textContent = msg;
-      errorEl.classList.remove('hidden');
-    }
-
-    function clearFieldError(input, errorEl) {
-      input.classList.remove('error');
-      errorEl.textContent = '';
-      errorEl.classList.add('hidden');
+    function togglePasswordVisibility(fieldId, triggerBtn) {
+      const input = document.getElementById(fieldId);
+      const iconSpan = triggerBtn.querySelector('.material-symbols-outlined');
+      if (input.type === 'password') {
+        input.type = 'text';
+        iconSpan.textContent = 'visibility_off';
+      } else {
+        input.type = 'password';
+        iconSpan.textContent = 'visibility';
+      }
     }
   </script>
 
-</body>
-</html>
+
+</body></html>
