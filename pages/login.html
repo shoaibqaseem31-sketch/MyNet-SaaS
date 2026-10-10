@@ -172,14 +172,14 @@
 </div>
 <!-- Form Tab 1: Sign In -->
 <div class="space-y-5 block" id="panel-signin">
-<form class="space-y-4" onsubmit="event.preventDefault();">
+<form class="space-y-4" id="signin-form">
 <div>
-<label class="block text-label-md font-label-md text-on-surface mb-1.5" for="signin-userid">User ID</label>
+<label class="block text-label-md font-label-md text-on-surface mb-1.5" for="signin-userid">Email</label>
 <div class="relative">
 <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant">
 <span class="material-symbols-outlined" data-icon="badge">badge</span>
 </div>
-<input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="signin-userid" placeholder="e.g. MN-84920" type="text">
+<input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="signin-userid" placeholder="Enter your email address" type="email" required>
 </div>
 </div>
 <div>
@@ -214,7 +214,7 @@
 
 </div>
 <!-- Form Tab 2: New Account (Registration) -->
-<div class="space-y-4 hidden" id="panel-register"><form class="space-y-3.5" onsubmit="event.preventDefault();"><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-fullname">Name</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="person">person</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-fullname" placeholder="Full Name" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-userid">User ID</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="alternate_email">alternate_email</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-userid" placeholder="Create or enter User ID" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-address">Address</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="home_pin">home_pin</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-address" placeholder="Installation Address" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-phone">Phone Number</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="call">call</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-phone" placeholder="+1 (555) 000-0000" type="tel"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-password">Password</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="lock">lock</span></div><input class="w-full pl-11 pr-11 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-password" placeholder="Create Password" type="password"><button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="togglePasswordVisibility('reg-password', this)" type="button"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button></div></div><div class="pt-2"><button class="w-full py-3 px-4 rounded-lg bg-primary-container text-on-primary-container font-headline-sm text-title-md font-semibold hover:bg-primary transition-all duration-150 active:opacity-90 shadow-sm flex items-center justify-center gap-2" type="submit"><span class="">Create Account</span><span class="material-symbols-outlined" data-icon="person_add">person_add</span></button></div><div class="text-center pt-1"><span class="text-body-md font-body-md text-on-surface-variant">Already have an account?</span><button class="font-semibold text-primary hover:underline ml-1 cursor-pointer bg-surface-container-lowest border-0" onclick="switchTab('signin')" type="button">Sign In</button></div></form></div>
+<div class="space-y-4 hidden" id="panel-register"><form class="space-y-3.5" id="register-form"><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-fullname">Name</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="person">person</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-fullname" placeholder="Full Name" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-userid">User ID</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="alternate_email">alternate_email</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-userid" placeholder="Create or enter User ID" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-address">Address</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="home_pin">home_pin</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-address" placeholder="Installation Address" type="text"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" <div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-email">Email</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined">mail</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-email" placeholder="Enter your email address" type="email" required></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-phone">Phone Number</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="call">call</span></div><input class="w-full pl-11 pr-4 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-phone" placeholder="+1 (555) 000-0000" type="tel"></div></div><div><label class="block text-label-md font-label-md text-on-surface mb-1" for="reg-password">Password</label><div class="relative"><div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-on-surface-variant"><span class="material-symbols-outlined" data-icon="lock">lock</span></div><input class="w-full pl-11 pr-11 py-2.5 bg-surface-container-lowest border border-outline-variant rounded-lg text-on-surface placeholder:text-outline text-body-md font-body-md focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none" id="reg-password" placeholder="Create Password" type="password"><button class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-on-surface-variant hover:text-on-surface transition-colors" onclick="togglePasswordVisibility('reg-password', this)" type="button"><span class="material-symbols-outlined" data-icon="visibility">visibility</span></button></div></div><div class="pt-2"><button class="w-full py-3 px-4 rounded-lg bg-primary-container text-on-primary-container font-headline-sm text-title-md font-semibold hover:bg-primary transition-all duration-150 active:opacity-90 shadow-sm flex items-center justify-center gap-2" type="submit"><span class="">Create Account</span><span class="material-symbols-outlined" data-icon="person_add">person_add</span></button></div><div class="text-center pt-1"><span class="text-body-md font-body-md text-on-surface-variant">Already have an account?</span><button class="font-semibold text-primary hover:underline ml-1 cursor-pointer bg-surface-container-lowest border-0" onclick="switchTab('signin')" type="button">Sign In</button></div></form></div>
 </div>
 </div>
 <!-- Quick Assistance Callout -->
@@ -245,7 +245,7 @@
 </div>
 </footer>
 <!-- Script for Tab Switching & Visibility Micro-interactions -->
-<script>
+<script type="module">
     function switchTab(tab) {
       const signinBtn = document.getElementById('tab-btn-signin');
       const registerBtn = document.getElementById('tab-btn-register');
@@ -280,7 +280,56 @@
         iconSpan.textContent = 'visibility';
       }
     }
-  </script>
+   import { signUp, signIn } from '../Assets/JS/auth.js';
+
+const registerForm = document.getElementById('register-form');
+const signinForm = document.getElementById('signin-form');
+
+registerForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const name = document.getElementById('reg-fullname').value.trim();
+  const userId = document.getElementById('reg-userid').value.trim();
+  const address = document.getElementById('reg-address').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const phone = document.getElementById('reg-phone').value.trim();
+  const password = document.getElementById('reg-password').value;
+
+  const result = await signUp(email, password, {
+    name,
+    user_id: userId,
+    address,
+    phone,
+  });
+
+  if (!result.success) {
+    alert(result.error);
+    return;
+  }
+
+  alert('Account request submitted. Check your email if confirmation is required.');
+});
 
 
+signinForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const email = document.getElementById('signin-userid').value.trim();
+  const password = document.getElementById('signin-password').value;
+
+  const result = await signIn(email, password);
+
+  if (!result.success) {
+    alert(result.error);
+    return;
+  }
+
+ window.location.href = './Dashboard/Index.html';
+});
+
+window.switchTab = switchTab;
+window.togglePasswordVisibility = togglePasswordVisibility;
+</script>
+
+  
 </body></html>

@@ -17,15 +17,13 @@ import { storageSet, storageGet, storageRemove, storageClear } from './utils.js'
 /* ── Session Storage Keys ────────────────────────────────────── */
 const SESSION_KEY = 'session';
 const USER_KEY = 'user';
+/* ── Supabase Client ────────────────────────────────────────── */
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-/* ── Supabase Client Placeholder ─────────────────────────────── */
-// TODO: Replace with real Supabase initialization when ready.
-// import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-// const SUPABASE_URL  = 'YOUR_SUPABASE_URL';
-// const SUPABASE_KEY  = 'YOUR_SUPABASE_ANON_KEY';
-// export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_URL = 'https://tpvhtqvemcenrvyabhhy.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_CDAQZYPXdrSKR5DYfSN44g_MYbDY7XG';
 
-/* ── Auth Functions ──────────────────────────────────────────── */
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 /**
  * Sign in a user with email and password.
@@ -36,18 +34,18 @@ const USER_KEY = 'user';
  * @returns {Promise<{success: boolean, user?: object, error?: string}>}
  */
 export async function signIn(email, password) {
-  // --- SUPABASE STUB ---
-  // TODO: Replace with:
-  // const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-  // if (error) return { success: false, error: error.message };
-  // saveSession(data.session, data.user);
-  // return { success: true, user: data.user };
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
 
-  // Placeholder: always returns a failure (no fake logins).
-  return {
-    success: false,
-    error: 'Authentication not connected yet. Supabase integration is pending.',
-  };
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  saveSession(data.session, data.user);
+  window.location.href = '../../Dashboard/Index.html';
+  return { success: true, user: data.user };
 }
 
 /**
@@ -59,17 +57,19 @@ export async function signIn(email, password) {
  * @returns {Promise<{success: boolean, user?: object, error?: string}>}
  */
 export async function signUp(email, password, metadata = {}) {
-  // TODO: Replace with:
-  // const { data, error } = await supabase.auth.signUp({
-  //   email, password, options: { data: metadata }
-  // });
-  // if (error) return { success: false, error: error.message };
-  // return { success: true, user: data.user };
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: metadata,
+    },
+  });
 
-  return {
-    success: false,
-    error: 'Registration not connected yet. Supabase integration is pending.',
-  };
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  return { success: true, user: data.user };
 }
 
 /**
