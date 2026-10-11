@@ -25,14 +25,6 @@ const SUPABASE_KEY = 'sb_publishable_CDAQZYPXdrSKR5DYfSN44g_MYbDY7XG';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-/**
- * Sign in a user with email and password.
- * Returns a normalized result object.
- *
- * @param {string} email
- * @param {string} password
- * @returns {Promise<{success: boolean, user?: object, error?: string}>}
- */
 export async function signIn(email, password) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -43,10 +35,29 @@ export async function signIn(email, password) {
     return { success: false, error: error.message };
   }
 
-  saveSession(data.session, data.user);
+  const user = data.user;
+  const profile = user.user_metadata || {};
+
+  const { error: profileError } = await supabase
+    .from('profiles')
+    .upsert({
+      id: user.id,
+      name: profile.name || '',
+      user_id: profile.user_id || '',
+      address: profile.address || '',
+      phone: profile.phone || '',
+    }, { onConflict: 'id' });
+
+  if (profileError) {
+    return { success: false, error: profileError.message };
+  }
+
+  saveSession(data.session, user);
   window.location.href = '../../Dashboard/Index.html';
-  return { success: true, user: data.user };
+
+  return { success: true, user };
 }
+
 
 /**
  * Register a new user with email and password.

@@ -138,69 +138,21 @@
 <div class="flex items-center gap-3 relative">
 <button aria-expanded="false" aria-haspopup="true" class="flex items-center gap-2.5 p-1.5 pl-3 pr-2 rounded-full border border-outline-variant hover:border-primary/50 bg-surface-container-lowest transition-all duration-150 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20" id="profileBtn" type="button">
 <div class="flex flex-col text-right">
-<span class="font-title-md text-body-md text-on-surface leading-tight font-semibold">Alex Morgan</span>
-<span class="font-label-sm text-label-sm text-outline">MN-84920</span>
-</div>
+<div class="flex flex-col">
+  <span id="customer-name" class="font-title-md text-body-md text-on-surface leading-tight font-semibold">Customer</span>
+  <span id="customer-id" class="font-label-sm text-label-sm text-outline">ID: —</span>
+</div></div>
 <div class="w-9 h-9 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-sm group-hover:bg-primary group-hover:text-on-primary transition-colors">
 <span class="material-symbols-outlined text-xl" data-icon="account_circle">account_circle</span>
 </div>
 <span class="material-symbols-outlined text-outline text-lg group-hover:text-primary transition-transform duration-200" data-icon="expand_more" id="profileChevron">expand_more</span>
 </button>
 <!-- Sign Out Primary Button -->
-<button class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-body-md font-label-md font-semibold text-error bg-error-container/40 hover:bg-error-container text-on-error-container border border-error/20 transition-colors" type="button">
+<button id="sign-out-button" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-body-md font-label-md font-semibold text-error bg-error-container/40 hover:bg-error-container text-on-error-container border border-error/20 transition-colors" type="button">
 <span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
 <span class="">Sign Out</span>
 </button>
 <!-- INTERACTIVE PROFILE POPOVER / MODAL -->
-<div class="hidden absolute right-0 top-14 w-80 bg-surface-container-lowest rounded-xl border border-outline-variant shadow-xl shadow-on-surface/5 z-50 p-5 transition-all" id="profileDropdown">
-<div class="flex items-start justify-between pb-4 border-b border-outline-variant/60">
-<div class="flex items-center gap-3">
-<div class="w-12 h-12 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-lg">
-                AM
-              </div>
-<div>
-<h4 class="font-title-md text-title-md text-on-surface font-bold">Alex Morgan</h4>
-<span class="inline-block px-2 py-0.5 rounded text-[11px] font-semibold bg-surface-container text-primary">MN-84920</span>
-</div>
-</div>
-<button class="text-outline hover:text-on-surface p-1 rounded-md" id="closeProfileBtn">
-<span class="material-symbols-outlined text-lg" data-icon="close">close</span>
-</button>
-</div>
-<div class="py-4 space-y-3">
-<div class="flex items-start gap-3">
-<span class="material-symbols-outlined text-primary text-xl mt-0.5" data-icon="call">call</span>
-<div>
-<p class="font-label-sm text-[11px] text-outline uppercase font-semibold">Phone Number</p>
-<p class="font-body-md text-body-md text-on-surface font-medium">+1 (555) 382-9014</p>
-</div>
-</div>
-<div class="flex items-start gap-3">
-<span class="material-symbols-outlined text-primary text-xl mt-0.5" data-icon="home_pin">home_pin</span>
-<div>
-<p class="font-label-sm text-[11px] text-outline uppercase font-semibold">Service Address</p>
-<p class="font-body-md text-body-md text-on-surface leading-snug">742 Evergreen Terrace, Springfield</p>
-</div>
-</div>
-<div class="flex items-start gap-3">
-<span class="material-symbols-outlined text-primary text-xl mt-0.5" data-icon="router">router</span>
-<div>
-<p class="font-label-sm text-[11px] text-outline uppercase font-semibold">Hardware MAC</p>
-<p class="font-body-md text-body-md font-mono text-on-surface-variant">E4:5F:01:99:BC:12</p>
-</div>
-</div>
-</div>
-<div class="pt-3 border-t border-outline-variant/60 flex items-center justify-between">
-<span class="inline-flex items-center gap-1.5 text-xs text-tertiary font-semibold">
-<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-              Optical Link Active
-            </span>
-<button class="sm:hidden inline-flex items-center gap-1 text-xs font-semibold text-error hover:underline" type="button">
-<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
-              Sign Out
-            </button>
-</div>
-</div>
 </div>
 </div>
 </header>
@@ -216,7 +168,8 @@
             Fiber Online
           </span>
 </div>
-<p class="font-body-md text-body-md text-on-surface-variant mt-1">Welcome back, <span class="font-semibold text-on-surface">Alex Morgan</span>. Here is the operational summary of your broadband connection.</p>
+
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Welcome back, <span id="customer-name" class="font-semibold text-on-surface">Customer</span>. Here is the operational summary of your broadband connection.</p>
 </div>
 <div class="flex items-center gap-2 self-start md:self-auto">
 <span class="text-label-sm font-label-sm text-outline px-3 py-1.5 bg-surface-container rounded-lg border border-outline-variant/40 flex items-center gap-1.5">
@@ -236,8 +189,7 @@
         </div>
         <div>
           <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Current Subscription</span>
-          <h2 class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight mt-0.5">50 Mbps Fiber Ultra</h2>
-        </div>
+<h2 id="customer-package" class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight mt-0.5">50 Mbps Fiber Ultra</h2>        </div>
       </div>
       <div class="flex items-center gap-2.5 flex-wrap">
         <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-label-md font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm">
@@ -260,16 +212,14 @@
           <span class="material-symbols-outlined text-lg" data-icon="calendar_month">calendar_month</span>
           <span class="font-label-sm text-label-sm uppercase font-semibold">Activation Date</span>
         </div>
-        <p class="font-headline-sm text-headline-sm font-bold text-on-surface">January 15, 2024</p>
-        <p class="font-body-md text-sm text-on-surface-variant mt-1">Cycle started on schedule</p>
+<p id="activation-date" class="font-headline-sm text-headline-sm font-bold text-on-surface">January 15, 2024</p>        <p class="font-body-md text-sm text-on-surface-variant mt-1">Cycle started on schedule</p>
       </div>
       <div class="p-5 rounded-xl bg-surface-container-low border border-outline-variant/40">
         <div class="flex items-center gap-2 text-outline mb-2">
           <span class="material-symbols-outlined text-lg" data-icon="event_busy">event_busy</span>
           <span class="font-label-sm text-label-sm uppercase font-semibold">Expiry Date</span>
         </div>
-        <p class="font-headline-sm text-headline-sm font-bold text-on-surface">November 14, 2024</p>
-        <p class="font-body-md text-sm text-on-surface-variant mt-1">End of current billing cycle</p>
+<p id="expiry-date" class="font-headline-sm text-headline-sm font-bold text-on-surface">November 14, 2024</p>        <p class="font-body-md text-sm text-on-surface-variant mt-1">End of current billing cycle</p>
       </div>
       <div class="p-5 rounded-xl bg-cyan-50/70 border border-cyan-200">
         <div class="flex items-center gap-2 text-tertiary mb-2">
@@ -515,6 +465,91 @@
       });
     });
   </script>
+
+
+<script type="module">
+  import { supabase } from '../../Assets/JS/auth.js';
+
+  const { data: { user }, error: authError } =
+    await supabase.auth.getUser();
+
+  if (authError || !user) {
+    console.error('User login nahi hai:', authError);
+    window.location.replace('../login.html');
+  } else {
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (error) {
+console.error('Profile load error details:', error);
+    } else if (profile) {
+
+console.log('MyNet customer profile:', profile);
+const nameElements = document.querySelectorAll('#customer-name');
+const customerIdElement = document.getElementById('customer-id');
+
+if (customerIdElement) {
+  customerIdElement.textContent = 'ID: ' + (profile.user_id || 'Not assigned');
+}
+const packageElement = document.getElementById('customer-package');
+
+nameElements.forEach(element => {
+  element.textContent = profile.name || 'Customer';
+});
+if (packageElement) packageElement.textContent = profile.packege || 'Package not assigned';
+const activationDateElement = document.getElementById('activation-date');
+const expiryDateElement = document.getElementById('expiry-date');
+const remainingDaysElement = document.getElementById('remaining-days');
+
+if (activationDateElement) {
+  activationDateElement.textContent = profile.activtionDate || 'Not assigned';
+}
+
+if (expiryDateElement) {
+  expiryDateElement.textContent = profile.expiryDate || 'Not assigned';
+}
+if (remainingDaysElement) {
+  if (profile.expiryDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const expiry = new Date(profile.expiryDate);
+    expiry.setHours(0, 0, 0, 0);
+
+    const days = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+
+    remainingDaysElement.textContent =
+      days > 0 ? `${days} Days Remaining` :
+      days === 0 ? 'Expires Today' : 'Expired';
+  } else {
+    remainingDaysElement.textContent = 'Not assigned';
+  }
+}
+    } else {
+      console.log('Is user ka profile record nahi mila.');
+    }
+  }
+  
+const signOutButton = document.getElementById('sign-out-button');
+
+if (signOutButton) {
+  signOutButton.addEventListener('click', async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      alert('Sign out failed: ' + error.message);
+      return;
+    }
+
+window.location.replace('../login.html');  });
+}
+
+</script>
+</body>
+</html>
 
 
 </body></html>
