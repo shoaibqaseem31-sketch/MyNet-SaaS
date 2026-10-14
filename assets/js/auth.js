@@ -23,8 +23,13 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 const SUPABASE_URL = 'https://tpvhtqvemcenrvyabhhy.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_CDAQZYPXdrSKR5DYfSN44g_MYbDY7XG';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
+export const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  }
+});
 export async function signIn(email, password) {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
@@ -226,3 +231,11 @@ export function clearSession() {
   storageRemove(SESSION_KEY);
   storageRemove(USER_KEY);
 }
+
+supabase.auth.onAuthStateChange((event, session) => {
+  if (session?.user) {
+    saveSession(session, session.user);
+  } else if (event === 'SIGNED_OUT') {
+  clearSession();
+}
+});

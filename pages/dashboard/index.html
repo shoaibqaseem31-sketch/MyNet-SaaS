@@ -189,18 +189,16 @@
         </div>
         <div>
           <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Current Subscription</span>
-<h2 id="customer-package" class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight mt-0.5">50 Mbps Fiber Ultra</h2>        </div>
-      </div>
+<h2 id="customer-package" class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight mt-0.5">Loading package...</h2>      </div>
       <div class="flex items-center gap-2.5 flex-wrap">
-        <span class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-label-md font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm">
-          <span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span>
+<span id="status-active" style="display: none;" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-label-md font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm">          <span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span>
           Active
         </span>
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-semibold bg-amber-50 text-amber-700 border border-amber-200 opacity-90" title="Triggers within 14 days">
+        <span id="status-expiring"style="display: none;" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-semibold bg-amber-50 text-amber-700 border border-amber-200 opacity-90" title="Triggers within 14 days">
           <span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span>
           Expiring Soon (12d)
         </span>
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-medium bg-surface-container text-outline opacity-60 cursor-not-allowed" title="System Status State">
+        <span id="status-expired"style="display: none;" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-medium bg-surface-container text-outline opacity-60 cursor-not-allowed" title="System Status State">
           <span class="material-symbols-outlined text-base" data-icon="cancel">cancel</span>
           Expired
         </span>
@@ -226,173 +224,87 @@
           <span class="material-symbols-outlined text-lg" data-icon="hourglass_top">hourglass_top</span>
           <span class="font-label-sm text-label-sm uppercase font-bold text-tertiary">Validity Status</span>
         </div>
-        <p class="font-headline-md text-headline-md font-extrabold text-tertiary">12 Days Remaining</p>
+
+<p id="validity-status" class="font-headline-md text-headline-md font-extrabold text-tertiary">12 Days Remaining</p>
         <p class="font-body-md text-sm text-tertiary/80 mt-1 font-medium">Auto-renew invoice queued</p>
       </div>
     </div>
   </div>
   <div class="mt-8 pt-5 border-t border-outline-variant/30">
     <div class="flex justify-between items-center text-sm font-semibold text-on-surface-variant mb-2.5">
-      <span class="">Billing Cycle Progress (Day 18 of 30)</span>
-      <span class="text-primary font-bold">60% Elapsed</span>
-    </div>
+
+<span id="billing-progress-label">Billing Cycle Progress</span>
+<span id="billing-progress-percent" class="text-primary font-bold">0% Elapsed</span>    </div>
     <div class="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden">
-      <div class="bg-primary h-2.5 rounded-full transition-all duration-500" style="width: 60%"></div>
-    </div>
+<div id="billing-progress-bar" class="bg-primary h-2.5 rounded-full transition-all duration-500" style="width: 0%">    </div>
   </div>
 </div></section>
-<!-- 3. PAYMENT SECTION (CHECKBOX-BASED MONTHLY BILLING LEDGER) -->
+
+<!-- 3. PAYMENT HISTORY SECTION -->
 <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/80 p-6 md:p-8 shadow-sm">
-<!-- Section Header & Info Note -->
-<div class="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-6 border-b border-outline-variant/40">
-<div>
-<div class="flex items-center gap-2.5">
-<div class="w-8 h-8 rounded-lg bg-primary-fixed text-primary flex items-center justify-center">
-<span class="material-symbols-outlined text-lg" data-icon="receipt_long">receipt_long</span>
-</div>
-<h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">Payment History &amp; Monthly Status</h3>
-</div>
-<div class="mt-2.5 flex items-start gap-2 bg-surface-container-low px-3.5 py-2.5 rounded-lg border border-outline-variant/40 max-w-2xl">
-<span class="material-symbols-outlined text-primary text-base mt-0.5" data-icon="info">info</span>
-<p class="font-body-md text-xs sm:text-body-md text-on-surface-variant leading-relaxed">
-<strong class="text-on-surface">Admin verification note:</strong> Admin verifies and marks monthly payments upon receipt. <span class="font-semibold text-emerald-700">Checked = Paid</span>, <span class="font-semibold text-amber-700">Unchecked = Unpaid</span>.
-            </p>
-</div>
-</div>
-<!-- Summary Pills Counter -->
-<div class="flex flex-wrap items-center gap-2 self-start md:self-auto">
-<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-title-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-<span class="material-symbols-outlined text-base" data-icon="task_alt">task_alt</span>
-            4 Paid Months
-          </span>
-<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-title-md text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
-<span class="material-symbols-outlined text-base" data-icon="pending">pending</span>
-            1 Unpaid Month ($45.00 pending)
-          </span>
-</div>
-</div>
-<!-- Ledger Months Container -->
-<div class="mt-6 space-y-3">
-<!-- Month 1: June (Checked - Paid) -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/20 hover:bg-emerald-50/40 transition-colors gap-3">
-<div class="flex items-center gap-3.5">
-<div class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white shadow-xs">
-<span class="material-symbols-outlined text-base font-bold" data-icon="check">check</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-title-md text-title-md font-bold text-on-surface">June 2024</h4>
-<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Checked - Paid</span>
-</div>
-<p class="font-body-md text-xs text-on-surface-variant">Verified by Accounts Admin • Paid on Jun 02</p>
-</div>
-</div>
-<div class="flex items-center justify-between sm:justify-end gap-6 sm:pl-0 pl-9">
-<span class="font-headline-sm text-body-lg font-bold text-on-surface">$45.00</span>
-<span class="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1">
-<span class="material-symbols-outlined text-base" data-icon="download">download</span>
-              Receipt
-            </span>
-</div>
-</div>
-<!-- Month 2: July (Checked - Paid) -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/20 hover:bg-emerald-50/40 transition-colors gap-3">
-<div class="flex items-center gap-3.5">
-<div class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white shadow-xs">
-<span class="material-symbols-outlined text-base font-bold" data-icon="check">check</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-title-md text-title-md font-bold text-on-surface">July 2024</h4>
-<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Checked - Paid</span>
-</div>
-<p class="font-body-md text-xs text-on-surface-variant">Verified by Accounts Admin • Paid on Jul 01</p>
-</div>
-</div>
-<div class="flex items-center justify-between sm:justify-end gap-6 sm:pl-0 pl-9">
-<span class="font-headline-sm text-body-lg font-bold text-on-surface">$45.00</span>
-<span class="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1">
-<span class="material-symbols-outlined text-base" data-icon="download">download</span>
-              Receipt
-            </span>
-</div>
-</div>
-<!-- Month 3: August (Checked - Paid) -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/20 hover:bg-emerald-50/40 transition-colors gap-3">
-<div class="flex items-center gap-3.5">
-<div class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white shadow-xs">
-<span class="material-symbols-outlined text-base font-bold" data-icon="check">check</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-title-md text-title-md font-bold text-on-surface">August 2024</h4>
-<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Checked - Paid</span>
-</div>
-<p class="font-body-md text-xs text-on-surface-variant">Verified by Accounts Admin • Paid on Aug 03</p>
-</div>
-</div>
-<div class="flex items-center justify-between sm:justify-end gap-6 sm:pl-0 pl-9">
-<span class="font-headline-sm text-body-lg font-bold text-on-surface">$45.00</span>
-<span class="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1">
-<span class="material-symbols-outlined text-base" data-icon="download">download</span>
-              Receipt
-            </span>
-</div>
-</div>
-<!-- Month 4: September (UNCHECKED - UNPAID) -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border-2 border-amber-300 bg-amber-50/40 hover:bg-amber-50/60 transition-colors gap-3 shadow-xs">
-<div class="flex items-center gap-3.5">
-<!-- Unchecked Box Indicator -->
-<div class="w-6 h-6 rounded-md border-2 border-amber-400 bg-surface-container-lowest flex items-center justify-center shadow-xs">
-<!-- Empty center representing unchecked state -->
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-title-md text-title-md font-bold text-amber-950">September 2024</h4>
-<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-200 text-amber-900 border border-amber-300">Unchecked - Unpaid</span>
-</div>
-<p class="font-body-md text-xs text-amber-800/90 font-medium">Due / Pending Admin check • Bank Reference #TRX-9482</p>
-</div>
-</div>
-<div class="flex items-center justify-between sm:justify-end gap-4 sm:pl-0 pl-9">
-<span class="font-headline-sm text-body-lg font-bold text-amber-950">$45.00</span>
-<button class="px-3.5 py-1.5 rounded-lg text-xs font-bold text-white bg-primary hover:bg-primary-container transition-colors shadow-xs" type="button">
-              Submit Slip
-            </button>
-</div>
-</div>
-<!-- Month 5: October (Checked - Paid) -->
-<div class="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-xl border border-emerald-200/80 bg-emerald-50/20 hover:bg-emerald-50/40 transition-colors gap-3">
-<div class="flex items-center gap-3.5">
-<div class="w-6 h-6 rounded-md bg-emerald-600 flex items-center justify-center text-white shadow-xs">
-<span class="material-symbols-outlined text-base font-bold" data-icon="check">check</span>
-</div>
-<div>
-<div class="flex items-center gap-2">
-<h4 class="font-title-md text-title-md font-bold text-on-surface">October 2024</h4>
-<span class="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-100 text-emerald-800">Checked - Paid</span>
-</div>
-<p class="font-body-md text-xs text-on-surface-variant">Verified by Accounts Admin • Paid on Oct 01</p>
-</div>
-</div>
-<div class="flex items-center justify-between sm:justify-end gap-6 sm:pl-0 pl-9">
-<span class="font-headline-sm text-body-lg font-bold text-on-surface">$45.00</span>
-<span class="text-xs font-semibold text-primary hover:underline cursor-pointer flex items-center gap-1">
-<span class="material-symbols-outlined text-base" data-icon="download">download</span>
-              Receipt
-            </span>
-</div>
-</div>
-</div>
-<!-- Quick Billing Support Link -->
-<div class="mt-6 pt-4 border-t border-outline-variant/40 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-on-surface-variant">
-<span class="">Payment verification usually updates within 1-2 hours after bank settlement.</span>
-<a class="text-primary font-semibold hover:underline flex items-center gap-1" href="#support">
-<span class="material-symbols-outlined text-base" data-icon="contact_support">contact_support</span>
-          Billing Query Support
-        </a>
+
+  <!-- Header and Summary -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-lg bg-primary-fixed text-primary flex items-center justify-center">
+        <span class="material-symbols-outlined text-lg">receipt_long</span>
+      </div>
+      <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">
+        Payment History &amp; Monthly Status
+      </h3>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <span id="paid-months-count"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+        <span class="material-symbols-outlined text-base">task_alt</span>
+        <span>3 Months Paid</span>
+      </span>
+
+      <span id="unpaid-months-count"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+        <span class="material-symbols-outlined text-base">pending</span>
+        <span>1 Month Unpaid</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Expand / Collapse Button -->
+  <button id="payment-history-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="payment-history-list"
+    class="mt-5 w-full flex items-center justify-between gap-3 p-4 rounded-xl border border-outline-variant/50 bg-surface-container-low hover:bg-surface-container transition-colors">
+    <span class="font-semibold text-sm text-on-surface">View monthly payment history</span>
+    <span id="payment-history-arrow"
+      class="material-symbols-outlined text-primary transition-transform duration-200">expand_more</span>
+  </button>
+
+
+<!-- Monthly History: Supabase Data -->
+<div id="payment-history-list" class="mt-4 space-y-3">
+  <p class="text-sm text-on-surface-variant">
+    Payment history load ho rahi hai...
+  </p>
 </div>
 </section>
+
+<!-- Payment History Expand / Collapse -->
+<script>
+  const paymentToggle = document.getElementById('payment-history-toggle');
+  const paymentList = document.getElementById('payment-history-list');
+  const paymentArrow = document.getElementById('payment-history-arrow');
+
+  if (paymentToggle && paymentList && paymentArrow) {
+    paymentToggle.addEventListener('click', () => {
+      const isOpening = paymentList.classList.contains('hidden');
+
+      paymentList.classList.toggle('hidden', !isOpening);
+      paymentToggle.setAttribute('aria-expanded', String(isOpening));
+      paymentArrow.style.transform = isOpening ? 'rotate(180deg)' : 'rotate(0deg)';
+    });
+  }
+</script>
 </main>
 <!-- SUBTLE FLOATING WHATSAPP SUPPORT ACTION BADGE -->
 <aside class="fixed bottom-6 right-6 z-40">
@@ -427,6 +339,7 @@
     document.addEventListener('DOMContentLoaded', () => {
       const profileBtn = document.getElementById('profileBtn');
       const profileDropdown = document.getElementById('profileDropdown');
+      if (!profileBtn || !profileDropdown || !profileChevron) return;
       const profileChevron = document.getElementById('profileChevron');
       const closeProfileBtn = document.getElementById('closeProfileBtn');
 
@@ -499,7 +412,7 @@ const packageElement = document.getElementById('customer-package');
 nameElements.forEach(element => {
   element.textContent = profile.name || 'Customer';
 });
-if (packageElement) packageElement.textContent = profile.packege || 'Package not assigned';
+if (packageElement) packageElement.textContent = profile.packege ? `${profile.packege} Mbps` : 'Package not assigned';
 const activationDateElement = document.getElementById('activation-date');
 const expiryDateElement = document.getElementById('expiry-date');
 const remainingDaysElement = document.getElementById('remaining-days');
@@ -551,5 +464,5 @@ window.location.replace('../login.html');  });
 </body>
 </html>
 
-
+<script type="module" src="./script.js"></script>
 </body></html>

@@ -14,10 +14,11 @@ async function loadCustomers() {
   customerList.innerHTML =
     '<p class="p-4 text-sm">Loading customers...</p>';
 
+
   const { data: customers, error } = await supabase
     .from('profiles')
-.select('id, name, user_id, phone, address, packege, activtionDate, expiryDate, paymentStatus, last_payment_date, paymentAmount')    .order('created_at', { ascending: false });
-
+    .select('id, name, user_id, phone, address, packege, activtionDate, expiryDate, paymentStatus, last_payment_date, paymentAmount, is_active')
+    .order('created_at', { ascending: false });
   if (error) {
     console.error('Customer loading failed:', error.message);
     customerList.innerHTML =
@@ -96,6 +97,57 @@ async function loadCustomers() {
         'Package: ' + (customer.packege || 'Not assigned');
 
       info.append(name, userId, phone, packageName);
+      
+      const statusRow = document.createElement('label');
+      statusRow.className = 'flex items-center gap-2 mt-3 text-sm font-medium';
+      statusRow.style.cursor = 'pointer';
+
+      const activeCheckbox = document.createElement('input');
+      activeCheckbox.type = 'checkbox';
+      activeCheckbox.checked = customer.is_active === true;
+      activeCheckbox.className = 'w-4 h-4';
+      activeCheckbox.setAttribute('aria-label', 'Internet active status');
+
+      const statusText = document.createElement('span');
+      statusText.textContent = activeCheckbox.checked ? 'Active' : 'Inactive';
+      statusText.className = activeCheckbox.checked
+        ? 'text-emerald-700'
+        : 'text-red-600';
+
+      statusRow.append(activeCheckbox, statusText);
+      info.append(statusRow);
+
+      activeCheckbox.addEventListener('click', (event) => {
+        event.stopPropagation();
+      });
+
+      activeCheckbox.addEventListener('change', async () => {
+        activeCheckbox.disabled = true;
+        const newStatus = activeCheckbox.checked;
+
+        const { error } = await supabase
+          .from('profiles')
+          .update({ is_active: newStatus })
+          .eq('id', customer.id);
+
+        activeCheckbox.disabled = false;
+
+        if (error) {
+          activeCheckbox.checked = !newStatus;
+          console.error('Status save failed:', error.message);
+          alert('Status save nahi hua. Console check karein.');
+          return;
+        }
+
+        customer.is_active = newStatus;
+        statusText.textContent = newStatus ? 'Active' : 'Inactive';
+        statusText.className = newStatus
+          ? 'text-emerald-700'
+          : 'text-red-600';
+
+        console.log('Customer status saved:', newStatus);
+      });
+
       details.append(avatar, info);
       card.append(details);
       card.style.cursor = 'pointer';
@@ -249,6 +301,8 @@ if (error || !data || data.length === 0) {
   console.log('Customer changes saved:', customer);
 });
 
+
+
 async function loadPaymentHistory(customer) {
   const historyList = document.getElementById('paymentHistoryList');
   const tariff = document.getElementById('paymentTariff');
@@ -256,129 +310,184 @@ async function loadPaymentHistory(customer) {
   if (!historyList || !customer) return;
 
   const monthlyPrice = Number(customer.paymentAmount ?? 0);
+  const year = new Date().getFullYear();
 
   if (tariff) {
     tariff.textContent =
       `Monthly Price: PKR ${monthlyPrice.toLocaleString('en-PK')}`;
   }
 
-  historyList.innerHTML =
-    '<div class="p-4 text-sm text-outline">Loading payment history...</div>';
+  historyList.textContent = 'Loading payment history...';
 
   const { data: payments, error } = await supabase
     .from('payments')
     .select('id, payment_month, amount, status, paid_at')
-    .eq('customer_id', customer.id)
-    .order('payment_month', { ascending: false });
+    .eq('customer_id', customer.id);
 
   if (error) {
-console.error('Payment history error:', error);    historyList.innerHTML =
-      '<div class="p-4 text-sm text-red-600">Payment history load nahi hui. Console check karein.</div>';
+    console.error('Payment history error:', error.message);
+    historyList.textContent = 'Payment history load nahi hui.';
     return;
   }
 
   const paymentMap = new Map(
-    (payments || []).map(payment => [payment.payment_month, payment])
+    (payments || []).map(payment => [
+      payment.payment_month,
+      payment
+    ])
   );
 
-  const start = customer.activtionDate
-    ? new Date(`${customer.activtionDate}T12:00:00`)
-    : new Date(new Date().getFullYear(), new Date().getMonth() - 5, 1);
+  const months = Array.from({ length: 12 }, (_, index) => {
+    const monthNumber = index + 1;
+    const key =
+      `${year}-${String(monthNumber).padStart(2, '0')}-01`;
 
-  const end = new Date();
-  let month = new Date(start.getFullYear(), start.getMonth(), 1);
-  const months = [];
+    return {
+      key,
+      name: new Date(year, index, 1).toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric'
+      }),
+      payment: paymentMap.get(key) || null
+    };
+  });
 
-  while (month <= new Date(end.getFullYear(), end.getMonth(), 1)) {
-    months.push(new Date(month));
-    month.setMonth(month.getMonth() + 1);
-  }
+  historyList.innerHTML = months.map(month => {
+    const payment = month.payment;
+    const status = payment
+      ? String(payment.status || '').toLowerCase()
+      : 'not_set';
 
-  if (!months.length) {
-    historyList.innerHTML =
-      '<div class="p-4 text-sm text-outline">Is customer ke liye payment months available nahi hain.</div>';
-    return;
-  }
+    const validStatus = ['paid', 'unpaid'].includes(status)
+      ? status
+      : 'not_set';
 
-  historyList.innerHTML = months.reverse().map(date => {
-    const monthKey =
-      `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-01`;
-
-    const payment = paymentMap.get(monthKey);
-    const isPaid = payment?.status === 'paid';
     const amount = Number(payment?.amount ?? monthlyPrice);
+    const isSet = validStatus !== 'not_set';
 
     return `
-      <label class="flex items-center justify-between gap-3 p-3.5
-        ${isPaid ? 'hover:bg-surface-container-low/60' : 'bg-amber-50/40 hover:bg-amber-50'}
-        cursor-pointer transition-colors">
-        <div class="flex items-center gap-3 min-w-0">
-          <input
-            class="payment-status-checkbox w-4 h-4 rounded border-outline-variant text-primary"
-            type="checkbox"
-            data-month="${monthKey}"
-            ${isPaid ? 'checked' : ''}
-          />
-          <span class="text-body-md font-body-md font-medium text-on-surface">
-            ${date.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
-          </span>
-        </div>
-        <div class="flex items-center gap-2 shrink-0">
-          <span class="text-label-sm font-label-sm font-mono text-outline">
+      <div class="flex flex-wrap items-center justify-between gap-3
+                  p-3.5 border-b border-outline-variant/30"
+           data-payment-row="${month.key}">
+
+        <span class="font-medium text-sm">
+          ${month.name}
+        </span>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <select
+            class="payment-month-status border rounded-lg p-2 text-sm"
+            data-month="${month.key}">
+            <option value="not_set"
+              ${validStatus === 'not_set' ? 'selected' : ''}>
+              Not Set
+            </option>
+            <option value="paid"
+              ${validStatus === 'paid' ? 'selected' : ''}>
+              ✓ Paid
+            </option>
+            <option value="unpaid"
+              ${validStatus === 'unpaid' ? 'selected' : ''}>
+              ✕ Unpaid
+            </option>
+          </select>
+
+          <span data-payment-details="${month.key}"
+                class="text-sm ${isSet ? '' : 'hidden'}">
             PKR ${amount.toLocaleString('en-PK')}
           </span>
-          <span class="payment-status-label text-label-sm font-semibold
-            ${isPaid ? 'text-emerald-700' : 'text-amber-900'}">
-            ${isPaid ? 'Paid' : 'Unpaid'}
-          </span>
         </div>
-      </label>
+      </div>
     `;
   }).join('');
 
-  historyList.querySelectorAll('.payment-status-checkbox').forEach(checkbox => {
-    checkbox.addEventListener('change', async () => {
-      checkbox.disabled = true;
+  const saveButton = document.createElement('button');
+  saveButton.type = 'button';
+  saveButton.textContent = 'Save Payment History';
+  saveButton.className =
+    'mt-4 px-4 py-2 rounded-lg bg-primary text-white font-semibold';
 
-      const paymentMonth = checkbox.dataset.month;
-      const paid = checkbox.checked;
+  historyList.append(saveButton);
 
-      const { error: saveError } = await supabase
-        .from('payments')
-        .upsert({
-          customer_id: customer.id,
-          payment_month: paymentMonth,
-          amount: monthlyPrice,
-          status: paid ? 'paid' : 'unpaid',
-          paid_at: paid ? new Date().toISOString() : null
-        }, {
-          onConflict: 'customer_id,payment_month'
-        });
+  historyList.querySelectorAll('.payment-month-status').forEach(select => {
+    select.addEventListener('change', () => {
+      const details = historyList.querySelector(
+        `[data-payment-details="${select.dataset.month}"]`
+      );
 
-      checkbox.disabled = false;
-
-      if (saveError) {
-        checkbox.checked = !paid;
-        console.error('Payment save error:', saveError.message);
-        alert('Payment save nahi hui: ' + saveError.message);
-        return;
+      if (details) {
+        details.classList.toggle('hidden', select.value === 'not_set');
       }
-
-      const statusLabel = checkbox
-        .closest('label')
-        ?.querySelector('.payment-status-label');
-
-      if (statusLabel) {
-        statusLabel.textContent = paid ? 'Paid' : 'Unpaid';
-        statusLabel.className =
-          `payment-status-label text-label-sm font-semibold ${
-            paid ? 'text-emerald-700' : 'text-amber-900'
-          }`;
-      }
-
-      console.log('Payment status saved:', paymentMonth, paid ? 'paid' : 'unpaid');
     });
+  });
+
+  saveButton.addEventListener('click', async () => {
+    saveButton.disabled = true;
+    saveButton.textContent = 'Saving...';
+
+    try {
+      for (const select of historyList.querySelectorAll(
+        '.payment-month-status'
+      )) {
+        const paymentMonth = select.dataset.month;
+        const newStatus = select.value;
+        const existingPayment = paymentMap.get(paymentMonth);
+
+        if (existingPayment?.status === newStatus) continue;
+        if (!existingPayment && newStatus === 'not_set') continue;
+
+        if (newStatus === 'not_set') {
+          const { error: deleteError } = await supabase
+            .from('payments')
+            .delete()
+            .eq('id', existingPayment.id);
+
+          if (deleteError) throw deleteError;
+          continue;
+        }
+
+        const paymentData = {
+          amount: monthlyPrice,
+          status: newStatus,
+          paid_at: newStatus === 'paid'
+            ? new Date().toISOString()
+            : null
+        };
+
+        if (existingPayment) {
+          const { error: updateError } = await supabase
+            .from('payments')
+            .update(paymentData)
+            .eq('id', existingPayment.id);
+
+          if (updateError) throw updateError;
+        } else {
+          const { error: insertError } = await supabase
+            .from('payments')
+            .insert({
+              customer_id: customer.id,
+              payment_month: paymentMonth,
+              ...paymentData
+            });
+
+          if (insertError) throw insertError;
+        }
+      }
+
+      alert('Payment history saved successfully!');
+      await loadPaymentHistory(customer);
+    } catch (saveError) {
+      console.error('Payment save error:', saveError.message);
+      alert('Payment save nahi hui: ' + saveError.message);
+    } finally {
+      saveButton.disabled = false;
+      saveButton.textContent = 'Save Payment History';
+    }
   });
 }
 
 checkAdmin();
+supabase.auth.getUser().then(({ data, error }) => {
+  console.log('Current user ID:', data.user?.id || null);
+  console.log('Auth error:', error?.message || null);
+});
