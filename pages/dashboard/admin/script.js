@@ -491,3 +491,146 @@ supabase.auth.getUser().then(({ data, error }) => {
   console.log('Current user ID:', data.user?.id || null);
   console.log('Auth error:', error?.message || null);
 });
+
+/* ===== MyNet Admin Profile ===== */
+
+const adminProfileModal = document.getElementById('adminProfileModal');
+const editAdminProfileBtn = document.getElementById('editAdminProfileBtn');
+const cancelAdminProfileBtn = document.getElementById('cancelAdminProfileBtn');
+const saveAdminProfileBtn = document.getElementById('saveAdminProfileBtn');
+const adminNameInput = document.getElementById('adminNameInput');
+const adminProfileUpload = document.getElementById('adminProfileUpload');
+const adminDisplayName = document.getElementById('adminDisplayName');
+const adminProfileImage = document.getElementById('adminProfileImage');
+const adminProfilePlaceholder = document.getElementById('adminProfilePlaceholder');
+
+let currentAdminUser = null;
+
+function closeAdminProfileModal() {
+  adminProfileModal?.classList.add('hidden');
+  adminProfileModal?.classList.remove('flex');
+}
+
+async function loadAdminProfile() {
+  const { data: { user }, error: authError } =
+    await supabase.auth.getUser();
+
+  if (authError || !user) return;
+
+  currentAdminUser = user;
+
+  const { data: admin, error } = await supabase
+    .from('admins')
+    .select('name, avatar_path')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Admin profile load failed:', error.message);
+    return;
+  }
+
+  if (adminDisplayName) {
+    adminDisplayName.textContent = admin?.name || 'Network Operations';
+  }
+
+  if (adminNameInput) {
+    adminNameInput.value = admin?.name || '';
+  }
+
+  if (admin?.avatar_path) {
+    const { data, error: imageError } = await supabase.storage
+      .from('admin-photos')
+      .createSignedUrl(admin.avatar_path, 3600);
+
+    if (!imageError && data?.signedUrl && adminProfileImage) {
+      adminProfileImage.src = data.signedUrl;
+      adminProfileImage.classList.remove('hidden');
+      adminProfilePlaceholder?.classList.add('hidden');
+    } else {
+      console.error('Admin photo load failed:', imageError?.message);
+    }
+  }
+}
+
+editAdminProfileBtn?.addEventListener('click', async () => {
+  await loadAdminProfile();
+
+  adminProfileModal?.classList.remove('hidden');
+  adminProfileModal?.classList.add('flex');
+});
+
+cancelAdminProfileBtn?.addEventListener('click', closeAdminProfileModal);
+
+saveAdminProfileBtn?.addEventListener('click', async () => {
+  if (!currentAdminUser) {
+    alert('Admin login dobara verify nahi ho saka. Page refresh karein.');
+    return;
+  }
+
+  const name = adminNameInput?.value.trim();
+
+  if (!name) {
+    alert('Please apna naam enter karein.');
+    return;
+  }
+
+  saveAdminProfileBtn.disabled = true;
+
+  try {
+    const updates = { name };
+
+    const file = adminProfileUpload?.files?.[0];
+
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        throw new Error('Sirf image file upload karein.');
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error('Photo 5 MB se chhoti honi chahiye.');
+      }
+
+      const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+      const filePath = `${currentAdminUser.id}/profile.${extension}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('admin-photos')
+        .upload(filePath, file, {
+          upsert: true,
+          contentType: file.type
+        });
+
+      if (uploadError) throw uploadError;
+      if (uploadError) {
+  console.error('PHOTO UPLOAD ERROR:', uploadError);
+  throw uploadError;
+}
+
+      updates.avatar_path = filePath;
+    }
+
+    const { error: saveError } = await supabase
+      .from('admins')
+      .update(updates)
+      .eq('id', currentAdminUser.id);
+
+    if (saveError) throw saveError;
+
+    if (adminDisplayName) {
+      adminDisplayName.textContent = name;
+    }
+
+    await loadAdminProfile();
+    closeAdminProfileModal();
+    alert('Admin profile save ho gayi!');
+
+  } catch (error) {
+    console.error('Admin profile save failed:', error);
+    alert('Profile save nahi hui: ' + error.message);
+  } finally {
+    saveAdminProfileBtn.disabled = false;
+  }
+});
+
+loadAdminProfile();

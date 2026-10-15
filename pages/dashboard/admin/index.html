@@ -113,6 +113,7 @@
       }
     }
   </script>
+  <link rel="stylesheet" href="./admin.css">
 </head>
 <body class="min-h-full flex flex-col bg-background font-body-md text-on-surface antialiased selection:bg-primary-fixed selection:text-on-primary-fixed">
 <!-- Top Navigation (Shared Component Specification) -->
@@ -142,14 +143,46 @@
 <span class="material-symbols-outlined text-sm font-bold" data-icon="admin_panel_settings">admin_panel_settings</span>
 <span>Admin Portal</span>
 </div>
+
 <div class="flex items-center gap-2.5 pl-2 sm:border-l sm:border-outline-variant/40">
-<div class="w-9 h-9 rounded-full bg-surface-container-high text-primary flex items-center justify-center border border-outline-variant/50">
-<span class="material-symbols-outlined text-xl" data-icon="account_circle">account_circle</span>
-</div>
-<div class="hidden lg:flex flex-col text-left">
-<span class="text-label-md font-label-md text-on-surface font-semibold leading-tight">Admin Operator</span>
-<span class="text-label-sm font-label-sm text-outline">Network Operations</span>
-</div>
+  <div class="relative w-10 h-10 shrink-0">
+    <img
+      id="adminProfileImage"
+      alt="Admin profile"
+      class="hidden w-10 h-10 rounded-full object-cover border border-outline-variant/50"
+    />
+
+    <div
+      id="adminProfilePlaceholder"
+      class="w-10 h-10 rounded-full bg-surface-container-high text-primary flex items-center justify-center border border-outline-variant/50"
+    >
+      <span class="material-symbols-outlined text-xl">account_circle</span>
+    </div>
+
+    <button
+      id="editAdminProfileBtn"
+      type="button"
+      title="Edit admin profile"
+      aria-label="Edit admin profile"
+      class="absolute -right-0.5 -bottom-0.5 w-4 h-4 rounded-full bg-primary text-white flex items-center justify-center border border-white text-xs leading-none"    >+</button>
+
+    <input
+      id="adminProfileFile"
+      type="file"
+      accept="image/*"
+      class="hidden"
+    />
+  </div>
+
+  <div class="hidden lg:flex flex-col text-left">
+    <span class="text-label-md font-label-md text-on-surface font-semibold leading-tight">
+      Admin Operator
+    </span>
+    <span
+      id="adminDisplayName"
+      class="text-sm font-bold text-on-surface"
+    >Network Operations</span>
+  </div>
 </div>
 <button class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-outline-variant/60 bg-surface-container-lowest text-on-surface-variant hover:text-primary hover:border-primary/40 hover:bg-surface-container-low transition-colors duration-150 text-label-md font-label-md" type="button">
 <span class="material-symbols-outlined text-base" data-icon="logout">logout</span>
@@ -453,5 +486,54 @@
 </footer>
 <script>console.log("ADMIN HTML SCRIPT TEST");</script>
 <script type="module" src="./script.js"></script>
+
+<!-- Admin Edit Profile Popup -->
+<div id="adminProfileModal" class="hidden fixed inset-0 z-50
+     items-center justify-center bg-black/40 p-4">
+
+  <div class="w-full max-w-sm rounded-xl bg-white p-5 shadow-xl">
+
+    <h2 class="text-lg font-bold mb-4">Edit Admin Profile</h2>
+
+    <label class="block text-sm font-medium mb-2">
+      Profile Photo
+    </label>
+    <input
+      id="adminProfileUpload"
+      type="file"
+      accept="image/*"
+      class="block w-full text-sm mb-4"
+    />
+
+    <label for="adminNameInput"
+           class="block text-sm font-medium mb-2">
+      Admin Name
+    </label>
+    <input
+      id="adminNameInput"
+      type="text"
+      maxlength="60"
+      placeholder="Enter your name"
+      class="w-full rounded-lg border p-3 mb-4"
+    />
+
+    <div class="flex justify-end gap-2">
+      <button
+        id="cancelAdminProfileBtn"
+        type="button"
+        class="rounded-lg border px-4 py-2">
+        Cancel
+      </button>
+
+      <button
+        id="saveAdminProfileBtn"
+        type="button"
+        class="rounded-lg bg-blue-600 px-4 py-2 text-white">
+        Save
+      </button>
+    </div>
+
+  </div>
+</div>
 </body>
 </html>
