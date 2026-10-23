@@ -44,8 +44,6 @@ export async function signIn(email, password) {
   const user = data.user;
 
   saveSession(data.session, user);
-  window.location.href = '../../Dashboard/Index.html';
-
   return { success: true, user };
  }
 

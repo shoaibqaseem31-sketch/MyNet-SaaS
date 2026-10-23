@@ -280,8 +280,7 @@
         iconSpan.textContent = 'visibility';
       }
     }
-   import { signUp, signIn } from '../Assets/JS/auth.js';
-
+import { signUp, signIn } from '../assets/js/auth.js';
 const registerForm = document.getElementById('register-form');
 const signinForm = document.getElementById('signin-form');
 
@@ -295,21 +294,12 @@ registerForm.addEventListener('submit', async (event) => {
   const phone = document.getElementById('reg-phone').value.trim();
   const password = document.getElementById('reg-password').value;
 
-  const result = await signUp(email, password, {
-    name,
-    user_id: userId,
-    address,
-    phone,
-  });
-
 if (!result.success) {
-  alert('Login failed: ' + result.error);
+  alert('Signup failed: ' + result.error);
   return;
 }
 
-alert('Login successful! Ab dashboard khulna chahiye.');
-window.location.href = '/pages/Dashboard/Index.html';
-  alert('Account request submitted. Check your email if confirmation is required.');
+alert('Account request submitted. Check your email if confirmation is required.');
 });
 
 
