@@ -47,12 +47,7 @@ export async function signIn(email, password) {
   window.location.href = '../../Dashboard/Index.html';
 
   return { success: true, user };
-
-  saveSession(data.session, user);
-  window.location.href = '../../Dashboard/Index.html';
-
-  return { success: true, user };
-}
+ }
 
 
 /**
