@@ -302,11 +302,13 @@ registerForm.addEventListener('submit', async (event) => {
     phone,
   });
 
-  if (!result.success) {
-    alert(result.error);
-    return;
-  }
+if (!result.success) {
+  alert('Login failed: ' + result.error);
+  return;
+}
 
+alert('Login successful! Ab dashboard khulna chahiye.');
+window.location.href = '/pages/Dashboard/Index.html';
   alert('Account request submitted. Check your email if confirmation is required.');
 });
 
