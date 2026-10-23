@@ -419,8 +419,7 @@
 
 
   <script type="module">
-    import { supabase } from '../../Assets/JS/auth.js';
-
+import { supabase } from '../../assets/js/auth.js';
     const { data: { user }, error: authError } =
       await supabase.auth.getUser();
 
