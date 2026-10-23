@@ -25,6 +25,38 @@ async function loadCustomers() {
       '<p class="p-4 text-sm text-red-600">Could not load customers. Check the browser console.</p>';
     return;
   }
+const totalUsersCount = document.getElementById('totalUsersCount');
+
+if (totalUsersCount) {
+  totalUsersCount.textContent = `${customers.length} Users`;
+  const allUsersCount = document.getElementById('allUsersCount');
+if (allUsersCount) {
+  allUsersCount.textContent = customers.length;
+}
+}
+
+function updateCustomerSummaryCounts() {
+  const activeCount = (customers || []).filter(
+    customer => customer.is_active === true
+  ).length;
+
+  const inactiveCount = (customers || []).filter(
+    customer => customer.is_active !== true
+  ).length;
+
+  const activeElement = document.getElementById('activeUsersCount');
+  const inactiveElement = document.getElementById('inactiveUsersCount');
+
+  if (activeElement) {
+    activeElement.textContent = `${activeCount} Active Users`;
+  }
+
+  if (inactiveElement) {
+    inactiveElement.textContent = `${inactiveCount} Inactive Users`;
+  }
+}
+
+updateCustomerSummaryCounts();
 
   if (!customers || customers.length === 0) {
     customerList.innerHTML =
@@ -140,6 +172,7 @@ async function loadCustomers() {
         }
 
         customer.is_active = newStatus;
+        updateCustomerSummaryCounts();
         statusText.textContent = newStatus ? 'Active' : 'Inactive';
         statusText.className = newStatus
           ? 'text-emerald-700'
@@ -150,8 +183,7 @@ async function loadCustomers() {
 
       details.append(avatar, info);
       card.append(details);
-      card.style.cursor = 'pointer';
-
+ card.style.cursor = 'default';
 card.addEventListener('click', () => {
   window.selectedMyNetCustomer = customer;
   loadPaymentHistory(customer);
@@ -251,6 +283,7 @@ async function checkAdmin() {
   await loadCustomers();
 }
 
+
 document.getElementById('saveChangesBtn')?.addEventListener('click', async () => {
   const customer = window.selectedMyNetCustomer;
 
@@ -259,49 +292,98 @@ document.getElementById('saveChangesBtn')?.addEventListener('click', async () =>
     return;
   }
 
-  const packageSelect = document.getElementById('packageSelect');
-  const packagePrice = document.getElementById('packagePrice');
-
-  const packageValue = packageSelect?.value;
-  const priceValue = packagePrice?.value;
-
+  const packageValue = document.getElementById('packageSelect')?.value;
+  const priceValue = document.getElementById('packagePrice')?.value;
+const updates = {
+  packege: packageValue,
+  paymentAmount: Number(priceValue)
+};
   if (!packageValue || priceValue === '' || Number(priceValue) < 0) {
     alert('Please select a package and enter a valid monthly price.');
     return;
   }
 
 
-const { data, error } = await supabase
-  .from('profiles')
-  .update({
-    packege: Number(packageValue),
-    paymentAmount: Number(priceValue)
-  })
-  .eq('id', customer.id)
-  .select('id, packege, paymentAmount');
+  const editProfileModal = document.getElementById('editCustomerProfileModal');
+  const isEditingProfile = editProfileModal && !editProfileModal.classList.contains('hidden');
 
-console.log('Supabase update result:', data);
+  if (isEditingProfile) {
+    const nameInput = document.getElementById('editCustomerName');
+    const phoneInput = document.getElementById('editCustomerPhone');
+    const addressInput = document.getElementById('editCustomerAddress');
+    const activationInput = document.getElementById('editCustomerActivationDate');
+    const expiryInput = document.getElementById('editCustomerExpiryDate');
 
-if (error || !data || data.length === 0) {
-  console.error('Save failed:', error?.message || 'No customer row was updated.');
-  alert('Save failed. Check the browser console.');
-  return;
-}
+    const name = nameInput?.value.trim() || (customer.name || '').trim();
+    const phone = phoneInput?.value.trim() || customer.phone || '';
+    const address = addressInput?.value.trim() || customer.address || '';
+    const activationDate = activationInput?.value || customer.activtionDate || null;
+    const expiryDate = expiryInput?.value || customer.expiryDate || null;
 
-  if (error) {
-    console.error('Save Changes failed:', error.message);
-    alert('Could not save changes: ' + error.message);
+    if (!name) {
+      alert('Customer name is required.');
+      return;
+    }
+
+    if (activationDate && expiryDate && expiryDate < activationDate) {
+      alert('Expiry Date cannot be before Activation Date.');
+      return;
+    }
+
+    updates.name = name;
+    updates.phone = phone;
+    updates.address = address;
+    updates.activtionDate = activationDate;
+    updates.expiryDate = expiryDate;
+  }
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .update(updates)
+    .eq('id', customer.id)
+    .select('*');
+
+  if (error || !data || data.length === 0) {
+    console.error('Save failed:', error?.message || 'No customer row updated.');
+    alert('Save failed. Check the browser Console.');
     return;
   }
 
-  customer.packege = Number(packageValue);
-  customer.paymentAmount = Number(priceValue);
+  Object.assign(customer, data[0]);
 
-  alert('Package and monthly price saved successfully!');
-  console.log('Customer changes saved:', customer);
+  const setText = (id, value) => {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value || 'Not set';
+  };
+
+  setText('profileName', customer.name);
+  setText('profileUserId', customer.user_id);
+  setText('profilePhone', customer.phone);
+  setText('profileAddress', customer.address);
+  setText('profileActivationDate', customer.activtionDate);
+  setText('profileExpiryDate', customer.expiryDate);
+
+  const selectedLabel = document.getElementById('selectedCustomerLabel');
+  if (selectedLabel) {
+    selectedLabel.textContent =
+      `${customer.name || 'Unnamed customer'} (ID: ${customer.user_id || 'Not set'})`;
+  }
+
+  document.getElementById('editCustomerProfileModal')?.classList.add('hidden');
+  document.getElementById('editCustomerProfileModal')?.classList.remove('flex');
+
+  alert('Customer details, package and monthly price saved successfully!');
 });
 
 
+
+/* ===== Connect Customer Profile Form Save ===== */
+document.getElementById('editCustomerProfileForm')
+  ?.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    document.getElementById('saveChangesBtn')?.click();
+  });
 
 async function loadPaymentHistory(customer) {
   const historyList = document.getElementById('paymentHistoryList');
@@ -492,6 +574,40 @@ supabase.auth.getUser().then(({ data, error }) => {
   console.log('Auth error:', error?.message || null);
 });
 
+/* ===== Customer Profile Edit Button ===== */
+const editProfileBtn = document.getElementById('editCustomerProfileBtn');
+const editProfileModal = document.getElementById('editCustomerProfileModal');
+
+function closeCustomerProfileModal() {
+  editProfileModal?.classList.add('hidden');
+  editProfileModal?.classList.remove('flex');
+}
+
+editProfileBtn?.addEventListener('click', () => {
+  const customer = window.selectedMyNetCustomer;
+
+  if (!customer) {
+    alert('Please select a customer card first.');
+    return;
+  }
+
+  document.getElementById('editCustomerName').value = customer.name || '';
+  document.getElementById('editCustomerPhone').value = customer.phone || '';
+  document.getElementById('editCustomerAddress').value = customer.address || '';
+  document.getElementById('editCustomerActivationDate').value = customer.activtionDate || '';
+  document.getElementById('editCustomerExpiryDate').value = customer.expiryDate || '';
+
+  editProfileModal.classList.remove('hidden');
+  editProfileModal.classList.add('flex');
+});
+
+document.getElementById('closeCustomerProfileModal')
+  ?.addEventListener('click', closeCustomerProfileModal);
+
+document.getElementById('cancelCustomerProfileEdit')
+  ?.addEventListener('click', closeCustomerProfileModal);
+
+
 /* ===== MyNet Admin Profile ===== */
 
 const adminProfileModal = document.getElementById('adminProfileModal');
@@ -634,3 +750,244 @@ saveAdminProfileBtn?.addEventListener('click', async () => {
 });
 
 loadAdminProfile();
+
+/* ===== MyNet Unpaid Payments Card ===== */
+
+async function refreshUnpaidPaymentsCard() {
+  const { data: payments, error } = await supabase
+    .from('payments')
+    .select('customer_id, status');
+
+  if (error) {
+    console.error('Unpaid payments load failed:', error.message);
+    return;
+  }
+
+  const unpaidIds = new Set(
+    (payments || [])
+      .filter(p => String(p.status).toLowerCase() === 'unpaid')
+      .map(p => p.customer_id)
+  );
+
+  const count = unpaidIds.size;
+  const countElement =
+    document.getElementById('unpaidUsersCount') ||
+    [...document.querySelectorAll('div')]
+      .find(el => el.textContent.trim() === '18 Unpaid / Due');
+
+  if (countElement) {
+    countElement.textContent = `${count} Unpaid Users`;
+  }
+
+  window.myNetUnpaidIds = unpaidIds;
+  window.myNetUnpaidCount = count;
+}
+
+function openUnpaidCustomersModal() {
+  document.getElementById('myNetUnpaidModal')?.remove();
+
+  const modal = document.createElement('div');
+  modal.id = 'myNetUnpaidModal';
+  modal.style.cssText = `
+    position:fixed; inset:0; z-index:99999;
+    background:rgba(0,0,0,.55);
+    display:flex; align-items:center; justify-content:center;
+    padding:16px;
+  `;
+
+  const box = document.createElement('div');
+  box.style.cssText = `
+    background:white; color:#222; width:100%; max-width:520px;
+    max-height:80vh; overflow:auto; border-radius:14px;
+    padding:20px;
+  `;
+
+  const heading = document.createElement('h2');
+  heading.textContent = 'Unpaid Customers';
+  heading.style.cssText =
+    'font-size:20px;font-weight:700;margin-bottom:14px';
+
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.textContent = '✕ Close';
+  close.style.cssText =
+    'float:right;padding:6px 10px;cursor:pointer';
+  close.onclick = () => modal.remove();
+
+  const list = document.createElement('div');
+  list.textContent = 'Loading unpaid customers...';
+
+  box.append(close, heading, list);
+  modal.append(box);
+  document.body.append(modal);
+
+  modal.addEventListener('click', event => {
+    if (event.target === modal) modal.remove();
+  });
+
+  (async () => {
+    const { data: payments, error: paymentError } = await supabase
+      .from('payments')
+      .select('customer_id, status');
+
+    if (paymentError) {
+      console.error(paymentError);
+      list.textContent = 'Payments load nahi huin. Console check karein.';
+      return;
+    }
+
+    const unpaidIds = new Set(
+      (payments || [])
+        .filter(p => String(p.status).toLowerCase() === 'unpaid')
+        .map(p => p.customer_id)
+    );
+
+    const { data: customers, error: customerError } = await supabase
+      .from('profiles')
+      .select('id, name, user_id, phone, address, packege, activtionDate, expiryDate, paymentAmount')
+      .in('id', [...unpaidIds]);
+
+    if (customerError) {
+      console.error(customerError);
+      list.textContent = 'Customers load nahi huay. Console check karein.';
+      return;
+    }
+
+    list.replaceChildren();
+
+    if (!customers?.length) {
+      list.textContent = 'Koi unpaid customer nahi hai.';
+      return;
+    }
+
+    customers.forEach(customer => {
+      const row = document.createElement('button');
+      row.type = 'button';
+      row.style.cssText = `
+        display:block;width:100%;text-align:left;
+        padding:12px;margin:6px 0;border:1px solid #ddd;
+        border-radius:9px;background:white;cursor:pointer;
+      `;
+
+      const name = document.createElement('div');
+      name.textContent = customer.name || 'Unnamed Customer';
+      name.style.fontWeight = '700';
+
+      const userId = document.createElement('div');
+      userId.textContent = 'User ID: ' + (customer.user_id || 'Not set');
+
+      const status = document.createElement('div');
+      status.textContent = 'Status: Unpaid';
+      status.style.color = '#b45309';
+
+      row.append(name, userId, status);
+
+      row.addEventListener('click', () => {
+        window.selectedMyNetCustomer = customer;
+
+        const setText = (id, value) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = value || 'Not set';
+        };
+
+        setText('profileName', customer.name);
+        setText('profileUserId', customer.user_id);
+        setText('profilePhone', customer.phone);
+        setText('profileAddress', customer.address);
+        setText('profileActivationDate', customer.activtionDate);
+        setText('profileExpiryDate', customer.expiryDate);
+        setText(
+          'selectedCustomerLabel',
+          `${customer.name || 'Unnamed customer'} (ID: ${customer.user_id || 'Not set'})`
+        );
+
+        const packageSelect = document.getElementById('packageSelect');
+        if (packageSelect) {
+          packageSelect.value = String(customer.packege || '');
+        }
+
+        const price = document.getElementById('packagePrice');
+        if (price) price.value = customer.paymentAmount ?? '';
+
+        modal.remove();
+
+        loadPaymentHistory(customer);
+
+        const history = document.getElementById(
+          'monthlyPaymentHistorySection'
+        ) || document.getElementById('paymentHistoryList');
+
+        history?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      });
+
+      list.append(row);
+    });
+  })();
+}
+
+function connectUnpaidPaymentsCard() {
+  const title = [...document.querySelectorAll('span')]
+    .find(el => el.textContent.trim() === 'Unpaid Payments');
+
+  if (!title) {
+    console.error('Unpaid Payments card title nahi mila.');
+    return;
+  }
+
+  const card = title.parentElement?.parentElement?.parentElement;
+
+  if (!card) return;
+
+  card.style.cursor = 'pointer';
+  card.title = 'Click to view unpaid customers';
+
+  card.addEventListener('click', event => {
+    if (event.target.closest('button, a, input, select')) return;
+    openUnpaidCustomersModal();
+  });
+
+  refreshUnpaidPaymentsCard();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener(
+    'DOMContentLoaded',
+    connectUnpaidPaymentsCard,
+    { once: true }
+  );
+} else {
+  connectUnpaidPaymentsCard();
+}
+
+/* Keep summary cards non-clickable */
+function disableSummaryCardClicks() {
+  ['totalUsersCount', 'activeUsersCount', 'inactiveUsersCount']
+    .forEach(id => {
+      const countElement = document.getElementById(id);
+      if (!countElement) return;
+
+      const card = countElement.closest(
+        '.bg-surface-container-lowest.rounded-xl'
+      );
+
+      if (!card) return;
+
+      card.style.cursor = 'default';
+      card.removeAttribute('onclick');
+
+      card.addEventListener('click', event => {
+        event.stopImmediatePropagation();
+      }, true);
+    });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', disableSummaryCardClicks, {
+    once: true
+  });
+} else {
+  disableSummaryCardClicks();
+}

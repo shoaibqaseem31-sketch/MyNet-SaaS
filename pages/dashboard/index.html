@@ -1,14 +1,22 @@
-<!DOCTYPE html><html lang="en" style=""><head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>MyNet - Subscriber Dashboard</title>
-<link href="https://fonts.googleapis.com" rel="preconnect">
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script id="tailwind-config">
+<!DOCTYPE html>
+<html lang="en" style="">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>MyNet - Subscriber Dashboard</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
     tailwind.config = {
       darkMode: "class",
       theme: {
@@ -95,23 +103,23 @@
             "headline-md": ["Plus Jakarta Sans"]
           },
           "fontSize": {
-            "headline-lg-mobile": ["26px", {"lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
-            "body-lg": ["16px", {"lineHeight": "26px", "fontWeight": "400"}],
-            "label-sm": ["11px", {"lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "700"}],
-            "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "700"}],
-            "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
-            "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
-            "label-md": ["13px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600"}],
-            "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "600"}],
-            "body-md": ["14px", {"lineHeight": "22px", "fontWeight": "400"}],
-            "display-lg-mobile": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}],
-            "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            "headline-lg-mobile": ["26px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "label-sm": ["11px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.015em", "fontWeight": "700" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "label-md": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "title-md": ["16px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-md": ["14px", { "lineHeight": "22px", "fontWeight": "400" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+            "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
           }
         }
       }
     }
   </script>
-<style>
+  <style>
     .material-symbols-outlined {
       font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       display: inline-block;
@@ -120,219 +128,252 @@
     }
   </style>
 </head>
-<body class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md selection:bg-primary-fixed selection:text-primary">
-<!-- TOP APP BAR -->
-<header class="docked full-width top-0 sticky z-50 bg-surface-container-lowest border-b border-outline-variant shadow-sm">
-<div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
-<!-- Left Anchor: Brand -->
-<div class="flex items-center gap-3">
-<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm shadow-primary/20">
-<span class="material-symbols-outlined text-2xl" data-icon="wifi">wifi</span>
-</div>
-<div class="flex flex-col">
-<span class="text-headline-sm font-headline-sm text-primary font-bold tracking-tight">MyNet</span>
-<span class="text-[10px] font-medium tracking-wide text-outline -mt-1">internet service provider</span>
-</div>
-</div>
-<!-- Right Anchor: Profile Action with Dropdown -->
-<div class="flex items-center gap-3 relative">
-<button aria-expanded="false" aria-haspopup="true" class="flex items-center gap-2.5 p-1.5 pl-3 pr-2 rounded-full border border-outline-variant hover:border-primary/50 bg-surface-container-lowest transition-all duration-150 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20" id="profileBtn" type="button">
-<div class="flex flex-col text-right">
-<div class="flex flex-col">
-  <span id="customer-name" class="font-title-md text-body-md text-on-surface leading-tight font-semibold">Customer</span>
-  <span id="customer-id" class="font-label-sm text-label-sm text-outline">ID: —</span>
-</div></div>
-<div class="w-9 h-9 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-sm group-hover:bg-primary group-hover:text-on-primary transition-colors">
-<span class="material-symbols-outlined text-xl" data-icon="account_circle">account_circle</span>
-</div>
-<span class="material-symbols-outlined text-outline text-lg group-hover:text-primary transition-transform duration-200" data-icon="expand_more" id="profileChevron">expand_more</span>
-</button>
-<!-- Sign Out Primary Button -->
-<button id="sign-out-button" class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-body-md font-label-md font-semibold text-error bg-error-container/40 hover:bg-error-container text-on-error-container border border-error/20 transition-colors" type="button">
-<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
-<span class="">Sign Out</span>
-</button>
-<!-- INTERACTIVE PROFILE POPOVER / MODAL -->
-</div>
-</div>
-</header>
-<!-- MAIN CANVAS -->
-<main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
-<!-- 1. DASHBOARD HEADING & GREETING -->
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
-<div>
-<div class="flex items-center gap-3">
-<h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Dashboard</h1>
-<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm bg-cyan-50 text-tertiary-container border border-cyan-200">
-<span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
+
+<body
+  class="bg-background text-on-surface antialiased min-h-screen flex flex-col font-body-md selection:bg-primary-fixed selection:text-primary">
+  <!-- TOP APP BAR -->
+  <header
+    class="docked full-width top-0 sticky z-50 bg-surface-container-lowest border-b border-outline-variant shadow-sm">
+    <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto relative">
+      <!-- Left Anchor: Brand -->
+      <div class="flex items-center gap-3">
+        <div
+          class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-sm shadow-primary/20">
+          <span class="material-symbols-outlined text-2xl" data-icon="wifi">wifi</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-headline-sm font-headline-sm text-primary font-bold tracking-tight">MyNet</span>
+          <span class="text-[10px] font-medium tracking-wide text-outline -mt-1">internet service provider</span>
+        </div>
+      </div>
+      <!-- Right Anchor: Profile Action with Dropdown -->
+      <div class="flex items-center gap-3 relative">
+        <button aria-expanded="false" aria-haspopup="true"
+          class="flex items-center gap-2.5 p-1.5 pl-3 pr-2 rounded-full border border-outline-variant hover:border-primary/50 bg-surface-container-lowest transition-all duration-150 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20"
+          id="profileBtn" type="button">
+          <div class="flex flex-col text-right">
+            <div class="flex flex-col">
+              <span id="customer-name"
+                class="font-title-md text-body-md text-on-surface leading-tight font-semibold">Customer</span>
+              <span id="customer-id" class="font-label-sm text-label-sm text-outline">ID: —</span>
+            </div>
+          </div>
+          <div
+            class="w-9 h-9 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-sm group-hover:bg-primary group-hover:text-on-primary transition-colors">
+            <span class="material-symbols-outlined text-xl" data-icon="account_circle">account_circle</span>
+          </div>
+          <span
+            class="material-symbols-outlined text-outline text-lg group-hover:text-primary transition-transform duration-200"
+            data-icon="expand_more" id="profileChevron">expand_more</span>
+        </button>
+        <!-- Sign Out Primary Button -->
+        <button id="sign-out-button"
+          class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg text-body-md font-label-md font-semibold text-error bg-error-container/40 hover:bg-error-container text-on-error-container border border-error/20 transition-colors"
+          type="button">
+          <span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+          <span class="">Sign Out</span>
+        </button>
+        <!-- INTERACTIVE PROFILE POPOVER / MODAL -->
+      </div>
+    </div>
+  </header>
+  <!-- MAIN CANVAS -->
+  <main class="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <!-- 1. DASHBOARD HEADING & GREETING -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div>
+        <div class="flex items-center gap-3">
+          <h1 class="font-headline-lg text-headline-lg font-bold text-on-surface tracking-tight">Dashboard</h1>
+          <span
+            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-label-sm font-label-sm bg-cyan-50 text-tertiary-container border border-cyan-200">
+            <span class="w-2 h-2 rounded-full bg-cyan-500 animate-pulse"></span>
             Fiber Online
           </span>
-</div>
+        </div>
 
-<p class="font-body-md text-body-md text-on-surface-variant mt-1">Welcome back, <span id="customer-name" class="font-semibold text-on-surface">Customer</span>. Here is the operational summary of your broadband connection.</p>
-</div>
-<div class="flex items-center gap-2 self-start md:self-auto">
-<span class="text-label-sm font-label-sm text-outline px-3 py-1.5 bg-surface-container rounded-lg border border-outline-variant/40 flex items-center gap-1.5">
-<span class="material-symbols-outlined text-base text-primary" data-icon="sync">sync</span>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-1">Welcome back, <span id="customer-name"
+            class="font-semibold text-on-surface">Customer</span>. Here is the operational summary of your broadband
+          connection.</p>
+      </div>
+      <div class="flex items-center gap-2 self-start md:self-auto">
+        <span
+          class="text-label-sm font-label-sm text-outline px-3 py-1.5 bg-surface-container rounded-lg border border-outline-variant/40 flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-base text-primary" data-icon="sync">sync</span>
           Auto-synchronized with Gateway
         </span>
-</div>
-</div>
-<!-- 2. INTERNET STATUS SECTION (PRIMARY BENTO CARDS) -->
-<section class="mb-10"><div class="bg-surface-container-lowest rounded-xl border border-outline-variant/80 p-6 md:p-8 shadow-sm relative overflow-hidden flex flex-col justify-between">
-  <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary-container to-tertiary-fixed-dim"></div>
-  <div>
-    <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-outline-variant/40">
-      <div class="flex items-center gap-3.5">
-        <div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-          <span class="material-symbols-outlined text-2xl" data-icon="speed">speed</span>
+      </div>
+    </div>
+    <!-- 2. INTERNET STATUS SECTION (PRIMARY BENTO CARDS) -->
+    <section class="mb-10">
+      <div
+        class="bg-surface-container-lowest rounded-xl border border-outline-variant/80 p-6 md:p-8 shadow-sm relative overflow-hidden flex flex-col justify-between">
+        <div
+          class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary-container to-tertiary-fixed-dim">
         </div>
         <div>
-          <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Current Subscription</span>
-<h2 id="customer-package" class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight mt-0.5">Loading package...</h2>      </div>
-      <div class="flex items-center gap-2.5 flex-wrap">
-<span id="status-active" style="display: none;" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-label-md font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm">          <span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span>
-          Active
-        </span>
-        <span id="status-expiring"style="display: none;" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-semibold bg-amber-50 text-amber-700 border border-amber-200 opacity-90" title="Triggers within 14 days">
-          <span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span>
-          Expiring Soon (12d)
-        </span>
-        <span id="status-expired"style="display: none;" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-medium bg-surface-container text-outline opacity-60 cursor-not-allowed" title="System Status State">
-          <span class="material-symbols-outlined text-base" data-icon="cancel">cancel</span>
-          Expired
-        </span>
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-outline-variant/40">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-2xl" data-icon="speed">speed</span>
+              </div>
+              <div>
+                <span class="font-label-sm text-label-sm uppercase tracking-wider text-outline font-semibold">Current
+                  Subscription</span>
+                <h2 id="customer-package"
+                  class="font-headline-md text-headline-md font-extrabold text-on-surface tracking-tight mt-0.5">Loading
+                  package...</h2>
+              </div>
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <span id="status-active" style="display: none;"
+                  class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-label-md font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 shadow-sm">
+                  <span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span>
+                  Active
+                </span>
+                <span id="status-expiring" style="display: none;"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-semibold bg-amber-50 text-amber-700 border border-amber-200 opacity-90"
+                  title="Triggers within 14 days">
+                  <span class="material-symbols-outlined text-base" data-icon="schedule">schedule</span>
+                  Expiring Soon (12d)
+                </span>
+                <span id="status-expired" style="display: none;"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-label-md font-medium bg-surface-container text-outline opacity-60 cursor-not-allowed"
+                  title="System Status State">
+                  <span class="material-symbols-outlined text-base" data-icon="cancel">cancel</span>
+                  Expired
+                </span>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 pb-2">
+              <div class="p-5 rounded-xl bg-surface-container-low border border-outline-variant/40">
+                <div class="flex items-center gap-2 text-outline mb-2">
+                  <span class="material-symbols-outlined text-lg" data-icon="calendar_month">calendar_month</span>
+                  <span class="font-label-sm text-label-sm uppercase font-semibold">Activation Date</span>
+                </div>
+                <p id="activation-date" class="font-headline-sm text-headline-sm font-bold text-on-surface"></p>
+              </div>
+              <div class="p-5 rounded-xl bg-surface-container-low border border-outline-variant/40">
+                <div class="flex items-center gap-2 text-outline mb-2">
+                  <span class="material-symbols-outlined text-lg" data-icon="event_busy">event_busy</span>
+                  <span class="font-label-sm text-label-sm uppercase font-semibold">Expiry Date</span>
+                </div>
+                <p id="expiry-date" class="font-headline-sm text-headline-sm font-bold text-on-surface"></p>
+              </div>
+              <div class="p-5 rounded-xl bg-cyan-50/70 border border-cyan-200">
+                <div class="flex items-center gap-2 text-tertiary mb-2">
+                  <span class="material-symbols-outlined text-lg" data-icon="hourglass_top">hourglass_top</span>
+                  <span class="font-label-sm text-label-sm uppercase font-bold text-tertiary">Validity Status</span>
+                </div>
+
+                <p id="validity-status" class="font-headline-md text-headline-md font-extrabold text-tertiary"></p>
+                <p class="font-body-md text-sm text-tertiary/80 mt-1 font-medium">Auto-renew invoice queued</p>
+              </div>
+            </div>
+          </div>
+          <div class="mt-8 pt-5 border-t border-outline-variant/30">
+            <div class="flex justify-between items-center text-sm font-semibold text-on-surface-variant mb-2.5">
+
+              <span id="billing-progress-label">Billing Cycle Progress</span>
+              <span id="billing-progress-percent" class="text-primary font-bold">0% Elapsed</span>
+            </div>
+            <div class="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden">
+              <div id="billing-progress-bar" class="bg-primary h-2.5 rounded-full transition-all duration-500"
+                style="width: 0%"> </div>
+            </div>
+          </div>
+    </section>
+
+    <!-- 3. PAYMENT HISTORY SECTION -->
+    <section class="bg-surface-container-lowest rounded-xl border border-outline-variant/80 p-6 md:p-8 shadow-sm">
+
+      <!-- Header and Summary -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-primary-fixed text-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-lg">receipt_long</span>
+          </div>
+          <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">
+            Payment History &amp; Monthly Status
+          </h3>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <span id="paid-months-count"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            <span class="material-symbols-outlined text-base">task_alt</span>
+            <span>3 Months Paid</span>
+          </span>
+
+          <span id="unpaid-months-count"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
+            <span class="material-symbols-outlined text-base">pending</span>
+            <span>1 Month Unpaid</span>
+          </span>
+        </div>
+      </div>
+
+      <!-- Expand / Collapse Button -->
+      <button id="payment-history-toggle" type="button" aria-expanded="false" aria-controls="payment-history-list"
+        class="mt-5 w-full flex items-center justify-between gap-3 p-4 rounded-xl border border-outline-variant/50 bg-surface-container-low hover:bg-surface-container transition-colors">
+        <span class="font-semibold text-sm text-on-surface">View monthly payment history</span>
+        <span id="payment-history-arrow"
+          class="material-symbols-outlined text-primary transition-transform duration-200">expand_more</span>
+      </button>
+
+
+      <!-- Monthly History: Supabase Data -->
+      <div id="payment-history-list" class="mt-4 space-y-3">
+        <p class="text-sm text-on-surface-variant">
+          Payment history load ho rahi hai...
+        </p>
+      </div>
+    </section>
+
+    <!-- Payment History Expand / Collapse -->
+    <script>
+      const paymentToggle = document.getElementById('payment-history-toggle');
+      const paymentList = document.getElementById('payment-history-list');
+      const paymentArrow = document.getElementById('payment-history-arrow');
+
+      if (paymentToggle && paymentList && paymentArrow) {
+        paymentToggle.addEventListener('click', () => {
+          const isOpening = paymentList.classList.contains('hidden');
+
+          paymentList.classList.toggle('hidden', !isOpening);
+          paymentToggle.setAttribute('aria-expanded', String(isOpening));
+          paymentArrow.style.transform = isOpening ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+      }
+    </script>
+  </main>
+  <!-- SUBTLE FLOATING WHATSAPP SUPPORT ACTION BADGE -->
+  <aside class="fixed bottom-6 right-6 z-40">
+    <a class="flex items-center gap-2.5 px-4 py-3 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-lg shadow-emerald-950/20 hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-emerald-400/40"
+      href="https://wa.me/15553829014" rel="noopener noreferrer" target="_blank">
+      <!-- WhatsApp Icon -->
+      <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z">
+        </path>
+      </svg>
+      <div class="flex flex-col text-left">
+        <span class="text-xs font-extrabold leading-tight">WhatsApp Support</span>
+        <span class="text-[10px] text-white/90 font-medium">Online • Instant Help</span>
+      </div>
+    </a>
+  </aside>
+  <!-- WEB FOOTER (Shared Component) -->
+  <footer class="docked full-width bottom bg-surface border-t border-outline-variant mt-auto">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 w-full px-6 py-8 max-w-7xl mx-auto">
+      <div class="flex items-center gap-3">
+        <span class="text-title-md font-title-md text-primary font-bold">MyNet</span>
+        <span class="text-xs text-outline">|</span>
+        <p class="text-body-md font-body-md text-on-surface-variant text-xs sm:text-sm">© 2026 MyNet Broadband. All
+          rights reserved.</p>
       </div>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6 pb-2">
-      <div class="p-5 rounded-xl bg-surface-container-low border border-outline-variant/40">
-        <div class="flex items-center gap-2 text-outline mb-2">
-          <span class="material-symbols-outlined text-lg" data-icon="calendar_month">calendar_month</span>
-          <span class="font-label-sm text-label-sm uppercase font-semibold">Activation Date</span>
-        </div>
-<p id="activation-date" class="font-headline-sm text-headline-sm font-bold text-on-surface"></p>      </div>
-      <div class="p-5 rounded-xl bg-surface-container-low border border-outline-variant/40">
-        <div class="flex items-center gap-2 text-outline mb-2">
-          <span class="material-symbols-outlined text-lg" data-icon="event_busy">event_busy</span>
-          <span class="font-label-sm text-label-sm uppercase font-semibold">Expiry Date</span>
-        </div>
-<p id="expiry-date" class="font-headline-sm text-headline-sm font-bold text-on-surface"></p>      </div>
-      <div class="p-5 rounded-xl bg-cyan-50/70 border border-cyan-200">
-        <div class="flex items-center gap-2 text-tertiary mb-2">
-          <span class="material-symbols-outlined text-lg" data-icon="hourglass_top">hourglass_top</span>
-          <span class="font-label-sm text-label-sm uppercase font-bold text-tertiary">Validity Status</span>
-        </div>
-
-<p id="validity-status" class="font-headline-md text-headline-md font-extrabold text-tertiary"></p>        <p class="font-body-md text-sm text-tertiary/80 mt-1 font-medium">Auto-renew invoice queued</p>
-      </div>
-    </div>
-  </div>
-  <div class="mt-8 pt-5 border-t border-outline-variant/30">
-    <div class="flex justify-between items-center text-sm font-semibold text-on-surface-variant mb-2.5">
-
-<span id="billing-progress-label">Billing Cycle Progress</span>
-<span id="billing-progress-percent" class="text-primary font-bold">0% Elapsed</span>    </div>
-    <div class="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden">
-<div id="billing-progress-bar" class="bg-primary h-2.5 rounded-full transition-all duration-500" style="width: 0%">    </div>
-  </div>
-</div></section>
-
-<!-- 3. PAYMENT HISTORY SECTION -->
-<section class="bg-surface-container-lowest rounded-xl border border-outline-variant/80 p-6 md:p-8 shadow-sm">
-
-  <!-- Header and Summary -->
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-    <div class="flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-lg bg-primary-fixed text-primary flex items-center justify-center">
-        <span class="material-symbols-outlined text-lg">receipt_long</span>
-      </div>
-      <h3 class="font-headline-sm text-headline-sm font-bold text-on-surface">
-        Payment History &amp; Monthly Status
-      </h3>
-    </div>
-
-    <div class="flex flex-wrap items-center gap-2">
-      <span id="paid-months-count"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-        <span class="material-symbols-outlined text-base">task_alt</span>
-        <span>3 Months Paid</span>
-      </span>
-
-      <span id="unpaid-months-count"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-amber-50 text-amber-800 border border-amber-300">
-        <span class="material-symbols-outlined text-base">pending</span>
-        <span>1 Month Unpaid</span>
-      </span>
-    </div>
-  </div>
-
-  <!-- Expand / Collapse Button -->
-  <button id="payment-history-toggle"
-    type="button"
-    aria-expanded="false"
-    aria-controls="payment-history-list"
-    class="mt-5 w-full flex items-center justify-between gap-3 p-4 rounded-xl border border-outline-variant/50 bg-surface-container-low hover:bg-surface-container transition-colors">
-    <span class="font-semibold text-sm text-on-surface">View monthly payment history</span>
-    <span id="payment-history-arrow"
-      class="material-symbols-outlined text-primary transition-transform duration-200">expand_more</span>
-  </button>
-
-
-<!-- Monthly History: Supabase Data -->
-<div id="payment-history-list" class="mt-4 space-y-3">
-  <p class="text-sm text-on-surface-variant">
-    Payment history load ho rahi hai...
-  </p>
-</div>
-</section>
-
-<!-- Payment History Expand / Collapse -->
-<script>
-  const paymentToggle = document.getElementById('payment-history-toggle');
-  const paymentList = document.getElementById('payment-history-list');
-  const paymentArrow = document.getElementById('payment-history-arrow');
-
-  if (paymentToggle && paymentList && paymentArrow) {
-    paymentToggle.addEventListener('click', () => {
-      const isOpening = paymentList.classList.contains('hidden');
-
-      paymentList.classList.toggle('hidden', !isOpening);
-      paymentToggle.setAttribute('aria-expanded', String(isOpening));
-      paymentArrow.style.transform = isOpening ? 'rotate(180deg)' : 'rotate(0deg)';
-    });
-  }
-</script>
-</main>
-<!-- SUBTLE FLOATING WHATSAPP SUPPORT ACTION BADGE -->
-<aside class="fixed bottom-6 right-6 z-40">
-<a class="flex items-center gap-2.5 px-4 py-3 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-lg shadow-emerald-950/20 hover:shadow-xl transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer group focus:outline-none focus:ring-4 focus:ring-emerald-400/40" href="https://wa.me/15553829014" rel="noopener noreferrer" target="_blank">
-<!-- WhatsApp Icon -->
-<svg class="w-6 h-6 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-<path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
-</svg>
-<div class="flex flex-col text-left">
-<span class="text-xs font-extrabold leading-tight">WhatsApp Support</span>
-<span class="text-[10px] text-white/90 font-medium">Online • Instant Help</span>
-</div>
-</a>
-</aside>
-<!-- WEB FOOTER (Shared Component) -->
-<footer class="docked full-width bottom bg-surface border-t border-outline-variant mt-auto">
-<div class="flex flex-col sm:flex-row justify-between items-center gap-4 w-full px-6 py-8 max-w-7xl mx-auto">
-<div class="flex items-center gap-3">
-<span class="text-title-md font-title-md text-primary font-bold">MyNet</span>
-<span class="text-xs text-outline">|</span>
-<p class="text-body-md font-body-md text-on-surface-variant text-xs sm:text-sm">© 2024 MyNet Broadband. All rights reserved.</p>
-</div>
-<div class="flex items-center gap-6">
-<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-150" href="#chat">Support Chat</a>
-<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-150" href="#privacy">Privacy Policy</a>
-<a class="text-label-sm font-label-sm text-on-surface-variant hover:text-primary transition-colors duration-150" href="#terms">Terms of Service</a>
-</div>
-</div>
-</footer>
-<!-- SCRIPT FOR PROFILE INTERACTION -->
-<script>
+  </footer>
+  <!-- SCRIPT FOR PROFILE INTERACTION -->
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
       const profileBtn = document.getElementById('profileBtn');
       const profileDropdown = document.getElementById('profileDropdown');
@@ -377,89 +418,93 @@
   </script>
 
 
-<script type="module">
-  import { supabase } from '../../Assets/JS/auth.js';
+  <script type="module">
+    import { supabase } from '../../Assets/JS/auth.js';
 
-  const { data: { user }, error: authError } =
-    await supabase.auth.getUser();
+    const { data: { user }, error: authError } =
+      await supabase.auth.getUser();
 
-  if (authError || !user) {
-    console.error('User login nahi hai:', authError);
-    window.location.replace('../login.html');
-  } else {
-    const { data: profile, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .maybeSingle();
-
-    if (error) {
-console.error('Profile load error details:', error);
-    } else if (profile) {
-
-console.log('MyNet customer profile:', profile);
-const nameElements = document.querySelectorAll('#customer-name');
-const customerIdElement = document.getElementById('customer-id');
-
-if (customerIdElement) {
-  customerIdElement.textContent = 'ID: ' + (profile.user_id || 'Not assigned');
-}
-const packageElement = document.getElementById('customer-package');
-
-nameElements.forEach(element => {
-  element.textContent = profile.name || 'Customer';
-});
-if (packageElement) packageElement.textContent = profile.packege ? `${profile.packege} Mbps` : 'Package not assigned';
-const activationDateElement = document.getElementById('activation-date');
-const expiryDateElement = document.getElementById('expiry-date');
-const remainingDaysElement = document.getElementById('remaining-days');
-
-if (activationDateElement) {
-  activationDateElement.textContent = profile.activtionDate || 'Not assigned';
-}
-
-if (expiryDateElement) {
-  expiryDateElement.textContent = profile.expiryDate || 'Not assigned';
-}
-if (remainingDaysElement) {
-  if (profile.expiryDate) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const expiry = new Date(profile.expiryDate);
-    expiry.setHours(0, 0, 0, 0);
-
-    const days = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
-
-    remainingDaysElement.textContent =
-      days > 0 ? `${days} Days Remaining` :
-      days === 0 ? 'Expires Today' : 'Expired';
-  } else {
-    remainingDaysElement.textContent = 'Not assigned';
-  }
-}
+    if (authError || !user) {
+      console.error('User login nahi hai:', authError);
+      window.location.replace('../login.html');
     } else {
-      console.log('Is user ka profile record nahi mila.');
+      const { data: profile, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (error) {
+        console.error('Profile load error details:', error);
+      } else if (profile) {
+
+        console.log('MyNet customer profile:', profile);
+        const nameElements = document.querySelectorAll('#customer-name');
+        const customerIdElement = document.getElementById('customer-id');
+
+        if (customerIdElement) {
+          customerIdElement.textContent = 'ID: ' + (profile.user_id || 'Not assigned');
+        }
+        const packageElement = document.getElementById('customer-package');
+
+        nameElements.forEach(element => {
+          element.textContent = profile.name || 'Customer';
+        });
+        if (packageElement) packageElement.textContent = profile.packege ? `${profile.packege} Mbps` : 'Package not assigned';
+        const activationDateElement = document.getElementById('activation-date');
+        const expiryDateElement = document.getElementById('expiry-date');
+        const remainingDaysElement = document.getElementById('remaining-days');
+
+        if (activationDateElement) {
+          activationDateElement.textContent = profile.activtionDate || 'Not assigned';
+        }
+
+        if (expiryDateElement) {
+          expiryDateElement.textContent = profile.expiryDate || 'Not assigned';
+        }
+        if (remainingDaysElement) {
+          if (profile.expiryDate) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            const expiry = new Date(profile.expiryDate);
+            expiry.setHours(0, 0, 0, 0);
+
+            const days = Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
+
+            remainingDaysElement.textContent =
+              days > 0 ? `${days} Days Remaining` :
+                days === 0 ? 'Expires Today' : 'Expired';
+          } else {
+            remainingDaysElement.textContent = 'Not assigned';
+          }
+        }
+      } else {
+        console.log('Is user ka profile record nahi mila.');
+      }
     }
-  }
-  
-const signOutButton = document.getElementById('sign-out-button');
 
-if (signOutButton) {
-  signOutButton.addEventListener('click', async () => {
-    const { error } = await supabase.auth.signOut();
+    const signOutButton = document.getElementById('sign-out-button');
 
-    if (error) {
-      alert('Sign out failed: ' + error.message);
-      return;
+    if (signOutButton) {
+      signOutButton.addEventListener('click', async () => {
+        const { error } = await supabase.auth.signOut();
+
+        if (error) {
+          alert('Sign out failed: ' + error.message);
+          return;
+        }
+
+        window.location.replace('../login.html');
+      });
     }
 
-window.location.replace('../login.html');  });
-}
-
-</script>
+  </script>
 </body>
+
 </html>
 
 <script type="module" src="./script.js"></script>
-</body></html>
+</body>
+
+</html>

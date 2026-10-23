@@ -40,22 +40,13 @@ export async function signIn(email, password) {
     return { success: false, error: error.message };
   }
 
+
   const user = data.user;
-  const profile = user.user_metadata || {};
 
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .upsert({
-      id: user.id,
-      name: profile.name || '',
-      user_id: profile.user_id || '',
-      address: profile.address || '',
-      phone: profile.phone || '',
-    }, { onConflict: 'id' });
+  saveSession(data.session, user);
+  window.location.href = '../../Dashboard/Index.html';
 
-  if (profileError) {
-    return { success: false, error: profileError.message };
-  }
+  return { success: true, user };
 
   saveSession(data.session, user);
   window.location.href = '../../Dashboard/Index.html';

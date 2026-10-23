@@ -36,57 +36,71 @@ document.getElementById('expiry-date').textContent =
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const activation = new Date(profile.activtionDate + 'T00:00:00');
-  const expiry = new Date(profile.expiryDate + 'T00:00:00');
+  // Guard: only build Date objects when the values are non-null, non-empty strings.
+  // Without this guard, `null + 'T00:00:00'` → "nullT00:00:00" → Invalid Date,
+  // which causes Math.ceil(NaN / ...) = NaN and shows "NaN Days Remaining".
+  const hasActivation = profile.activtionDate && String(profile.activtionDate).trim() !== '';
+  const hasExpiry     = profile.expiryDate     && String(profile.expiryDate).trim()     !== '';
+  console.log('MyNet date check:', profile.name, profile.activtionDate, profile.expiryDate);
 
-  const remainingDays = Math.ceil(
-    (expiry - today) / (1000 * 60 * 60 * 24)
-  );
+  const activation = hasActivation ? new Date(profile.activtionDate + 'T00:00:00') : null;
+  const expiry     = hasExpiry     ? new Date(profile.expiryDate     + 'T00:00:00') : null;
 
-  const validity = document.getElementById('validity-status');
+  // ── Fixed 30-day billing cycle countdown ──────────────────────────────
+  // Source of truth: activtionDate only. expiryDate is displayed in the UI
+  // but is NOT used for the countdown — it may be saved inconsistently
+  // (e.g. activtionDate + 31 instead of activtionDate + 30).
+  //
+  // Day 0 (activation date) → 30 days remaining, bar = 0 %
+  // Day 1                   → 29 days remaining, bar ≈ 3 %
+  // Day 30                  →  0 days remaining, bar = 100 % → "Expires today"
+  // Day 31+                 → negative, bar clamped at 100 % → "Expired N day(s) ago"
+const MS_PER_DAY = 1000 * 60 * 60 * 24;
 
-  if (validity) {
-    validity.textContent =
-      remainingDays < 0
-        ? `Expired ${Math.abs(remainingDays)} day(s) ago`
-        : remainingDays === 0
-        ? 'Expires today'
-        : `${remainingDays} Days Remaining`;
-  }
+const totalDays = 30;
 
-  
-  const totalDays = 30;
+const remainingDays = activation && !isNaN(activation.getTime())
+  ? 30 - Math.floor((today - activation) / MS_PER_DAY)
+  : null;
+function formatRemainingDays(days) {
+  if (days === null) return 'Dates not assigned';
+  if (days > 1) return `${days} Days Remaining`;
+  if (days === 1) return '1 Day Remaining';
+  if (days === 0) return 'Expires today';
+  return 'Expired';
+}
+const validity = document.getElementById('validity-status');
+if (validity) validity.textContent = formatRemainingDays(remainingDays);
 
-  const daysSinceActivation = Math.max(
-    0,
-    Math.floor((today - activation) / (1000 * 60 * 60 * 24))
-  );
+const elapsedDays = activation && !isNaN(activation.getTime())
+  ? Math.floor((today - activation) / MS_PER_DAY)
+  : null;
 
-  const elapsedDays = daysSinceActivation === 0
-    ? 0
-    : ((daysSinceActivation - 1) % totalDays) + 1;
-
-  const remainingCycleDays = totalDays - elapsedDays;
-  const progress = Math.round((elapsedDays / totalDays) * 100);
-
-  const progressBar = document.getElementById('billing-progress-bar');
-  const progressPercent = document.getElementById('billing-progress-percent');
-  const progressLabel = document.getElementById('billing-progress-label');
-
+const progress = totalDays > 0 && remainingDays !== null
+  ? Math.round(
+      (Math.min(totalDays, Math.max(0, totalDays - remainingDays)) / totalDays) * 100
+    )
+  : 0;
+const progressBar = document.getElementById('billing-progress-bar');
+const progressPercent = document.getElementById('billing-progress-percent');
+const progressLabel = document.getElementById('billing-progress-label');
   if (progressBar) {
     progressBar.style.width = `${progress}%`;
   }
 
   if (progressPercent) {
-    progressPercent.textContent = `${remainingCycleDays} Days Remaining`;
+    progressPercent.textContent = remainingDays === null
+      ? 'Dates not assigned'
+      : remainingDays > 0
+        ? `${remainingDays} Days Remaining`
+        : '0 Days Remaining';
   }
 
   if (progressLabel) {
-    progressLabel.textContent =
-      `Remaining Days (${remainingCycleDays} of ${totalDays} days)`;
-  }
-
-  const activeStatus = document.getElementById('status-active');
+    progressLabel.textContent = totalDays > 0 && remainingDays !== null
+      ? `Remaining Days (${Math.max(0, remainingDays)} of ${totalDays} days)`
+      : 'Billing Cycle Progress';
+  }  const activeStatus = document.getElementById('status-active');
   const expiringStatus = document.getElementById('status-expiring');
   const expiredStatus = document.getElementById('status-expired');
 
